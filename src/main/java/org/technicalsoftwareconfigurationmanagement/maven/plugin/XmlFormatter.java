@@ -6,10 +6,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.OutputStreamWriter; // can be removed??
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.w3c.dom.Document;
 
@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.codehaus.plexus.util.DirectoryScanner;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamSource;
@@ -66,12 +67,12 @@ public class XmlFormatter extends AbstractMojo {
         if (includes != null) {
             String[] filesToFormat = getIncludedFiles(baseDirectory, includes, excludes);
 	    
-		    if (getLog().isInfoEnabled()) {
-			getLog().info("[xml formatter] Format " 
-				      + filesToFormat.length 
-				      + " source files in " 
-			    	  + baseDirectory);
-		    }
+            if (getLog().isInfoEnabled()) {
+                getLog().info("[xml formatter] Format " 
+                      + filesToFormat.length 
+                      + " source files in " 
+                      + baseDirectory);
+            }
 
             for (String include : filesToFormat) {
                 format(new File(baseDirectory + File.separator + include));
@@ -79,21 +80,21 @@ public class XmlFormatter extends AbstractMojo {
         }
     }
 
-	/**
-	 * A constant used to set the indent mode to use tabs.
-	 **/
-	private static final String TABS_MODE = "tabs";
+    /**
+     * A constant used to set the indent mode to use tabs.
+     **/
+    private static final String TABS_MODE = "tabs";
 
-	/**
-	 * A constant used to set the indent mode to use spaces.
-	 **/
-	private static final String SPACES_MODE = "spaces";
+    /**
+     * A constant used to set the indent mode to use spaces.
+     **/
+    private static final String SPACES_MODE = "spaces";
 
-	/**
-	 * The type of character to use when indenting the elements.
-	 * Defaults to SPACES_MODE.
-	 **/
-	private String indentMode = SPACES_MODE;
+    /**
+     * The type of character to use when indenting the elements.
+     * Defaults to SPACES_MODE.
+     **/
+    private String indentMode = SPACES_MODE;
 
     /**
      * Base directory of the project
@@ -136,16 +137,16 @@ public class XmlFormatter extends AbstractMojo {
         this.includes = includes;
     }
 
-	/**
-	 * Valid values for this are 'tabs' and 'spaces', which correspond to
-	 * the static variables TABS_MODE and SPACES_MODE respectively.
-	 *
-	 * @param indentMode - Should be set to 'tabs' or 'spaces' all other values
-	 * 		  will be ignored and will instead default to 'spaces'.
-	 **/
-	public void setIndentMode(String indentMode) {
-		this.indentMode = indentMode;
-	}
+    /**
+     * Valid values for this are 'tabs' and 'spaces', which correspond to
+     * the static variables TABS_MODE and SPACES_MODE respectively.
+     *
+     * @param indentMode - Should be set to 'tabs' or 'spaces' all other values
+     * 		  will be ignored and will instead default to 'spaces'.
+     **/
+    public void setIndentMode(String indentMode) {
+        this.indentMode = indentMode;
+    }
 
     /**
      * Return a string array of files to format.
@@ -168,13 +169,13 @@ public class XmlFormatter extends AbstractMojo {
 
         String[] filesToFormat = dirScanner.getIncludedFiles();      
 
-		if (getLog().isInfoEnabled()) {
-		    getLog().info("Files:");
-	    	for (String file : filesToFormat) {
-			getLog().info("file<" + file 
-				       + "> is scheduled for formatting");
-	    	}
-		}
+        if (getLog().isInfoEnabled()) {
+            getLog().info("Files:");
+            for (String file : filesToFormat) {
+                getLog().info("file<" + file 
+                       + "> is scheduled for formatting");
+            }
+        }
 
         return filesToFormat;
     } 
@@ -196,45 +197,45 @@ public class XmlFormatter extends AbstractMojo {
             try {
                 inputStream = new FileInputStream(formatFile);
 
-				if (inputStream == null) {
-				    getLog().error("File<" + formatFile + "> could not be opened, skipping");
-				    return;
-				}
+                if (inputStream == null) {
+                    getLog().error("File<" + formatFile + "> could not be opened, skipping");
+                    return;
+                }
 
                 xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 
-		    } catch(Throwable t) {
+            } catch(Throwable t) {
                 throw new RuntimeException("Failed to parse..." + t.getMessage(), t);
             } finally {
                 if (inputStream != null) {
                     try {
                         inputStream.close();
                     } catch(Throwable tr) {
-						// intentially exception hiding for failures on close....
+                        // intentially exception hiding for failures on close....
                     }
                 }
-		    }
+            }
 
-	        FileOutputStream fos = null;
-		    String formattedXml = null;
-	    	InputStream stylesheet = null;
-		    try {
+            FileOutputStream fos = null;
+            String formattedXml = null;
+            InputStream stylesheet = null;
+            try {
 
-				// Read the stylesheet from the classpath
-				stylesheet = new XmlFormatter().getClass().getClassLoader()
-				    .getResourceAsStream("remove-whitespace.xsl");
+                // Read the stylesheet from the classpath
+                stylesheet = new XmlFormatter().getClass().getClassLoader()
+                    .getResourceAsStream("remove-whitespace.xsl");
 
-				if (stylesheet == null) {
-				    getLog().error("Could not find remove-whitespace.xsl");
-				    return;
-				}
+                if (stylesheet == null) {
+                    getLog().error("Could not find remove-whitespace.xsl");
+                    return;
+                }
 
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				Transformer transformer = transformerFactory.newTransformer(new StreamSource(stylesheet));
-				fos = new FileOutputStream(formatFile);
-				StreamResult streamResult = new StreamResult(fos);
-				DOMSource domSource = new DOMSource(xml);
-				transformer.transform(domSource, streamResult);
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer(new StreamSource(stylesheet));
+                fos = new FileOutputStream(formatFile);
+                StreamResult streamResult = new StreamResult(fos);
+                DOMSource domSource = new DOMSource(xml);
+                transformer.transform(domSource, streamResult);
 
             } catch(Throwable t) {
                 throw new RuntimeException("Failed to parse..." + t.getMessage(), t);
@@ -243,7 +244,7 @@ public class XmlFormatter extends AbstractMojo {
                     try {
                         stylesheet.close();
                     } catch(Throwable tr) {
-						// intentially exception hiding for failures on close....
+                        // intentially exception hiding for failures on close....
                     }
                 }
 
@@ -251,68 +252,68 @@ public class XmlFormatter extends AbstractMojo {
                     try {
                         fos.close();
                     } catch(Throwable t) {
-						// intentially exception hiding for failures on close....
+                        // intentially exception hiding for failures on close....
                     }
                 }
             }
 
-			// Now that we know that the indent is set to four spaces, we can either
-			// keep it like that or change them to tabs depending on which 'mode' we
-			// are in.
-			if (indentMode.equals(TABS_MODE)) {
-				indentFile(formatFile);	
-			}
+            // Now that we know that the indent is set to four spaces, we can either
+            // keep it like that or change them to tabs depending on which 'mode' we
+            // are in.
+            if (indentMode.equals(TABS_MODE)) {
+                indentFile(formatFile);	
+            }
         } else {
             getLog().info("File was not valid:" + formatFile + " skipping");
         }
     }
 
-	/**
-	 * Indent the file using tabs, writing it back to its original location.  This method
-	 * is only called if indentMode is set to TABS_MODE.
-	 * @param file
-	 * 			The file to be indented with tabs.
-	 **/
-	public void indentFile(File file) {
+    /**
+     * Indent the file using tabs, writing it back to its original location.  This method
+     * is only called if indentMode is set to TABS_MODE.
+     * @param file
+     * 			The file to be indented with tabs.
+     **/
+    public void indentFile(File file) {
 
-		List<String> temp = new ArrayList<String>();  // a temporary list to hold the lines
-		BufferedReader reader = null;
-		BufferedWriter writer = null;
+        List<String> temp = new ArrayList<String>();  // a temporary list to hold the lines
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
 
-		// Read the file, and replace the four spaces with tabs.
-		try {
-			reader= new BufferedReader(new FileReader(file));
-			String line = null;
+        // Read the file, and replace the four spaces with tabs.
+        try {
+            reader= new BufferedReader(new FileReader(file));
+            String line = null;
 
-			while ((line = reader.readLine()) != null) {
-				temp.add(line.replaceAll("[\\s]{4}", "\t"));
-			}
+            while ((line = reader.readLine()) != null) {
+                temp.add(line.replaceAll("[\\s]{4}", "\t"));
+            }
 
-			writer = new BufferedWriter(new FileWriter(file));
+            writer = new BufferedWriter(new FileWriter(file));
 
-			for (String ln : temp) {
-				writer.write(ln);
-				writer.newLine();
-			}
-		} catch (Throwable t) {
-			throw new RuntimeException("Failed to read file..." + t.getMessage(), t);
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (Throwable t) {
-					// Intentionally catching exception...
-				}
-			}
+            for (String ln : temp) {
+                writer.write(ln);
+                writer.newLine();
+            }
+        } catch (Throwable t) {
+            throw new RuntimeException("Failed to read file..." + t.getMessage(), t);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (Throwable t) {
+                    // Intentionally catching exception...
+                }
+            }
 
-			if (writer != null) {
-				try {
-					writer.flush();
-					writer.close();
-				} catch (Throwable t) {
-
-				}
-			}
-		}
-	}
+            if (writer != null) {
+                try {
+                    writer.flush();
+                    writer.close();
+                } catch (Throwable t) {
+                    // Intentionally catching exception...
+                }
+            }
+        }
+    }
 }
