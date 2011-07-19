@@ -55,7 +55,7 @@ public class XmlFormatter extends AbstractMojo {
 	 * This method is called automatically, it sends each file that it
 	 * finds to the formatter.  The file will be written to its original
 	 * location, and will contain either spaces or tabs depending on
-	 * what indentMode is set to.
+	 * what useTabs is set to.
 	 **/
     public void execute() throws MojoExecutionException {
 
@@ -81,20 +81,14 @@ public class XmlFormatter extends AbstractMojo {
     }
 
     /**
-     * A constant used to set the indent mode to use tabs.
+     * Whether to use tabs when indenting or not.  Set this to true to
+     * use tabs, false to use spaces.  Defaults to spaces.
+     *
+     * @parameter
+     *           expression="${xmlFormatter.useTabs}"
+     *           default-value="false"
      **/
-    private static final String TABS_MODE = "tabs";
-
-    /**
-     * A constant used to set the indent mode to use spaces.
-     **/
-    private static final String SPACES_MODE = "spaces";
-
-    /**
-     * The type of character to use when indenting the elements.
-     * Defaults to SPACES_MODE.
-     **/
-    private String indentMode = SPACES_MODE;
+    private boolean useTabs;
 
     /**
      * Base directory of the project
@@ -138,21 +132,10 @@ public class XmlFormatter extends AbstractMojo {
     }
 
     /**
-     * Valid values for this are 'tabs' and 'spaces', which correspond to
-     * the static variables TABS_MODE and SPACES_MODE respectively.
-     *
-     * @param indentMode - Should be set to 'tabs' or 'spaces' all other values
-     * 		  will be ignored and will instead default to 'spaces'.
-     **/
-    public void setIndentMode(String indentMode) {
-        this.indentMode = indentMode;
-    }
-
-    /**
      * Return a string array of files to format.
      *
      * @param directory - Base directory from which we start scanning for files.
-     *        note that this must be the root directory of the project in order
+     *        Note that this must be the root directory of the project in order
      *        to obtain the pom.xml as part of the xml files. This is one other
      *        differentiator when we were looking for tools, anything we found
      *        remotely like this did not start at the root directory.
@@ -170,9 +153,16 @@ public class XmlFormatter extends AbstractMojo {
         String[] filesToFormat = dirScanner.getIncludedFiles();      
 
         if (getLog().isInfoEnabled()) {
-            getLog().info("Files:");
+			
+			if (useTabs) {
+				getLog().info("[xml formatter] Formatting with tabs...");
+			} else {
+				getLog().info("[xml formatter] Formatting with spaces...");
+			}
+
+            getLog().info("[xml formatter] Files:");
             for (String file : filesToFormat) {
-                getLog().info("file<" + file 
+                getLog().info("[xml formatter] file<" + file 
                        + "> is scheduled for formatting");
             }
         }
@@ -198,14 +188,14 @@ public class XmlFormatter extends AbstractMojo {
                 inputStream = new FileInputStream(formatFile);
 
                 if (inputStream == null) {
-                    getLog().error("File<" + formatFile + "> could not be opened, skipping");
+                    getLog().error("[xml formatter] File<" + formatFile + "> could not be opened, skipping");
                     return;
                 }
 
                 xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
 
             } catch(Throwable t) {
-                throw new RuntimeException("Failed to parse..." + t.getMessage(), t);
+                throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
             } finally {
                 if (inputStream != null) {
                     try {
@@ -226,7 +216,7 @@ public class XmlFormatter extends AbstractMojo {
                     .getResourceAsStream("remove-whitespace.xsl");
 
                 if (stylesheet == null) {
-                    getLog().error("Could not find remove-whitespace.xsl");
+                    getLog().error("[xml formatter] Could not find remove-whitespace.xsl");
                     return;
                 }
 
@@ -238,7 +228,7 @@ public class XmlFormatter extends AbstractMojo {
                 transformer.transform(domSource, streamResult);
 
             } catch(Throwable t) {
-                throw new RuntimeException("Failed to parse..." + t.getMessage(), t);
+                throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
             } finally {
                 if (stylesheet != null) {
                     try {
@@ -260,21 +250,22 @@ public class XmlFormatter extends AbstractMojo {
             // Now that we know that the indent is set to four spaces, we can either
             // keep it like that or change them to tabs depending on which 'mode' we
             // are in.
-            if (indentMode.equals(TABS_MODE)) {
+            
+            if (useTabs) {
                 indentFile(formatFile);	
             }
         } else {
-            getLog().info("File was not valid:" + formatFile + " skipping");
+            getLog().info("[xml formatter] File was not valid:" + formatFile + " skipping");
         }
     }
 
     /**
      * Indent the file using tabs, writing it back to its original location.  This method
-     * is only called if indentMode is set to TABS_MODE.
+     * is only called if useTabs is set to true.
      * @param file
      * 			The file to be indented with tabs.
      **/
-    public void indentFile(File file) {
+    private void indentFile(File file) {
 
         List<String> temp = new ArrayList<String>();  // a temporary list to hold the lines
         BufferedReader reader = null;
@@ -296,7 +287,7 @@ public class XmlFormatter extends AbstractMojo {
                 writer.newLine();
             }
         } catch (Throwable t) {
-            throw new RuntimeException("Failed to read file..." + t.getMessage(), t);
+            throw new RuntimeException("[xml formatter] Failed to read file..." + t.getMessage(), t);
         } finally {
             if (reader != null) {
                 try {
