@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -52,17 +54,30 @@ import org.apache.maven.plugin.MojoExecutionException;
  **/
 public class XmlFormatter extends AbstractMojo {
 
-	/**
-	 * This method is called automatically, it sends each file that it
-	 * finds to the formatter.  The file will be written to its original
-	 * location, and will contain either spaces or tabs depending on
-	 * what useTabs is set to.
-	 **/
+    /**
+     * Since parent pom execution causes multiple executions we 
+     * created this static map that contains the fully qualified file
+     * names for all of the files we process and we check it before
+     * processing a file and skip if we have already processed the file.
+     * note that the execution method is called numerous times within
+     * the same JVM (hence the static reference works but a local
+     * reference might not work).
+     **/
+    private static Set<String> processedFileNames = new HashSet<String>();
+
+    /**
+     * This method is called automatically, it sends each file that it
+     * finds to the formatter.  The file will be written to its original
+     * location, and will contain either spaces or tabs depending on
+     * what useTabs is set to.
+     **/
     public void execute() throws MojoExecutionException {
 
         if ((baseDirectory != null) 
-	    && (getLog().isDebugEnabled())) {
-            getLog().debug("[xml formatter] Base Directory:" + baseDirectory);
+	    && (getLog().isInfoEnabled())) {
+            getLog().info("[xml formatter] Base Directory:" + baseDirectory);
+
+	    getLog().info("Context:"+getPluginContext());
         }
 
         if (includes != null) {
@@ -70,14 +85,18 @@ public class XmlFormatter extends AbstractMojo {
 	    
             if (getLog().isDebugEnabled()) {
                 getLog().debug("[xml formatter] Format " 
-                      + filesToFormat.length 
-                      + " source files in " 
-                      + baseDirectory);
+			       + filesToFormat.length 
+			       + " source files in " 
+			       + baseDirectory);
             }
 
             for (String include : filesToFormat) {
 		try {
-		    format(new File(baseDirectory + File.separator + include));
+
+		    if (!processedFileNames.contains(baseDirectory + File.separator + include)) {
+			processedFileNames.add(baseDirectory + File.separator + include);
+			format(new File(baseDirectory + File.separator + include));
+		    }
 		} catch(RuntimeException re) {
 		    getLog().error("File <" + baseDirectory + File.separator + include + "> failed to parse, skipping and moving on to the next file", re);
 		}
@@ -159,16 +178,16 @@ public class XmlFormatter extends AbstractMojo {
 
         if (getLog().isDebugEnabled()) {
 			
-			if (useTabs) {
-				getLog().debug("[xml formatter] Formatting with tabs...");
-			} else {
-				getLog().debug("[xml formatter] Formatting with spaces...");
-			}
+	    if (useTabs) {
+		getLog().debug("[xml formatter] Formatting with tabs...");
+	    } else {
+		getLog().debug("[xml formatter] Formatting with spaces...");
+	    }
 
             getLog().debug("[xml formatter] Files:");
             for (String file : filesToFormat) {
                 getLog().debug("[xml formatter] file<" + file 
-                       + "> is scheduled for formatting");
+			       + "> is scheduled for formatting");
             }
         }
 
