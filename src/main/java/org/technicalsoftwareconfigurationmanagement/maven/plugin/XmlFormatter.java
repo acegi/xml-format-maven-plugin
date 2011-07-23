@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.codehaus.plexus.util.DirectoryScanner;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
@@ -60,22 +61,26 @@ public class XmlFormatter extends AbstractMojo {
     public void execute() throws MojoExecutionException {
 
         if ((baseDirectory != null) 
-	    && (getLog().isInfoEnabled())) {
-            getLog().info("[xml formatter] Base Directory:" + baseDirectory);
+	    && (getLog().isDebugEnabled())) {
+            getLog().debug("[xml formatter] Base Directory:" + baseDirectory);
         }
 
         if (includes != null) {
             String[] filesToFormat = getIncludedFiles(baseDirectory, includes, excludes);
 	    
-            if (getLog().isInfoEnabled()) {
-                getLog().info("[xml formatter] Format " 
+            if (getLog().isDebugEnabled()) {
+                getLog().debug("[xml formatter] Format " 
                       + filesToFormat.length 
                       + " source files in " 
                       + baseDirectory);
             }
 
             for (String include : filesToFormat) {
-                format(new File(baseDirectory + File.separator + include));
+		try {
+		    format(new File(baseDirectory + File.separator + include));
+		} catch(RuntimeException re) {
+		    getLog().error("File <" + baseDirectory + File.separator + include + "> failed to parse, skipping and moving on to the next file", re);
+		}
             }
         }
     }
@@ -152,17 +157,17 @@ public class XmlFormatter extends AbstractMojo {
 
         String[] filesToFormat = dirScanner.getIncludedFiles();      
 
-        if (getLog().isInfoEnabled()) {
+        if (getLog().isDebugEnabled()) {
 			
 			if (useTabs) {
-				getLog().info("[xml formatter] Formatting with tabs...");
+				getLog().debug("[xml formatter] Formatting with tabs...");
 			} else {
-				getLog().info("[xml formatter] Formatting with spaces...");
+				getLog().debug("[xml formatter] Formatting with spaces...");
 			}
 
-            getLog().info("[xml formatter] Files:");
+            getLog().debug("[xml formatter] Files:");
             for (String file : filesToFormat) {
-                getLog().info("[xml formatter] file<" + file 
+                getLog().debug("[xml formatter] file<" + file 
                        + "> is scheduled for formatting");
             }
         }
@@ -192,7 +197,12 @@ public class XmlFormatter extends AbstractMojo {
                     return;
                 }
 
-                xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(inputStream);
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+
+                xml = documentBuilder.parse(inputStream);
+
+		getLog().info("Successfully formatted file: " + formatFile);
 
             } catch(Throwable t) {
                 throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
@@ -255,7 +265,7 @@ public class XmlFormatter extends AbstractMojo {
                 indentFile(formatFile);	
             }
         } else {
-            getLog().info("[xml formatter] File was not valid:" + formatFile + " skipping");
+            getLog().debug("[xml formatter] File was not valid:" + formatFile + " skipping");
         }
     }
 
