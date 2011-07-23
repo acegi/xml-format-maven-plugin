@@ -74,10 +74,8 @@ public class XmlFormatter extends AbstractMojo {
     public void execute() throws MojoExecutionException {
 
         if ((baseDirectory != null) 
-	    && (getLog().isInfoEnabled())) {
-            getLog().info("[xml formatter] Base Directory:" + baseDirectory);
-
-	    getLog().info("Context:"+getPluginContext());
+	    && (getLog().isDebugEnabled())) {
+            getLog().debug("[xml formatter] Base Directory:" + baseDirectory);
         }
 
         if (includes != null) {
