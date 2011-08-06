@@ -10,9 +10,17 @@
     <artifactId>tscm-maven-plugin</artifactId>
     <version>2.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
-    <name>Xml-Formatter-Maven-Plugin</name>
+    <name>TSCM Maven Plugin</name>
     <url>http://www.technicalsoftwareconfigurationmanagement.org</url>
-    <description>The XML formatter has been designed to ingest any xml files to include the project pom.xml files and format them... This is very useful for parent poms to run recursively.</description>
+    <description>The TSCM XML formatter has been designed to ingest any xml file including pom.xml files and format them... This is very useful for parent poms to run recursively.</description>
+
+    <issueManagement>
+        <system>Google Code</system>
+        <url>http://code.google.com/p/xml-formatter/issues/list</url>
+    </issueManagement>
+
+    <inceptionYear>2011</inceptionYear>
+
     <developers>
         <developer>
             <id>Architect</id>
@@ -76,7 +84,16 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -88,5 +105,5 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </reporting>
 </project>
