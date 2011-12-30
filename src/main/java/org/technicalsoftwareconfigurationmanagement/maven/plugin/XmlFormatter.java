@@ -1,35 +1,33 @@
 package org.technicalsoftwareconfigurationmanagement.maven.plugin;
 
-import java.io.InputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Set;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ArrayList;
-
-import org.w3c.dom.Document;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.codehaus.plexus.util.DirectoryScanner;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.codehaus.plexus.util.DirectoryScanner;
+import org.w3c.dom.Document;
 
 /**
  * The XML Formatter is a plugin that is designed to be run
@@ -63,6 +61,14 @@ import org.apache.maven.plugin.MojoExecutionException;
  **/
 public class XmlFormatter extends AbstractMojo {
 
+    private static MessageDigest sha;
+    
+    static {
+        try {
+            sha = MessageDigest.getInstance("SHA1");
+        } catch (NoSuchAlgorithmException ignored) {}
+    }
+    
     /**
      * Since parent pom execution causes multiple executions we 
      * created this static map that contains the fully qualified file
@@ -247,17 +253,12 @@ public class XmlFormatter extends AbstractMojo {
             try {
                 inputStream = new FileInputStream(formatFile);
 
-                if (inputStream == null) {
-                    getLog().error("[xml formatter] File<" + formatFile + "> could not be opened, skipping");
-                    return;
-                }
-
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
                 xml = documentBuilder.parse(inputStream);
 
-		getLog().info("Successfully formatted file: " + formatFile);
+		getLog().debug("[xml formatter] Successfully parsed file: " + formatFile);
 
             } catch(Throwable t) {
                 throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
@@ -272,10 +273,10 @@ public class XmlFormatter extends AbstractMojo {
             }
 
             FileOutputStream fos = null;
-            String formattedXml = null;
             InputStream stylesheet = null;
+            File tmpFile = null;
+            
             try {
-
                 // Read the stylesheet from the classpath
                 stylesheet = new XmlFormatter().getClass().getClassLoader()
                     .getResourceAsStream("remove-whitespace.xsl");
@@ -285,14 +286,19 @@ public class XmlFormatter extends AbstractMojo {
                     return;
                 }
 
+                tmpFile = File.createTempFile("xmlFormatter", ".xml");
+                
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();
                 Transformer transformer = transformerFactory.newTransformer(new StreamSource(stylesheet));
-                fos = new FileOutputStream(formatFile);
+                fos = new FileOutputStream(tmpFile);
                 StreamResult streamResult = new StreamResult(fos);
                 DOMSource domSource = new DOMSource(xml);
                 transformer.transform(domSource, streamResult);
 
             } catch(Throwable t) {
+                if (tmpFile != null) {
+                    tmpFile.delete();
+                }
                 throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
             } finally {
                 if (stylesheet != null) {
@@ -317,13 +323,89 @@ public class XmlFormatter extends AbstractMojo {
             // are in.
             
             if (useTabs) {
-                indentFile(formatFile);	
+                indentFile(tmpFile);	
+            }
+            
+            // Copy tmpFile to formatFile, but only if the content has actually changed
+            String tmpFileHash = getSha1(tmpFile);
+            String formatFileHash = getSha1(formatFile);
+            if (tmpFileHash != null && formatFileHash != null && tmpFileHash.equals(formatFileHash)) {
+                // Exact match, so skip
+                getLog().info("[xml formatter] File unchanged after formatting: " + formatFile);
+                tmpFile.delete();
+                return;
+            }
+            // To get here indicates a hash comparison failure, or the file has modified after formatting. Copy the bytes
+            FileInputStream source = null;
+            FileOutputStream destination = null;
+            try {
+              source = new FileInputStream(tmpFile);
+              destination = new FileOutputStream(formatFile);
+              byte[] buffer = new byte[4096];
+              int bytesRead;
+
+              while ((bytesRead = source.read(buffer)) != -1) {
+                  destination.write(buffer, 0, bytesRead); // write
+              }
+              getLog().info("[xml formatter] File reformatted: " + formatFile);
+            } catch (IOException ioe) {
+                getLog().error("[xml formatter] File copying failed for: " + tmpFile + " -> " + formatFile);
+            } finally {
+              if (source != null) {
+                try {
+                  source.close();
+                } catch (IOException ignored) {}
+              }
+              if (destination != null) {
+                try {
+                  destination.close();
+                } catch (IOException ignored) {}
+              }
+              tmpFile.delete();
             }
         } else {
-            getLog().debug("[xml formatter] File was not valid:" + formatFile + " skipping");
+            getLog().info("[xml formatter] File was not valid: " + formatFile + "; skipping");
         }
     }
 
+    private String getSha1(File file) {
+        FileInputStream fis = null;
+        byte[] dataBytes = new byte[1024];
+        byte[] sha1Bytes = null;
+        int read = 0;
+        
+        if (sha == null) {
+            return null;
+        }
+        
+        try {
+            fis = new FileInputStream(file);
+            while ((read = fis.read(dataBytes)) != -1) {
+                sha.update(dataBytes, 0, read);
+            };
+           
+            sha1Bytes = sha.digest();
+        } catch (IOException ioe) {
+            return null;
+        } finally {
+            sha.reset();
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException ignored) {
+                    return null;
+                }
+            }
+        }
+     
+        StringBuffer sha1AsHex = new StringBuffer("");
+        for (int i = 0; i < sha1Bytes.length; i++) {
+            sha1AsHex.append(Integer.toString((sha1Bytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        
+        return sha1AsHex.toString();
+    }
+    
     /**
      * Indents the file using tabs, writing it back to its original location.  This method
      * is only called if useTabs is set to true.
