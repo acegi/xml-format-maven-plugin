@@ -16,18 +16,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.DirectoryScanner;
-import org.w3c.dom.Document;
+import org.dom4j.Document;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
 
 /**
  * The XML Formatter is a plugin that is designed to be run
@@ -36,7 +31,7 @@ import org.w3c.dom.Document;
  * or tabs).  This is due to the fact that when a big project is being
  * worked on by many different people, with each person using their own 
  * preferred formatting style, the files become hard to read.
- * 
+ *
  *
  * <p>The plugin contains two arrays in which you can specify which
  * files to include/exclude from the formatting. <strong> By default all XML
@@ -62,13 +57,13 @@ import org.w3c.dom.Document;
 public class XmlFormatter extends AbstractMojo {
 
     private static MessageDigest sha;
-    
+
     static {
         try {
             sha = MessageDigest.getInstance("SHA1");
         } catch (NoSuchAlgorithmException ignored) {}
     }
-    
+
     /**
      * Since parent pom execution causes multiple executions we 
      * created this static map that contains the fully qualified file
@@ -89,31 +84,31 @@ public class XmlFormatter extends AbstractMojo {
      **/
     public void execute() throws MojoExecutionException {
 
-        if ((baseDirectory != null) 
-	    && (getLog().isDebugEnabled())) {
+        if ((baseDirectory != null)
+                && (getLog().isDebugEnabled())) {
             getLog().debug("[xml formatter] Base Directory:" + baseDirectory);
         }
 
         if (includes != null) {
             String[] filesToFormat = getIncludedFiles(baseDirectory, includes, excludes);
-	    
+
             if (getLog().isDebugEnabled()) {
-                getLog().debug("[xml formatter] Format " 
-			       + filesToFormat.length 
-			       + " source files in " 
-			       + baseDirectory);
+                getLog().debug("[xml formatter] Format "
+                        + filesToFormat.length
+                        + " source files in "
+                        + baseDirectory);
             }
 
             for (String include : filesToFormat) {
-		try {
+                try {
 
-		    if (!processedFileNames.contains(baseDirectory + File.separator + include)) {
-			processedFileNames.add(baseDirectory + File.separator + include);
-			format(new File(baseDirectory + File.separator + include));
-		    }
-		} catch(RuntimeException re) {
-		    getLog().error("File <" + baseDirectory + File.separator + include + "> failed to parse, skipping and moving on to the next file", re);
-		}
+                    if (!processedFileNames.contains(baseDirectory + File.separator + include)) {
+                        processedFileNames.add(baseDirectory + File.separator + include);
+                        format(new File(baseDirectory + File.separator + include));
+                    }
+                } catch(RuntimeException re) {
+                    getLog().error("File <" + baseDirectory + File.separator + include + "> failed to parse, skipping and moving on to the next file", re);
+                }
             }
         }
     }
@@ -206,9 +201,9 @@ public class XmlFormatter extends AbstractMojo {
      * @return - A string array containing all the files that should be 
      *            formatted.
      **/
-    public String[] getIncludedFiles(File directory, 
-				     String[] includes, 
-				     String[] excludes) {
+    public String[] getIncludedFiles(File directory,
+                                     String[] includes,
+                                     String[] excludes) {
 
         DirectoryScanner dirScanner = new DirectoryScanner();
         dirScanner.setBasedir(directory);
@@ -216,30 +211,30 @@ public class XmlFormatter extends AbstractMojo {
         dirScanner.setExcludes(excludes);
         dirScanner.scan();
 
-        String[] filesToFormat = dirScanner.getIncludedFiles();      
+        String[] filesToFormat = dirScanner.getIncludedFiles();
 
         if (getLog().isDebugEnabled()) {
-			
-	    if (useTabs) {
-		getLog().debug("[xml formatter] Formatting with tabs...");
-	    } else {
-		getLog().debug("[xml formatter] Formatting with spaces...");
-	    }
+
+            if (useTabs) {
+                getLog().debug("[xml formatter] Formatting with tabs...");
+            } else {
+                getLog().debug("[xml formatter] Formatting with spaces...");
+            }
 
             getLog().debug("[xml formatter] Files:");
             for (String file : filesToFormat) {
-                getLog().debug("[xml formatter] file<" + file 
-			       + "> is scheduled for formatting");
+                getLog().debug("[xml formatter] file<" + file
+                        + "> is scheduled for formatting");
             }
         }
 
         return filesToFormat;
-    } 
+    }
 
 
     /**
      * Formats the provided file, writing it back to it's original location.
-     * @param file - File to be formatted. The output file is the same as
+     * @param formatFile - File to be formatted. The output file is the same as
      *        the input file. Please be sure that you have your files in
      *        a revision control system (and saved before running this plugin).
      **/
@@ -248,17 +243,16 @@ public class XmlFormatter extends AbstractMojo {
         if (formatFile.exists() && formatFile.isFile()) {
 
             InputStream inputStream = null;
-            Document xml = null;
+            Document xmlDoc = null;
+            XMLWriter xmlWriter = null;
 
             try {
                 inputStream = new FileInputStream(formatFile);
 
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                SAXReader reader = new SAXReader();
+                xmlDoc = reader.read(inputStream);
 
-                xml = documentBuilder.parse(inputStream);
-
-		getLog().debug("[xml formatter] Successfully parsed file: " + formatFile);
+                getLog().debug("[xml formatter] Successfully parsed file: " + formatFile);
 
             } catch(Throwable t) {
                 throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
@@ -273,27 +267,18 @@ public class XmlFormatter extends AbstractMojo {
             }
 
             FileOutputStream fos = null;
-            InputStream stylesheet = null;
             File tmpFile = null;
-            
+
             try {
-                // Read the stylesheet from the classpath
-                stylesheet = new XmlFormatter().getClass().getClassLoader()
-                    .getResourceAsStream("remove-whitespace.xsl");
-
-                if (stylesheet == null) {
-                    getLog().error("[xml formatter] Could not find remove-whitespace.xsl");
-                    return;
-                }
-
                 tmpFile = File.createTempFile("xmlFormatter", ".xml");
-                
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer(new StreamSource(stylesheet));
                 fos = new FileOutputStream(tmpFile);
-                StreamResult streamResult = new StreamResult(fos);
-                DOMSource domSource = new DOMSource(xml);
-                transformer.transform(domSource, streamResult);
+                final OutputFormat outputFormat = OutputFormat.createPrettyPrint();
+                outputFormat.setIndentSize(4);
+                outputFormat.setNewLineAfterDeclaration(false);
+                outputFormat.setPadText(false);
+                xmlWriter = new XMLWriter(fos, outputFormat);
+                xmlWriter.write(xmlDoc);
+                xmlWriter.flush();
 
             } catch(Throwable t) {
                 if (tmpFile != null) {
@@ -301,14 +286,6 @@ public class XmlFormatter extends AbstractMojo {
                 }
                 throw new RuntimeException("[xml formatter] Failed to parse..." + t.getMessage(), t);
             } finally {
-                if (stylesheet != null) {
-                    try {
-                        stylesheet.close();
-                    } catch(Throwable tr) {
-                        // intentially exception hiding for failures on close....
-                    }
-                }
-
                 if (fos != null) {
                     try {
                         fos.close();
@@ -316,16 +293,23 @@ public class XmlFormatter extends AbstractMojo {
                         // intentially exception hiding for failures on close....
                     }
                 }
+                if(xmlWriter!=null) {
+                    try {
+                        xmlWriter.close();
+                    } catch (IOException e) {
+                        getLog().error(e.getMessage(), e);
+                    }
+                }
             }
 
             // Now that we know that the indent is set to four spaces, we can either
             // keep it like that or change them to tabs depending on which 'mode' we
             // are in.
-            
+
             if (useTabs) {
-                indentFile(tmpFile);	
+                indentFile(tmpFile);
             }
-            
+
             // Copy tmpFile to formatFile, but only if the content has actually changed
             String tmpFileHash = getSha1(tmpFile);
             String formatFileHash = getSha1(formatFile);
@@ -339,29 +323,29 @@ public class XmlFormatter extends AbstractMojo {
             FileInputStream source = null;
             FileOutputStream destination = null;
             try {
-              source = new FileInputStream(tmpFile);
-              destination = new FileOutputStream(formatFile);
-              byte[] buffer = new byte[4096];
-              int bytesRead;
+                source = new FileInputStream(tmpFile);
+                destination = new FileOutputStream(formatFile);
+                byte[] buffer = new byte[4096];
+                int bytesRead;
 
-              while ((bytesRead = source.read(buffer)) != -1) {
-                  destination.write(buffer, 0, bytesRead); // write
-              }
-              getLog().info("[xml formatter] File reformatted: " + formatFile);
+                while ((bytesRead = source.read(buffer)) != -1) {
+                    destination.write(buffer, 0, bytesRead); // write
+                }
+                getLog().info("[xml formatter] File reformatted: " + formatFile);
             } catch (IOException ioe) {
                 getLog().error("[xml formatter] File copying failed for: " + tmpFile + " -> " + formatFile);
             } finally {
-              if (source != null) {
-                try {
-                  source.close();
-                } catch (IOException ignored) {}
-              }
-              if (destination != null) {
-                try {
-                  destination.close();
-                } catch (IOException ignored) {}
-              }
-              tmpFile.delete();
+                if (source != null) {
+                    try {
+                        source.close();
+                    } catch (IOException ignored) {}
+                }
+                if (destination != null) {
+                    try {
+                        destination.close();
+                    } catch (IOException ignored) {}
+                }
+                tmpFile.delete();
             }
         } else {
             getLog().info("[xml formatter] File was not valid: " + formatFile + "; skipping");
@@ -373,17 +357,17 @@ public class XmlFormatter extends AbstractMojo {
         byte[] dataBytes = new byte[1024];
         byte[] sha1Bytes = null;
         int read = 0;
-        
+
         if (sha == null) {
             return null;
         }
-        
+
         try {
             fis = new FileInputStream(file);
             while ((read = fis.read(dataBytes)) != -1) {
                 sha.update(dataBytes, 0, read);
             };
-           
+
             sha1Bytes = sha.digest();
         } catch (IOException ioe) {
             return null;
@@ -397,15 +381,15 @@ public class XmlFormatter extends AbstractMojo {
                 }
             }
         }
-     
+
         StringBuffer sha1AsHex = new StringBuffer("");
         for (int i = 0; i < sha1Bytes.length; i++) {
             sha1AsHex.append(Integer.toString((sha1Bytes[i] & 0xff) + 0x100, 16).substring(1));
         }
-        
+
         return sha1AsHex.toString();
     }
-    
+
     /**
      * Indents the file using tabs, writing it back to its original location.  This method
      * is only called if useTabs is set to true.
