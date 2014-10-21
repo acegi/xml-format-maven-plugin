@@ -12,7 +12,7 @@ First, declare this project as a plugin repository:
   &lt;pluginRepository&gt;
     &lt;id&gt;maven-xml-formatter-plugin&lt;/id&gt;
     &lt;name&gt;Maven2 XML Formatter Plugin repository&lt;/name&gt;
-    &lt;url&gt;https://raw.github.com/benalexau/xml-formatter/master/releases/&lt;/url&gt
+    &lt;url&gt;https://raw.github.com/benalexau/xml-formatter/master/releases/&lt;/url&gt;
   &lt;/pluginRepository&gt;
 &lt;/pluginRepositories&gt;
 </pre>
