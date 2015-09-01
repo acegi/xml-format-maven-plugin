@@ -23,7 +23,7 @@ Second, enable the plugin. Example configuration settings are shown below which 
 &lt;plugin&gt;
     &lt;groupId&gt;org.technicalsoftwareconfigurationmanagement.maven-plugin&lt;/groupId&gt;
     &lt;artifactId&gt;tscm-maven-plugin&lt;/artifactId&gt;
-    &lt;version&gt;2.1.0.20111230154050&lt;/version&gt;
+    &lt;version&gt;2.1.1&lt;/version&gt;
     &lt;configuration&gt;
         &lt;includes&gt;
             &lt;include&gt;**/*.xml&lt;/include&gt;
@@ -47,4 +47,3 @@ Second, enable the plugin. Example configuration settings are shown below which 
 </pre>
 
 [Ticket 2](http://code.google.com/p/xml-formatter/issues/detail?id=2) has been logged against the [original project](http://code.google.com/p/xml-formatter/) so they can incorporate these changes. As such, please check the ticket for updates before using this fork.
-
