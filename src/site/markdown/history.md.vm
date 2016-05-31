@@ -1,0 +1,26 @@
+This project was originally created in 2011 and was known as the Technical
+Software Configuration Management (TSCM) XML Formatter Maven Plugin. It was
+first hosted on Google Code
+([archive](https://web.archive.org/web/20141229160234/https://code.google.com/p/xml-formatter/))
+by Brian Walsh and Sean Dobberstein. It was never submitted to Maven Central.
+
+A patch was submitted via Google Code in 2011, but no response was received. The
+Google Code repository was therefore cloned on GitHub and the patch applied
+there. A temporary build of the plugin was hosted on GitHub to assist others who
+might need an XML formatter plugin.
+
+Five years passed by and, surprisingly, nobody wrote a new XML formatter
+plugin. Instead people kept using the "temporary" plugin hosted in the GitHub
+repository, making the odd tweak here and there (eg changing the indent from 4
+to 2 spaces).
+
+By June 2016 it seemed about time to delete the original code and rewrite it
+from scratch. The plugin was rewritten to use the latest Dom4j support, newest
+Maven plugin dependencies (farewell doclets!), higher component cohesion to
+facilitate isolated tests, actual unit tests with mocks to ensure the plugin
+won't damage complex XML files, deeper customisation options, and integration
+with modern open source services such as GitHub, Maven Central and Travis. The
+major version number was bumped up to 3.0.0 to reflect this rewrite.
+
+Like to make an improvement? Feel free! Just click the "Fork me on GitHub"
+ribbon above and send us a pull request.

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <!-- 
+    this is a comment that should be kept
+  -->
+  <name>Coco Puff</name>
+  <total>10</total>
+  <tag><![CDATA[This is
+four
+    funny
+lines]]></tag>
+</root>
