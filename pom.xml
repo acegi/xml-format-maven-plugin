@@ -159,7 +159,7 @@
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <useReleaseProfile>false</useReleaseProfile>
           <releaseProfiles>release</releaseProfiles>
-          <goals>deploy</goals>
+          <goals>deploy site-deploy</goals>
         </configuration>
       </plugin>
     </plugins>
@@ -246,7 +246,7 @@
             <version>0.12</version>
             <executions>
               <execution>
-                <phase>site</phase>
+                <phase>site-deploy</phase>
                 <goals>
                   <goal>site</goal>
                 </goals>
