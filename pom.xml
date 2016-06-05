@@ -151,6 +151,9 @@
             <version>1.7</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <skipDeploy>true</skipDeploy>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
