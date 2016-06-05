@@ -7,3 +7,5 @@ bin
 *.iml
 *~
 
+*.properties
+*.releaseBackup
