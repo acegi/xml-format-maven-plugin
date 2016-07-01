@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20160701" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>XML Format Maven Plugin &#x2013; </title>
+    <title>XML Format Maven Plugin &#x2013; Project Distribution Management</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -148,10 +148,12 @@
         Introduction</a>
             </li>
                 
-      <li class="active">
+      <li>
   
-            <a href="#"><span class="none"></span>History</a>
-          </li>
+                          <a href="history.html" title="History">
+          <span class="none"></span>
+        History</a>
+            </li>
                 
       <li>
   
@@ -167,13 +169,69 @@
         Goals</a>
             </li>
                               <li class="nav-header">Project Documentation</li>
-                                                                                                                                                                                                              
+                                                                                                                                                                                                                        
       <li>
   
                           <a href="project-info.html" title="Project Information">
-          <span class="icon-chevron-right"></span>
+          <span class="icon-chevron-down"></span>
         Project Information</a>
-                  </li>
+                    <ul class="nav nav-list">
+                    
+      <li>
+  
+                          <a href="integration.html" title="CI Management">
+          <span class="none"></span>
+        CI Management</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="dependencies.html" title="Dependencies">
+          <span class="none"></span>
+        Dependencies</a>
+            </li>
+                    
+      <li class="active">
+  
+            <a href="#"><span class="none"></span>Distribution Management</a>
+          </li>
+                    
+      <li>
+  
+                          <a href="issue-tracking.html" title="Issue Management">
+          <span class="none"></span>
+        Issue Management</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="license.html" title="Licenses">
+          <span class="none"></span>
+        Licenses</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="source-repository.html" title="Source Code Management">
+          <span class="none"></span>
+        Source Code Management</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="project-summary.html" title="Summary">
+          <span class="none"></span>
+        Summary</a>
+            </li>
+                    
+      <li>
+  
+                          <a href="team-list.html" title="Team">
+          <span class="none"></span>
+        Team</a>
+            </li>
+              </ul>
+        </li>
                                                                   
       <li>
   
@@ -210,11 +268,13 @@
                 
         <div id="bodyColumn"  class="span10" >
                                   
-            <p>This project was originally created in 2011 and was known as the Technical Software Configuration Management (TSCM) XML Formatter Maven Plugin. It was first hosted on Google Code (<a class="externalLink" href="https://web.archive.org/web/20141229160234/https://code.google.com/p/xml-formatter/">archive</a>) by Brian Walsh and Sean Dobberstein. It was never submitted to Maven Central.</p>
-<p>A patch was submitted via Google Code in 2011, but no response was received. The Google Code repository was therefore cloned on GitHub and the patch applied there. A temporary build of the plugin was hosted on GitHub to assist others who might need an XML formatter plugin.</p>
-<p>Five years passed by and, surprisingly, nobody wrote a new XML formatter plugin. Instead people kept using the &#x201c;temporary&#x201d; plugin hosted in the GitHub repository, making the odd tweak here and there (eg changing the indent from 4 to 2 spaces).</p>
-<p>By June 2016 it seemed about time to delete the original code and rewrite it from scratch. The plugin was rewritten to use the latest Dom4j support, newest Maven plugin dependencies (farewell doclets!), higher component cohesion to facilitate isolated tests, actual unit tests with mocks to ensure the plugin won&#x2019;t damage complex XML files, deeper customisation options, and integration with modern open source services such as GitHub, Maven Central and Travis. The major version number was bumped up to 3.0.0 to reflect this rewrite.</p>
-<p>Like to make an improvement? Feel free! Just click the &#x201c;Fork me on GitHub&#x201d; ribbon above and send us a pull request.</p>
+            <div class="section">
+<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
+<p>The following is the distribution management information used by this project.</p>
+<div class="section">
+<h3><a name="Repository_-_ossrh"></a>Repository - ossrh</h3><a name="Repository_-_ossrh"></a><a class="externalLink" href="https://oss.sonatype.org/service/local/staging/deploy/maven2/">https://oss.sonatype.org/service/local/staging/deploy/maven2/</a></div>
+<div class="section">
+<h3><a name="Snapshot_Repository_-_ossrh"></a>Snapshot Repository - ossrh</h3><a name="Snapshot_Repository_-_ossrh"></a><a class="externalLink" href="https://oss.sonatype.org/content/repositories/snapshots">https://oss.sonatype.org/content/repositories/snapshots</a></div></div>
                   </div>
             </div>
           </div>
