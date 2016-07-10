@@ -100,7 +100,7 @@ public class XmlFormatPluginTest {
     } catch (MojoFailureException expected) {
     }
 
-    verify(log, atLeastOnce()).error(anyString(), anyObject());
+    verify(log, atLeastOnce()).error(anyString(), any(Throwable.class));
     verify(log, atLeastOnce()).isDebugEnabled();
     verify(log, never()).debug(anyString());
 
