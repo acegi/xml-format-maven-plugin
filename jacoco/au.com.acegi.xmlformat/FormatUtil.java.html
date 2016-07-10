@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FormatUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">XML Format Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">au.com.acegi.xmlformat</a> &gt; <span class="el_source">FormatUtil.java</span></div><h1>FormatUtil.java</h1><pre class="source lang-java linenums">package au.com.acegi.xmlformat;
+
+import static au.com.acegi.xmlformat.IOUtil.hash;
+import java.io.File;
+import static java.io.File.createTempFile;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import static java.nio.file.Files.copy;
+import java.nio.file.Path;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+
+<span class="pc bpc" id="L20" title="1 of 2 branches missed.">@SuppressWarnings(&quot;UtilityClassWithoutPrivateConstructor&quot;)</span>
+<span class="nc" id="L21">final class FormatUtil {</span>
+
+<span class="fc" id="L23">  private static final String TMP_FILE_PREFIX = FormatUtil.class.getSimpleName();</span>
+
+  /**
+   * Ingest an input stream, writing formatted XML to the output stream. The
+   * caller is responsible for closing the input and output streams. Any errors
+   * in the input stream will cause an exception and the output stream should
+   * not be relied upon.
+   *
+   * @param in  input XML stream
+   * @param out output XML stream
+   * @param fmt format configuration to apply
+   * @throws DocumentException if input XML could not be parsed
+   * @throws IOException       if output XML stream could not be written
+   */
+  static void format(final InputStream in, final OutputStream out,
+                     final OutputFormat fmt) throws DocumentException,
+                                                    IOException {
+<span class="fc" id="L40">    final SAXReader reader = new SAXReader();</span>
+<span class="fc" id="L41">    final Document xmlDoc = reader.read(in);</span>
+
+<span class="fc" id="L43">    final XMLWriter xmlWriter = new XMLWriter(out, fmt);</span>
+<span class="fc" id="L44">    xmlWriter.write(xmlDoc);</span>
+<span class="fc" id="L45">    xmlWriter.flush();</span>
+<span class="fc" id="L46">  }</span>
+
+  /**
+   * Formats the input file, overwriting the input file with the new content if
+   * the formatted content differs.
+   *
+   * @param file to read and then potentially overwrite
+   * @param fmt  format configuration to apply
+   * @return true if the file was overwritten
+   * @throws DocumentException if input XML could not be parsed
+   * @throws IOException       if output XML stream could not be written
+   */
+  static boolean formatInPlace(final File file, final OutputFormat fmt)
+      throws DocumentException, IOException {
+<span class="pc bpc" id="L60" title="2 of 4 branches missed.">    assert file != null;</span>
+<span class="pc bpc" id="L61" title="2 of 4 branches missed.">    assert fmt != null;</span>
+<span class="pc bpc" id="L62" title="2 of 4 branches missed.">    assert file.exists();</span>
+<span class="pc bpc" id="L63" title="2 of 4 branches missed.">    assert file.isFile();</span>
+
+<span class="fc" id="L65">    final File tmpFile = createTempFile(TMP_FILE_PREFIX, &quot;.xml&quot;);</span>
+<span class="fc" id="L66">    tmpFile.deleteOnExit();</span>
+
+<span class="fc" id="L68">    try (final FileInputStream inputFis = new FileInputStream(file);</span>
+<span class="fc" id="L69">         final FileOutputStream tmpOut = new FileOutputStream(tmpFile);) {</span>
+<span class="fc" id="L70">      format(inputFis, tmpOut, fmt);</span>
+<span class="pc bpc" id="L71" title="8 of 16 branches missed.">    }</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    if (hash(file) == hash(tmpFile)) {</span>
+<span class="fc" id="L74">      return false;</span>
+    }
+
+<span class="fc" id="L77">    final Path source = tmpFile.toPath();</span>
+<span class="fc" id="L78">    final Path target = file.toPath();</span>
+<span class="fc" id="L79">    copy(source, target, REPLACE_EXISTING);</span>
+<span class="fc" id="L80">    return true;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
