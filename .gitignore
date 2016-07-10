@@ -6,6 +6,8 @@ bin
 .idea
 *.iml
 *~
-
 *.properties
 *.releaseBackup
+secrets.tar
+gpg-sign.json
+mvn-sync.json

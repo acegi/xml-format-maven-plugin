@@ -2,7 +2,28 @@ language: java
 jdk:
   - oraclejdk7
   - oraclejdk8
+env:
+  global:
+  - BINTRAY_SUBJECT=acegi
+  - BINTRAY_REPO=maven
+  - BINTRAY_PACKAGE=au.com.acegi:xml-format-maven-plugin
+  - BINTRAY_USER=benalexau
+  - secure: "SejB7o5x/AA5X/wiFlwbCLwtv1fbpsKoO8vsyVO7AwP4U9IB6rB7d9Y5KtrfLtg51x/diY6iUM4QL1fpvxnTN+NB8WGUm+/ueNJaPNubZFtRMVz4UGQwGR1ex3CfpmtyDgldj//0yHypfcsl3F511b7ALnqFPI7RI71lDYpENWg="
+  - secure: "J3b8EFXBI8gXgQ0Q+YRk3EEpKTJm1AzrBgBtnq9sEvCCwQ8Os8qwzwrrYna34fSdPSzjr9jvWVrO4oLA63ECzOIcnpFSU1AFOO2fqOw08/N5QxzMAj5O5tY1X1ZDj2Jmj8pjbv4GLKfCBW4x14Yd8xIr2JvgzbZsW23zSwUcnQU="
 email:
   - ben.alex@acegi.com.au
 after_success:
   - mvn clean test jacoco:report coveralls:report
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then mvn deploy --settings .settings.xml; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then mvn site-deploy --settings .settings.xml; fi
+
+  ######################### CAUTION ########################
+  # BinTray API, Sonatype API and GPG keys are used below. #
+  # NEVER display / log / transmit / expose these details. #
+  ##########################################################
+
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then openssl aes-256-cbc -K $encrypted_a73c99aef1ff_key -iv $encrypted_a73c99aef1ff_iv -in secrets.tar.enc -out secrets.tar -d; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then tar xvf secrets.tar; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then VERSION=$(grep '<version>' pom.xml | head -n 1 | sed -r 's/ *<version>(.*)<\/version>/\1/g'); fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then curl -u ${BINTRAY_USER}:${BINTRAY_PASS} -d @gpg-sign.json  https://api.bintray.com/gpg/${BINTRAY_SUBJECT}/${BINTRAY_REPO}/${BINTRAY_PACKAGE}/versions/${VERSION} --header 'Content-Type:application/json'; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ]; then curl -u ${BINTRAY_USER}:${BINTRAY_PASS} -d @mvn-sync.json  https://api.bintray.com/maven_central_sync/${BINTRAY_SUBJECT}/${BINTRAY_REPO}/${BINTRAY_PACKAGE}/versions/${VERSION} --header 'Content-Type:application/json'; fi
