@@ -61,6 +61,9 @@ final class FormatUtil {
     assert fmt != null;
     assert file.exists();
     assert file.isFile();
+    if (file.length() == 0) {
+      return false;
+    }
 
     final File tmpFile = createTempFile(TMP_FILE_PREFIX, ".xml");
     tmpFile.deleteOnExit();

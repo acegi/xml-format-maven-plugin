@@ -19,6 +19,8 @@ import static org.mockito.Mockito.*;
 
 public class XmlFormatPluginTest {
 
+  private static final String EMPTY_FILE_NAME = "empty.xml";
+  private static final String EMPTY_TXT = "";
   private static final String ERR_FILE_NAME = "error.xml";
   private static final String ERR_TXT = "<xml> <hello> hello not closed! </xml>";
   private static final String NO_CHG_TXT = "<xml> <leave-me-alone/> </xml>";
@@ -26,6 +28,7 @@ public class XmlFormatPluginTest {
 
   @Rule
   public TemporaryFolder tmp = new TemporaryFolder();
+  private File empty;
   private File error;
   private Log log;
   private File noChange;
@@ -45,11 +48,15 @@ public class XmlFormatPluginTest {
     noChange = new File(target, "exclude-me.xml");
     stringToFile(NO_CHG_TXT, noChange);
 
+    empty = new File(proj, EMPTY_FILE_NAME);
+    stringToFile(EMPTY_TXT, empty);
+
     error = new File(proj, ERR_FILE_NAME);
     stringToFile(ERR_TXT, error);
 
     assertThat(fileToString(toChange), is(TO_CHG_TXT));
     assertThat(fileToString(noChange), is(NO_CHG_TXT));
+    assertThat(fileToString(empty), is(EMPTY_TXT));
     assertThat(fileToString(error), is(ERR_TXT));
 
     log = mock(Log.class);
