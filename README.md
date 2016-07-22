@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/acegi/xml-format-maven-plugin.svg?branch=master)](https://travis-ci.org/acegi/xml-format-maven-plugin)
-[![Coverage Status](https://coveralls.io/repos/acegi/xml-format-maven-plugin/badge.svg?branch=master)](https://coveralls.io/r/acegi/xml-format-maven-plugin?branch=master)
+[![Coverage Status](https://codecov.io/gh/acegi/xml-format-maven-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/acegi/xml-format-maven-plugin)
 [![Dependency Status](https://www.versioneye.com/user/projects/5750e6a091bfda004be923d9/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5750e6a091bfda004be923d9)
 [![Javadocs](http://www.javadoc.io/badge/au.com.acegi/xml-format-maven-plugin.svg)](http://www.javadoc.io/doc/au.com.acegi/xml-format-maven-plugin)
 [![Download](https://api.bintray.com/packages/acegi/maven/au.com.acegi%3Axml-format-maven-plugin/images/download.svg)](https://bintray.com/acegi/maven/au.com.acegi%3Axml-format-maven-plugin/_latestVersion)
