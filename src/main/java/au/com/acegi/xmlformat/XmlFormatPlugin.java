@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import static org.apache.maven.plugins.annotations.LifecyclePhase.VERIFY;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -19,7 +20,7 @@ import static org.dom4j.io.OutputFormat.createPrettyPrint;
 /**
  * Finds the XML files in a project and automatically reformats them.
  */
-@Mojo(name = "xml-format")
+@Mojo(name = "xml-format", defaultPhase = VERIFY)
 public final class XmlFormatPlugin extends AbstractMojo {
 
   /**

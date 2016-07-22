@@ -1,6 +1,5 @@
 This plugin available from Maven Central. This means you can simply add it to
-your ``pom.xml``, specifying your preferred Maven lifecycle phase and
-formatting configuration. For example:
+your ``pom.xml``, specifying your preferred format configuration. For example:
 
 ```
 <plugin>
@@ -10,7 +9,6 @@ formatting configuration. For example:
   <executions>
     <execution>
       <id>xml-format</id>
-      <phase>package</phase>
         <goals>
           <goal>xml-format</goal>
         </goals>
@@ -23,6 +21,9 @@ formatting configuration. For example:
 </plugin>
 ```
 
-The above will cause ``mvn package`` to format all your XML files automatically.
+The above will cause ``mvn package`` to format all your XML files automatically
+during any `verify` phase. You can select a different phase by adding a
+`<phase>someOther</phase>` to the `<execution>` element.
+
 Please see the [xml-format:xml-format](xml-format-mojo.html) page for the
 available configuration options.
