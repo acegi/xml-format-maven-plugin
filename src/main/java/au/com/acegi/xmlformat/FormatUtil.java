@@ -1,3 +1,23 @@
+/*-
+ * #%L
+ * XML Format Maven Plugin
+ * %%
+ * Copyright (C) 2011 - 2016 Acegi Technology Pty Limited
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 package au.com.acegi.xmlformat;
 
 import static au.com.acegi.xmlformat.IOUtil.hash;
@@ -17,10 +37,15 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-@SuppressWarnings("UtilityClassWithoutPrivateConstructor")
+/**
+ * Utility methods private to the package.
+ */
 final class FormatUtil {
 
   private static final String TMP_FILE_PREFIX = FormatUtil.class.getSimpleName();
+
+  private FormatUtil() {
+  }
 
   /**
    * Ingest an input stream, writing formatted XML to the output stream. The
@@ -55,12 +80,9 @@ final class FormatUtil {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
+  @SuppressWarnings("checkstyle:returncount")
   static boolean formatInPlace(final File file, final OutputFormat fmt)
       throws DocumentException, IOException {
-    assert file != null;
-    assert fmt != null;
-    assert file.exists();
-    assert file.isFile();
     if (file.length() == 0) {
       return false;
     }
@@ -69,11 +91,13 @@ final class FormatUtil {
     tmpFile.deleteOnExit();
 
     try (final FileInputStream inputFis = new FileInputStream(file);
-         final FileOutputStream tmpOut = new FileOutputStream(tmpFile);) {
+         final FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {
       format(inputFis, tmpOut, fmt);
     }
 
-    if (hash(file) == hash(tmpFile)) {
+    final long hashFile = hash(file);
+    final long hashTmp = hash(tmpFile);
+    if (hashFile == hashTmp) {
       return false;
     }
 
@@ -82,4 +106,5 @@ final class FormatUtil {
     copy(source, target, REPLACE_EXISTING);
     return true;
   }
+
 }

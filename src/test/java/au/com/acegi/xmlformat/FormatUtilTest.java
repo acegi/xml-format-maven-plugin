@@ -1,3 +1,23 @@
+/*-
+ * #%L
+ * XML Format Maven Plugin
+ * %%
+ * Copyright (C) 2011 - 2016 Acegi Technology Pty Limited
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 package au.com.acegi.xmlformat;
 
 import static au.com.acegi.xmlformat.FormatUtil.format;
@@ -19,10 +39,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-public class FormatUtilTest {
+/**
+ * Tests {@link FormatUtil}.
+ */
+public final class FormatUtilTest {
 
   private static final String FORMATTED_XML = "<xml><hello/></xml>";
-  private static final String UNFORMATTED_XML = "<xml> <hello/> </xml>";
+  private static final String UNFORMATTED_XML = "<xml>   <hello/> </xml>";
 
   @Rule
   public TemporaryFolder tmp = new TemporaryFolder();
@@ -61,8 +84,8 @@ public class FormatUtilTest {
 
   @Test(expected = DocumentException.class)
   public void testInvalid() throws DocumentException, IOException {
-    InputStream in = getResource("/invalid.xml");
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    final InputStream in = getResource("/invalid.xml");
+    final ByteArrayOutputStream out = new ByteArrayOutputStream();
     format(in, out, createPrettyPrint());
   }
 
@@ -82,17 +105,18 @@ public class FormatUtilTest {
     fmt.setNewlines(false);
 
     final boolean written = formatInPlace(file, fmt);
-    assertThat(written, is(false));
+    assertThat(written, is(shouldChange));
   }
 
   private void testInOut(final int id, final OutputFormat fmt) throws
       DocumentException, IOException {
-    InputStream in = getResource("/test" + id + "-in.xml");
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    final InputStream in = getResource("/test" + id + "-in.xml");
+    final ByteArrayOutputStream out = new ByteArrayOutputStream();
     format(in, out, fmt);
 
-    String received = new String(out.toByteArray(), UTF_8);
-    String expected = streamToString(getResource("/test" + id + "-out.xml"));
+    final String received = new String(out.toByteArray(), UTF_8);
+    final String expected = streamToString(
+        getResource("/test" + id + "-out.xml"));
     assertThat(received, is(expected));
   }
 

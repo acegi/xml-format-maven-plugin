@@ -1,3 +1,23 @@
+/*-
+ * #%L
+ * XML Format Maven Plugin
+ * %%
+ * Copyright (C) 2011 - 2016 Acegi Technology Pty Limited
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 package au.com.acegi.xmlformat;
 
 import java.io.File;
@@ -11,38 +31,49 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+/**
+ * Utility methods required by the test package.
+ */
 final class TestUtil {
 
-  static String fileToString(File in) throws IOException {
-    try (InputStream is = new FileInputStream(in);) {
+  private TestUtil() {
+  }
+
+  static String fileToString(final File in) {
+    try (final InputStream is = new FileInputStream(in);) {
       return streamToString(is);
+    } catch (final IOException ex) {
+      throw new IllegalStateException(ex);
     }
   }
 
-  static InputStream getResource(String resource) {
-    InputStream in = FormatUtilTest.class.getResourceAsStream(resource);
+  static InputStream getResource(final String resource) {
+    final InputStream in = FormatUtilTest.class.getResourceAsStream(resource);
     assertThat(resource + " not found", in, not(nullValue()));
     return in;
   }
 
-  static String streamToString(InputStream in) throws IOException {
-    StringWriter sw = new StringWriter();
-    InputStreamReader reader = new InputStreamReader(in);
-    char[] buffer = new char[4_096];
+  static String streamToString(final InputStream in) {
+    final StringWriter sw = new StringWriter();
+    final InputStreamReader reader = new InputStreamReader(in);
+    final char[] buffer = new char[4_096];
     int n = 0;
-    while (-1 != (n = reader.read(buffer))) {
-      sw.write(buffer, 0, n);
+    try {
+      while (-1 != (n = reader.read(buffer))) {
+        sw.write(buffer, 0, n);
+      }
+    } catch (final IOException ex) {
+      throw new IllegalStateException(ex);
     }
     return sw.toString();
   }
 
-  static void stringToFile(String msg, File out) throws IOException {
-    try (FileWriter writer = new FileWriter(out)) {
+  static void stringToFile(final String msg, final File out) {
+    try (final FileWriter writer = new FileWriter(out)) {
       writer.append(msg);
+    } catch (final IOException ex) {
+      throw new IllegalStateException(ex);
     }
-  }
-
-  private TestUtil() {
   }
 
 }

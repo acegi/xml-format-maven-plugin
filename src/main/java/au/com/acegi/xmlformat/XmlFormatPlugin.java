@@ -1,3 +1,23 @@
+/*-
+ * #%L
+ * XML Format Maven Plugin
+ * %%
+ * Copyright (C) 2011 - 2016 Acegi Technology Pty Limited
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 package au.com.acegi.xmlformat;
 
 import static au.com.acegi.xmlformat.FormatUtil.formatInPlace;
@@ -5,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.copyOf;
 import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -21,27 +42,48 @@ import static org.dom4j.io.OutputFormat.createPrettyPrint;
  * Finds the XML files in a project and automatically reformats them.
  */
 @Mojo(name = "xml-format", defaultPhase = VERIFY)
+@SuppressWarnings("PMD.TooManyFields")
 public final class XmlFormatPlugin extends AbstractMojo {
 
   /**
    * Quote character to use when writing attributes.
    */
   @Parameter(property = "attributeQuoteChar", defaultValue = "\"")
-  @SuppressWarnings("FieldMayBeFinal")
+  @SuppressWarnings("PMD.ImmutableField")
   private char attributeQuoteChar = '"';
 
   /**
-   * The encoding format
+   * The base directory of the project.
+   */
+  @Parameter(defaultValue = ".", readonly = true, required = true, property
+             = "project.basedir")
+  private File baseDirectory;
+
+  /**
+   * The encoding format.
    */
   @Parameter(property = "encoding", defaultValue = "UTF-8")
-  @SuppressWarnings("FieldMayBeFinal")
+  @SuppressWarnings("PMD.ImmutableField")
   private String encoding = "UTF-8";
+  /**
+   * A set of file patterns that allow you to exclude certain files/folders from
+   * the formatting. In addition to these exclusions, the project build
+   * directory (typically <code>target</code>) is always excluded.
+   */
+  @Parameter(property = "excludes", defaultValue = "")
+  private String[] excludes;
 
   /**
    * Whether or not to expand empty elements to &lt;tagName&gt;&lt;/tagName&gt;.
    */
   @Parameter(property = "expandEmptyElements", defaultValue = "false")
   private boolean expandEmptyElements;
+  /**
+   * A set of file patterns that dictate which files should be included in the
+   * formatting with each file pattern being relative to the base directory.
+   */
+  @Parameter(property = "includes", defaultValue = "**/*.xml")
+  private String[] includes;
 
   /**
    * Indicates the number of spaces to apply when indenting.
@@ -50,10 +92,10 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private int indentSize;
 
   /**
-   * New line separator
+   * New line separator.
    */
   @Parameter(property = "lineSeparator", defaultValue = "\n")
-  @SuppressWarnings("FieldMayBeFinal")
+  @SuppressWarnings("PMD.ImmutableField")
   private String lineSeparator = "\n";
 
   /**
@@ -70,7 +112,8 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private int newLineAfterNTags;
 
   /**
-   * The default new line flag, set to do new lines only as in original document
+   * The default new line flag, set to do new lines only as in original
+   * document.
    */
   @Parameter(property = "newlines", defaultValue = "true")
   private boolean newlines;
@@ -94,6 +137,13 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private boolean suppressDeclaration;
 
   /**
+   * The project target directory. This is always excluded from formatting.
+   */
+  @Parameter(defaultValue = "${project.build.directory}", readonly = true,
+             required = true)
+  private File targetDirectory;
+
+  /**
    * Should we preserve whitespace or not in text nodes.
    */
   @Parameter(property = "trimText", defaultValue = "true")
@@ -103,31 +153,6 @@ public final class XmlFormatPlugin extends AbstractMojo {
    */
   @Parameter(property = "xhtml", defaultValue = "false")
   private boolean xhtml;
-  /**
-   * The base directory of the project.
-   */
-  @Parameter(defaultValue = ".", readonly = true, required = true, property
-             = "project.basedir")
-  File baseDirectory;
-  /**
-   * A set of file patterns that allow you to exclude certain files/folders from
-   * the formatting. In addition to these exclusions, the project build
-   * directory (typically <code>target</code>) is always excluded.
-   */
-  @Parameter(property = "excludes", defaultValue = "")
-  String[] excludes;
-  /**
-   * A set of file patterns that dictate which files should be included in the
-   * formatting with each file pattern being relative to the base directory.
-   */
-  @Parameter(property = "includes", defaultValue = "**/*.xml")
-  String[] includes;
-  /**
-   * The project target directory. This is always excluded from formatting.
-   */
-  @Parameter(defaultValue = "${project.build.directory}", readonly = true,
-             required = true)
-  File targetDirectory;
 
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
@@ -140,11 +165,11 @@ public final class XmlFormatPlugin extends AbstractMojo {
 
     boolean success = true;
     for (final String inputName : find()) {
-      final File input = new File(baseDirectory, inputName);
+      final File input = new File(baseDirectory, inputName); // NOPMD
       final boolean changed;
       try {
         changed = formatInPlace(input, fmt);
-      } catch (DocumentException | IOException ex) {
+      } catch (final DocumentException | IOException ex) {
         success = false;
         getLog().error("[xml-format] Error for " + input, ex);
         continue;
@@ -159,6 +184,22 @@ public final class XmlFormatPlugin extends AbstractMojo {
     if (!success) {
       throw new MojoFailureException("[xml-format] Failed)");
     }
+  }
+
+  void setBaseDirectory(final File baseDirectory) {
+    this.baseDirectory = baseDirectory;
+  }
+
+  void setExcludes(final String... excludes) {
+    this.excludes = excludes == null ? null : copyOf(excludes, excludes.length);
+  }
+
+  void setIncludes(final String... includes) {
+    this.includes = includes == null ? null : copyOf(includes, includes.length);
+  }
+
+  void setTargetDirectory(final File targetDirectory) {
+    this.targetDirectory = targetDirectory;
   }
 
   private OutputFormat buildFormatter() {
@@ -180,7 +221,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
   }
 
   private String[] find() {
-    DirectoryScanner dirScanner = new DirectoryScanner();
+    final DirectoryScanner dirScanner = new DirectoryScanner();
     dirScanner.setBasedir(baseDirectory);
     dirScanner.setIncludes(includes);
 
