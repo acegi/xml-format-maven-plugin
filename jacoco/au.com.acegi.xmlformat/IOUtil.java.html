@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IOUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">XML Format Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">au.com.acegi.xmlformat</a> &gt; <span class="el_source">IOUtil.java</span></div><h1>IOUtil.java</h1><pre class="source lang-java linenums">package au.com.acegi.xmlformat;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IOUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">XML Format Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">au.com.acegi.xmlformat</a> &gt; <span class="el_source">IOUtil.java</span></div><h1>IOUtil.java</h1><pre class="source lang-java linenums">/*-
+ * #%L
+ * XML Format Maven Plugin
+ * %%
+ * Copyright (C) 2011 - 2016 Acegi Technology Pty Limited
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+package au.com.acegi.xmlformat;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,8 +28,13 @@ import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.Checksum;
 
-@SuppressWarnings(&quot;UtilityClassWithoutPrivateConstructor&quot;)
-<span class="nc" id="L12">final class IOUtil {</span>
+/**
+ * Utility methods for dealing with I/O resources.
+ */
+final class IOUtil {
+
+<span class="nc" id="L36">  private IOUtil() {</span>
+<span class="nc" id="L37">  }</span>
 
   /**
    * Returns a CRC32 of the provided input stream.
@@ -19,12 +44,13 @@ import java.util.zip.Checksum;
    * @throws IOException if unable to read the input stream
    */
   static long hash(final InputStream in) throws IOException {
-<span class="fc" id="L22">    Checksum cksum = new CRC32();</span>
-<span class="fc" id="L23">    CheckedInputStream is = new CheckedInputStream(in, cksum);</span>
-<span class="fc" id="L24">    byte[] buff = new byte[4_096];</span>
-<span class="fc bfc" id="L25" title="All 2 branches covered.">    while (is.read(buff) &gt;= 0) {</span>
+<span class="fc" id="L47">    final Checksum cksum = new CRC32();</span>
+<span class="fc" id="L48">    final CheckedInputStream is = new CheckedInputStream(in, cksum);</span>
+<span class="fc" id="L49">    final byte[] buff = new byte[4_096];</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    while (is.read(buff) &gt;= 0) {</span>
+      // CheckInputStream will update its internal checksum
     }
-<span class="fc" id="L27">    return is.getChecksum().getValue();</span>
+<span class="fc" id="L53">    return is.getChecksum().getValue();</span>
   }
 
   /**
@@ -35,9 +61,10 @@ import java.util.zip.Checksum;
    * @throws IOException if unable to read the file
    */
   static long hash(final File file) throws IOException {
-<span class="pc" id="L38">    try (FileInputStream fis = new FileInputStream(file);) {</span>
-<span class="fc" id="L39">      return hash(fis);</span>
-<span class="pc bpc" id="L40" title="6 of 8 branches missed.">    }</span>
+<span class="pc" id="L64">    try (FileInputStream fis = new FileInputStream(file);) {</span>
+<span class="fc" id="L65">      return hash(fis);</span>
+<span class="pc bpc" id="L66" title="6 of 8 branches missed.">    }</span>
   }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
