@@ -13,6 +13,6 @@ script:
   - mvn -B -Pdeploy -Dgpg.skip=true verify
 after_success:
   - if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then bash <(curl -s https://codecov.io/bash); fi
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then echo $GPG_KEY | base64 -d | gpg --batch --fast-import -; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then echo $GPG_KEY | base64 --decode | gpg --batch --fast-import -; fi
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then mvn -B -Pdeploy --settings .travis-settings.xml deploy; fi
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" != "" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then mvn -B -Pdeploy --settings .travis-settings.xml site-deploy; fi
