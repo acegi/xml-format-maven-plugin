@@ -8,7 +8,7 @@ jdk:
 email:
   - ben.alex@acegi.com.au
 install:
-  - mvn -B -Pdeploy -V dependency:go-offline
+  - mvn -B -Pdeploy -DexcludeGroupIds=com.github.github -V dependency:go-offline
 script:
   - mvn -B -Pdeploy -Dgpg.skip=true verify
 after_success:
