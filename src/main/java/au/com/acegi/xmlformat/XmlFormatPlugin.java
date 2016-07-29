@@ -131,6 +131,12 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private boolean padText;
 
   /**
+   * Skip XML formatting.
+   */
+  @Parameter(property = "xml-format.skip", defaultValue = "false")
+  private boolean skip;
+
+  /**
    * Whether or not to suppress the XML declaration.
    */
   @Parameter(property = "suppressDeclaration", defaultValue = "false")
@@ -161,6 +167,11 @@ public final class XmlFormatPlugin extends AbstractMojo {
     assert targetDirectory != null;
     assert includes != null && includes.length > 0;
     assert excludes != null;
+
+    if (skip) {
+      getLog().info("[xml-format] Skipped");
+      return;
+    }
 
     final OutputFormat fmt = buildFormatter();
 
@@ -197,6 +208,10 @@ public final class XmlFormatPlugin extends AbstractMojo {
 
   void setIncludes(final String... includes) {
     this.includes = includes == null ? null : copyOf(includes, includes.length);
+  }
+
+  void setSkip(final boolean skip) {
+    this.skip = skip;
   }
 
   void setTargetDirectory(final File targetDirectory) {

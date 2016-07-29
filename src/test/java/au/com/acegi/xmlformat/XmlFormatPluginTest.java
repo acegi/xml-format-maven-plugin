@@ -140,4 +140,25 @@ public final class XmlFormatPluginTest {
     assertThat(fileToString(noChange), is(NO_CHG_TXT));
     assertThat(fileToString(error), is(ERR_TXT));
   }
+
+  @Test
+  public void pluginSkip() throws MojoExecutionException, MojoFailureException {
+    final XmlFormatPlugin plugin = new XmlFormatPlugin();
+    plugin.setLog(log);
+    plugin.setSkip(true);
+    when(log.isDebugEnabled()).thenReturn(true);
+    when(log.isInfoEnabled()).thenReturn(true);
+    when(log.isErrorEnabled()).thenReturn(true);
+
+    plugin.setBaseDirectory(proj);
+    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
+    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setTargetDirectory(target);
+
+    plugin.execute();
+
+    verify(log, atLeastOnce()).info("[xml-format] Skipped");
+
+    assertThat(fileToString(toChange), is(TO_CHG_TXT));
+  }
 }
