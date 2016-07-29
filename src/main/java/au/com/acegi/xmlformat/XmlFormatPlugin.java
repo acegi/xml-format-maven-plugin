@@ -30,7 +30,7 @@ import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.VERIFY;
+import static org.apache.maven.plugins.annotations.LifecyclePhase.PREPARE_PACKAGE;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
@@ -41,7 +41,7 @@ import static org.dom4j.io.OutputFormat.createPrettyPrint;
 /**
  * Finds the XML files in a project and automatically reformats them.
  */
-@Mojo(name = "xml-format", defaultPhase = VERIFY)
+@Mojo(name = "xml-format", defaultPhase = PREPARE_PACKAGE)
 @SuppressWarnings("PMD.TooManyFields")
 public final class XmlFormatPlugin extends AbstractMojo {
 
@@ -148,6 +148,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
    */
   @Parameter(property = "trimText", defaultValue = "true")
   private boolean trimText;
+
   /**
    * Whether or not to use XHTML standard.
    */
