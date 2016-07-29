@@ -1,5 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
 XML Format Maven Plugin,au.com.acegi.xmlformat,HelpMojo,905,0,110,0,157,0,71,0,16,0
-XML Format Maven Plugin,au.com.acegi.xmlformat,XmlFormatPlugin,22,264,13,21,0,59,13,13,0,9
+XML Format Maven Plugin,au.com.acegi.xmlformat,XmlFormatPlugin,22,276,13,23,0,64,13,15,0,10
 XML Format Maven Plugin,au.com.acegi.xmlformat,IOUtil,33,40,6,4,2,8,5,3,1,2
 XML Format Maven Plugin,au.com.acegi.xmlformat,FormatUtil,33,129,8,12,2,23,9,5,1,3
