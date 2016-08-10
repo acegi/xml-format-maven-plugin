@@ -9,3 +9,9 @@
 
 Take a look at the [Project Web Site](https://acegi.github.io/xml-format-maven-plugin/)
 for full information.
+
+## Snapshots
+
+Travis CI automatically publishes snapshot releases to the
+[OSS Sonatype Snapshots Repository](https://oss.sonatype.org/content/repositories/snapshots/au/com/acegi/xml-format-maven-plugin).
+
