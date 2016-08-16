@@ -22,11 +22,15 @@ package au.com.acegi.xmlformat;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.Writer;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -55,7 +59,7 @@ final class TestUtil {
 
   static String streamToString(final InputStream in) {
     final StringWriter sw = new StringWriter();
-    final InputStreamReader reader = new InputStreamReader(in);
+    final InputStreamReader reader = new InputStreamReader(in, UTF_8);
     final char[] buffer = new char[4_096];
     int n = 0;
     try {
@@ -69,7 +73,8 @@ final class TestUtil {
   }
 
   static void stringToFile(final String msg, final File out) {
-    try (final FileWriter writer = new FileWriter(out)) {
+    try (final OutputStream fos = new FileOutputStream(out);
+         final Writer writer = new OutputStreamWriter(fos, UTF_8)) {
       writer.append(msg);
     } catch (final IOException ex) {
       throw new IllegalStateException(ex);

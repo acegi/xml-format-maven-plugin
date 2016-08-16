@@ -68,7 +68,7 @@ public final class XmlFormatPluginTest {
   public void before() throws IOException {
     proj = tmp.newFolder();
     target = new File(proj, "target");
-    target.mkdir();
+    assertThat(target.mkdir(), is(true));
 
     toChange = new File(proj, "my.xml");
     stringToFile(TO_CHG_TXT, toChange);
