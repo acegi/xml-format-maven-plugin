@@ -14,4 +14,3 @@ for full information.
 
 Travis CI automatically publishes snapshot releases to the
 [OSS Sonatype Snapshots Repository](https://oss.sonatype.org/content/repositories/snapshots/au/com/acegi/xml-format-maven-plugin).
-
