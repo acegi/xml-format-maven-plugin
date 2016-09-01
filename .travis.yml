@@ -8,9 +8,9 @@ jdk:
 email:
   - ben.alex@acegi.com.au
 install:
-  - mvn -B -Pdeploy -DexcludeGroupIds=com.github.github -V dependency:go-offline
+  - mvn -B -Pdeploy --settings .travis-settings.xml -DexcludeGroupIds=com.github.github -V dependency:go-offline
 script:
-  - mvn -B -Pdeploy -Dgpg.skip=true verify
+  - mvn -B -Pdeploy --settings .travis-settings.xml -Dgpg.skip=true verify
 after_success:
   - if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then bash <(curl -s https://codecov.io/bash); fi
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then echo $GPG_KEY | base64 --decode | gpg --batch --fast-import -; fi
