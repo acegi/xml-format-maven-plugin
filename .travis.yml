@@ -10,7 +10,8 @@ email:
 install:
   - mvn -B -Pdeploy --settings .travis-settings.xml -DexcludeGroupIds=com.github.github -V dependency:go-offline
 script:
-  - mvn -B -Pdeploy --settings .travis-settings.xml -Dgpg.skip=true verify
+  - if [ "$TRAVIS_JDK_VERSION" != "oraclejdk8" ]; then mvn -B -Pdeploy --settings .travis-settings.xml -Dgpg.skip=true test; fi
+  - if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then mvn -B -Pdeploy --settings .travis-settings.xml -Dgpg.skip=true verify; fi
 after_success:
   - if [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then bash <(curl -s https://codecov.io/bash); fi
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ] && [ "$TRAVIS_JDK_VERSION" == "oraclejdk8" ]; then echo $GPG_KEY | base64 --decode | gpg --batch --fast-import -; fi
