@@ -90,8 +90,8 @@ final class FormatUtil {
     final File tmpFile = createTempFile(TMP_FILE_PREFIX, ".xml");
     tmpFile.deleteOnExit();
 
-    try (final FileInputStream inputFis = new FileInputStream(file);
-         final FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {
+    try (FileInputStream inputFis = new FileInputStream(file);
+         FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {
       format(inputFis, tmpOut, fmt);
     }
 

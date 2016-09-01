@@ -44,7 +44,7 @@ final class TestUtil {
   }
 
   static String fileToString(final File in) {
-    try (final InputStream is = new FileInputStream(in);) {
+    try (InputStream is = new FileInputStream(in);) {
       return streamToString(is);
     } catch (final IOException ex) {
       throw new IllegalStateException(ex);
@@ -73,8 +73,8 @@ final class TestUtil {
   }
 
   static void stringToFile(final String msg, final File out) {
-    try (final OutputStream fos = new FileOutputStream(out);
-         final Writer writer = new OutputStreamWriter(fos, UTF_8)) {
+    try (OutputStream fos = new FileOutputStream(out);
+         Writer writer = new OutputStreamWriter(fos, UTF_8)) {
       writer.append(msg);
     } catch (final IOException ex) {
       throw new IllegalStateException(ex);
