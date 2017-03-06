@@ -20,11 +20,26 @@
 
 package au.com.acegi.xmlformat;
 
+/**
+ * Valid line endings for use by {@link XmlFormatPlugin#lineEnding}.
+ */
 public enum LineEnding {
 
+  /**
+   * Use the system default line ending.
+   */
   SYSTEM(),
+  /**
+   * Use the newline character. Typical on Unix and Unix-like systems.
+   */
   LF("\n"),
+  /**
+   * Use the carriage return and new line characters. Typical on Windows.
+   */
   CRLF("\r\n"),
+  /**
+   * Use the carriage return character.
+   */
   CR("\r");
 
   private final String chars;

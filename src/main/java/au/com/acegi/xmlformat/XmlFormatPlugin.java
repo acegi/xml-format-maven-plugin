@@ -92,13 +92,6 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private int indentSize;
 
   /**
-   * New line separator.
-   */
-  @Parameter(property = "lineSeparator", defaultValue = "\n")
-  @SuppressWarnings("PMD.ImmutableField")
-  private String lineSeparator = "\n";
-
-  /**
    * Sets the line-ending of files after formatting. Valid values are:
    * <ul>
    * <li><b>"SYSTEM"</b> - Use line endings of current system</li>
@@ -106,10 +99,24 @@ public final class XmlFormatPlugin extends AbstractMojo {
    * <li><b>"CRLF"</b> - Use DOS and Windows style line endings</li>
    * <li><b>"CR"</b> - Use early Mac style line endings</li>
    * </ul>
+   *
+   * <p>
+   * This property is only used if {@link #lineSeparator} has its default
+   * value. Do not set any value for {@link #lineSeparator}.
    */
   @Parameter(property = "lineEnding", defaultValue = "LF")
   @SuppressWarnings("PMD.ImmutableField")
   private LineEnding lineEnding = LineEnding.LF;
+  /**
+   * New line separator.
+   *
+   * <p>
+   * @deprecated Please do not set this value; use {@link #lineEnding} instead
+   */
+  @Parameter(property = "lineSeparator", defaultValue = "\n")
+  @SuppressWarnings("PMD.ImmutableField")
+  @Deprecated
+  private String lineSeparator = "\n";
 
   /**
    * Whether or not to print new line after the XML declaration.
@@ -249,6 +256,10 @@ public final class XmlFormatPlugin extends AbstractMojo {
     return fmt;
   }
 
+  private String determineLineSeparator() {
+    return "\n".equals(lineSeparator) ? lineEnding.getChars() : lineSeparator;
+  }
+
   private String[] find() {
     final DirectoryScanner dirScanner = new DirectoryScanner();
     dirScanner.setBasedir(baseDirectory);
@@ -263,9 +274,5 @@ public final class XmlFormatPlugin extends AbstractMojo {
 
     dirScanner.scan();
     return dirScanner.getIncludedFiles();
-  }
-
-  private String determineLineSeparator() {
-    return "\n".equals(lineSeparator) ? lineEnding.getChars() : lineSeparator;
   }
 }
