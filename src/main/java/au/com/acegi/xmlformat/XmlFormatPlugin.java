@@ -92,10 +92,30 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private int indentSize;
 
   /**
+   * Sets the line-ending of files after formatting. Valid values are:
+   * <ul>
+   * <li><b>"SYSTEM"</b> - Use line endings of current system</li>
+   * <li><b>"LF"</b> - Use Unix and Mac style line endings</li>
+   * <li><b>"CRLF"</b> - Use DOS and Windows style line endings</li>
+   * <li><b>"CR"</b> - Use early Mac style line endings</li>
+   * </ul>
+   *
+   * <p>
+   * This property is only used if {@link #lineSeparator} has its default
+   * value. Do not set any value for {@link #lineSeparator}.
+   */
+  @Parameter(property = "lineEnding", defaultValue = "LF")
+  @SuppressWarnings("PMD.ImmutableField")
+  private LineEnding lineEnding = LineEnding.LF;
+  /**
    * New line separator.
+   *
+   * <p>
+   * @deprecated Please do not set this value; use {@link #lineEnding} instead
    */
   @Parameter(property = "lineSeparator", defaultValue = "\n")
   @SuppressWarnings("PMD.ImmutableField")
+  @Deprecated
   private String lineSeparator = "\n";
 
   /**
@@ -224,7 +244,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
     fmt.setEncoding(encoding);
     fmt.setExpandEmptyElements(expandEmptyElements);
     fmt.setIndentSize(indentSize);
-    fmt.setLineSeparator(lineSeparator);
+    fmt.setLineSeparator(determineLineSeparator());
     fmt.setNewLineAfterDeclaration(newLineAfterDeclaration);
     fmt.setNewLineAfterNTags(newLineAfterNTags);
     fmt.setNewlines(newlines);
@@ -234,6 +254,10 @@ public final class XmlFormatPlugin extends AbstractMojo {
     fmt.setTrimText(trimText);
     fmt.setXHTML(xhtml);
     return fmt;
+  }
+
+  private String determineLineSeparator() {
+    return "\n".equals(lineSeparator) ? lineEnding.getChars() : lineSeparator;
   }
 
   private String[] find() {
