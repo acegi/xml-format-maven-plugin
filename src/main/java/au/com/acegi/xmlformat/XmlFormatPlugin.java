@@ -20,24 +20,23 @@
 
 package au.com.acegi.xmlformat;
 
-import static au.com.acegi.xmlformat.FormatUtil.*;
-import static java.util.Arrays.*;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.*;
-import static org.dom4j.io.OutputFormat.*;
-
+import static au.com.acegi.xmlformat.FormatUtil.formatInPlace;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import static java.util.Arrays.asList;
+import static java.util.Arrays.copyOf;
 import java.util.List;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import static org.apache.maven.plugins.annotations.LifecyclePhase.PREPARE_PACKAGE;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
+import static org.dom4j.io.OutputFormat.createPrettyPrint;
 
 /**
  * Finds the XML files in a project and automatically reformats them.
