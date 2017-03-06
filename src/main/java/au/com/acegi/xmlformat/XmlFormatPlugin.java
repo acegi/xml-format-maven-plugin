@@ -20,23 +20,24 @@
 
 package au.com.acegi.xmlformat;
 
-import static au.com.acegi.xmlformat.FormatUtil.formatInPlace;
+import static au.com.acegi.xmlformat.FormatUtil.*;
+import static java.util.Arrays.*;
+import static org.apache.maven.plugins.annotations.LifecyclePhase.*;
+import static org.dom4j.io.OutputFormat.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.copyOf;
 import java.util.List;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.PREPARE_PACKAGE;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
-import static org.dom4j.io.OutputFormat.createPrettyPrint;
 
 /**
  * Finds the XML files in a project and automatically reformats them.
@@ -97,6 +98,19 @@ public final class XmlFormatPlugin extends AbstractMojo {
   @Parameter(property = "lineSeparator", defaultValue = "\n")
   @SuppressWarnings("PMD.ImmutableField")
   private String lineSeparator = "\n";
+
+  /**
+   * Sets the line-ending of files after formatting. Valid values are:
+   * <ul>
+   * <li><b>"SYSTEM"</b> - Use line endings of current system</li>
+   * <li><b>"LF"</b> - Use Unix and Mac style line endings</li>
+   * <li><b>"CRLF"</b> - Use DOS and Windows style line endings</li>
+   * <li><b>"CR"</b> - Use early Mac style line endings</li>
+   * </ul>
+   */
+  @Parameter(property = "lineEnding", defaultValue = "LF")
+  @SuppressWarnings("PMD.ImmutableField")
+  private LineEnding lineEnding = LineEnding.LF;
 
   /**
    * Whether or not to print new line after the XML declaration.
@@ -224,7 +238,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
     fmt.setEncoding(encoding);
     fmt.setExpandEmptyElements(expandEmptyElements);
     fmt.setIndentSize(indentSize);
-    fmt.setLineSeparator(lineSeparator);
+    fmt.setLineSeparator(determineLineSeparator());
     fmt.setNewLineAfterDeclaration(newLineAfterDeclaration);
     fmt.setNewLineAfterNTags(newLineAfterNTags);
     fmt.setNewlines(newlines);
@@ -250,5 +264,9 @@ public final class XmlFormatPlugin extends AbstractMojo {
 
     dirScanner.scan();
     return dirScanner.getIncludedFiles();
+  }
+
+  private String determineLineSeparator() {
+    return "\n".equals(lineSeparator) ? lineEnding.getChars() : lineSeparator;
   }
 }
