@@ -22,7 +22,7 @@ package au.com.acegi.xmlformat;
 
 public enum LineEnding {
 
-  SYSTEM_DEFAULT(),
+  SYSTEM(),
   LF("\n"),
   CRLF("\r\n"),
   CR("\r");
