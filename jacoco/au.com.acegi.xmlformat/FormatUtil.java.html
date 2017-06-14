@@ -2,7 +2,7 @@
  * #%L
  * XML Format Maven Plugin
  * %%
- * Copyright (C) 2011 - 2016 Acegi Technology Pty Limited
+ * Copyright (C) 2011 - 2017 Acegi Technology Pty Limited
  * %%
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import static java.nio.file.Files.copy;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -36,16 +37,19 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * Utility methods private to the package.
  */
 final class FormatUtil {
 
-<span class="fc" id="L45">  private static final String TMP_FILE_PREFIX = FormatUtil.class.getSimpleName();</span>
+<span class="fc" id="L49">  private static final String TMP_FILE_PREFIX = FormatUtil.class.getSimpleName();</span>
 
-<span class="nc" id="L47">  private FormatUtil() {</span>
-<span class="nc" id="L48">  }</span>
+<span class="nc" id="L51">  private FormatUtil() {</span>
+<span class="nc" id="L52">  }</span>
 
   /**
    * Ingest an input stream, writing formatted XML to the output stream. The
@@ -62,13 +66,21 @@ final class FormatUtil {
   static void format(final InputStream in, final OutputStream out,
                      final OutputFormat fmt) throws DocumentException,
                                                     IOException {
-<span class="fc" id="L65">    final SAXReader reader = new SAXReader();</span>
-<span class="fc" id="L66">    final Document xmlDoc = reader.read(in);</span>
+<span class="fc" id="L69">    final SAXReader reader = new SAXReader();</span>
+<span class="fc" id="L70">    reader.setEntityResolver(new EntityResolver() {</span>
+      @Override
+      public InputSource resolveEntity(final String publicId,
+                                       final String systemId)
+          throws SAXException, IOException {
+<span class="fc" id="L75">        return new InputSource(new StringReader(&quot;&quot;));</span>
+      }
+    });
+<span class="fc" id="L78">    final Document xmlDoc = reader.read(in);</span>
 
-<span class="fc" id="L68">    final XMLWriter xmlWriter = new XMLWriter(out, fmt);</span>
-<span class="fc" id="L69">    xmlWriter.write(xmlDoc);</span>
-<span class="fc" id="L70">    xmlWriter.flush();</span>
-<span class="fc" id="L71">  }</span>
+<span class="fc" id="L80">    final XMLWriter xmlWriter = new XMLWriter(out, fmt);</span>
+<span class="fc" id="L81">    xmlWriter.write(xmlDoc);</span>
+<span class="fc" id="L82">    xmlWriter.flush();</span>
+<span class="fc" id="L83">  }</span>
 
   /**
    * Formats the input file, overwriting the input file with the new content if
@@ -83,29 +95,29 @@ final class FormatUtil {
   @SuppressWarnings(&quot;checkstyle:returncount&quot;)
   static boolean formatInPlace(final File file, final OutputFormat fmt)
       throws DocumentException, IOException {
-<span class="fc bfc" id="L86" title="All 2 branches covered.">    if (file.length() == 0) {</span>
-<span class="fc" id="L87">      return false;</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">    if (file.length() == 0) {</span>
+<span class="fc" id="L99">      return false;</span>
     }
 
-<span class="fc" id="L90">    final File tmpFile = createTempFile(TMP_FILE_PREFIX, &quot;.xml&quot;);</span>
-<span class="fc" id="L91">    tmpFile.deleteOnExit();</span>
+<span class="fc" id="L102">    final File tmpFile = createTempFile(TMP_FILE_PREFIX, &quot;.xml&quot;);</span>
+<span class="fc" id="L103">    tmpFile.deleteOnExit();</span>
 
-<span class="fc" id="L93">    try (final FileInputStream inputFis = new FileInputStream(file);</span>
-<span class="fc" id="L94">         final FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {</span>
-<span class="fc" id="L95">      format(inputFis, tmpOut, fmt);</span>
-<span class="pc bpc" id="L96" title="8 of 16 branches missed.">    }</span>
+<span class="fc" id="L105">    try (FileInputStream inputFis = new FileInputStream(file);</span>
+<span class="fc" id="L106">         FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {</span>
+<span class="fc" id="L107">      format(inputFis, tmpOut, fmt);</span>
+<span class="pc bpc" id="L108" title="8 of 16 branches missed.">    }</span>
 
-<span class="fc" id="L98">    final long hashFile = hash(file);</span>
-<span class="fc" id="L99">    final long hashTmp = hash(tmpFile);</span>
-<span class="fc bfc" id="L100" title="All 2 branches covered.">    if (hashFile == hashTmp) {</span>
-<span class="fc" id="L101">      return false;</span>
+<span class="fc" id="L110">    final long hashFile = hash(file);</span>
+<span class="fc" id="L111">    final long hashTmp = hash(tmpFile);</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">    if (hashFile == hashTmp) {</span>
+<span class="fc" id="L113">      return false;</span>
     }
 
-<span class="fc" id="L104">    final Path source = tmpFile.toPath();</span>
-<span class="fc" id="L105">    final Path target = file.toPath();</span>
-<span class="fc" id="L106">    copy(source, target, REPLACE_EXISTING);</span>
-<span class="fc" id="L107">    return true;</span>
+<span class="fc" id="L116">    final Path source = tmpFile.toPath();</span>
+<span class="fc" id="L117">    final Path target = file.toPath();</span>
+<span class="fc" id="L118">    copy(source, target, REPLACE_EXISTING);</span>
+<span class="fc" id="L119">    return true;</span>
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

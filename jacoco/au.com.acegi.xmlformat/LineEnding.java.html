@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LineEnding.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">XML Format Maven Plugin</a> &gt; <a href="index.source.html" class="el_package">au.com.acegi.xmlformat</a> &gt; <span class="el_source">LineEnding.java</span></div><h1>LineEnding.java</h1><pre class="source lang-java linenums">/*-
+ * #%L
+ * XML Format Maven Plugin
+ * %%
+ * Copyright (C) 2011 - 2017 Acegi Technology Pty Limited
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
+package au.com.acegi.xmlformat;
+
+/**
+ * Valid line endings for use by {@link XmlFormatPlugin#lineEnding}.
+ */
+<span class="pc" id="L26">public enum LineEnding {</span>
+
+  /**
+   * Use the system default line ending.
+   */
+<span class="fc" id="L31">  SYSTEM(),</span>
+  /**
+   * Use the newline character. Typical on Unix and Unix-like systems.
+   */
+<span class="fc" id="L35">  LF(&quot;\n&quot;),</span>
+  /**
+   * Use the carriage return and new line characters. Typical on Windows.
+   */
+<span class="fc" id="L39">  CRLF(&quot;\r\n&quot;),</span>
+  /**
+   * Use the carriage return character.
+   */
+<span class="fc" id="L43">  CR(&quot;\r&quot;);</span>
+
+  private final String chars;
+
+<span class="fc" id="L47">  LineEnding() {</span>
+<span class="fc" id="L48">    this.chars = System.lineSeparator();</span>
+<span class="fc" id="L49">  }</span>
+
+<span class="fc" id="L51">  LineEnding(final String value) {</span>
+<span class="fc" id="L52">    this.chars = value;</span>
+<span class="fc" id="L53">  }</span>
+
+  public String getChars() {
+<span class="fc" id="L56">    return this.chars;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
