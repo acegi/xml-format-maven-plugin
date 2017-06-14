@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import static java.nio.file.Files.copy;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -36,6 +37,9 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * Utility methods private to the package.
@@ -63,6 +67,14 @@ final class FormatUtil {
                      final OutputFormat fmt) throws DocumentException,
                                                     IOException {
     final SAXReader reader = new SAXReader();
+    reader.setEntityResolver(new EntityResolver() {
+      @Override
+      public InputSource resolveEntity(final String publicId,
+                                       final String systemId)
+          throws SAXException, IOException {
+        return new InputSource(new StringReader(""));
+      }
+    });
     final Document xmlDoc = reader.read(in);
 
     final XMLWriter xmlWriter = new XMLWriter(out, fmt);
