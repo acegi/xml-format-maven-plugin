@@ -3,7 +3,7 @@ cache:
   - $HOME/.m2
 language: java
 jdk:
-  - oraclejdk7
+  - openjdk7
   - oraclejdk8
 email:
   - ben.alex@acegi.com.au
