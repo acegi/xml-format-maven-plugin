@@ -4,6 +4,7 @@ cache:
 language: java
 jdk:
   - openjdk7
+  - openjdk8
   - oraclejdk8
 email:
   - ben.alex@acegi.com.au
