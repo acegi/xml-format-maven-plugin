@@ -70,7 +70,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
    * the formatting. In addition to these exclusions, the project build
    * directory (typically <code>target</code>) is always excluded.
    */
-  @Parameter(property = "excludes", defaultValue = "")
+  @Parameter(property = "excludes")
   private String[] excludes;
 
   /**
@@ -185,7 +185,6 @@ public final class XmlFormatPlugin extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     assert baseDirectory != null;
     assert targetDirectory != null;
-    assert excludes != null;
 
     if (skip) {
       getLog().info("[xml-format] Skipped");
@@ -193,6 +192,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
     }
 
     initializeIncludes();
+    initializeExcludes();
 
     final OutputFormat fmt = buildFormatter();
 
@@ -242,6 +242,12 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private void initializeIncludes() {
     if (includes == null || includes.length == 0) {
       includes = new String[]{"**/*.xml"};
+    }
+  }
+  
+  private void initializeExcludes() {
+    if (excludes == null || excludes.length == 0) {
+      excludes = new String[0];
     }
   }
 
