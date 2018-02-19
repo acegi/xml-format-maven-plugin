@@ -193,7 +193,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
     }
 
     if (includes == null || includes.length == 0) {
-      includes = new String[]{"**/*.xml"};
+        includes = new String[]{ "**/*.xml" };
     }
 
     final OutputFormat fmt = buildFormatter();
