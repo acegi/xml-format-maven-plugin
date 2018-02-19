@@ -82,7 +82,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
    * A set of file patterns that dictate which files should be included in the
    * formatting with each file pattern being relative to the base directory.
    */
-  @Parameter(property = "includes", defaultValue = "**/*.xml")
+  @Parameter(property = "includes")
   private String[] includes;
 
   /**
@@ -185,12 +185,15 @@ public final class XmlFormatPlugin extends AbstractMojo {
   public void execute() throws MojoExecutionException, MojoFailureException {
     assert baseDirectory != null;
     assert targetDirectory != null;
-    assert includes != null && includes.length > 0;
     assert excludes != null;
 
     if (skip) {
       getLog().info("[xml-format] Skipped");
       return;
+    }
+
+    if (includes == null || includes.length == 0) {
+        includes = new String[]{ "**/*.xml" };
     }
 
     final OutputFormat fmt = buildFormatter();
