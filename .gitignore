@@ -10,3 +10,4 @@ bin
 secrets.tar
 gpg-sign.json
 mvn-sync.json
+.mvn/wrapper/maven-wrapper.jar
