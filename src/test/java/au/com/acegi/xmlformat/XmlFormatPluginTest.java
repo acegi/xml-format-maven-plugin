@@ -58,6 +58,7 @@ public final class XmlFormatPluginTest {
   @Rule
   public TemporaryFolder tmp = new TemporaryFolder();
   private File error;
+  @SuppressWarnings("PMD.ProperLogger")
   private Log log;
   private File noChange;
   private File proj;
@@ -115,6 +116,7 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.JUnitUseExpected")
   public void pluginReportsError() throws MojoExecutionException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
@@ -128,7 +130,7 @@ public final class XmlFormatPluginTest {
 
     try {
       plugin.execute();
-      fail("Should have raised exception when handling error"); // NOPMD
+      fail("Should have raised exception when handling error");
     } catch (final MojoFailureException ignored) {
     }
 

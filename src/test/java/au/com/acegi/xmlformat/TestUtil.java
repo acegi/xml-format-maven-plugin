@@ -21,8 +21,6 @@
 package au.com.acegi.xmlformat;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +29,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import java.nio.file.Files;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -44,7 +43,7 @@ final class TestUtil {
   }
 
   static String fileToString(final File in) {
-    try (InputStream is = new FileInputStream(in);) {
+    try (InputStream is = Files.newInputStream(in.toPath())) {
       return streamToString(is);
     } catch (final IOException ex) {
       throw new IllegalStateException(ex);
@@ -57,6 +56,7 @@ final class TestUtil {
     return in;
   }
 
+  @SuppressWarnings("PMD.AssignmentInOperand")
   static String streamToString(final InputStream in) {
     final StringWriter sw = new StringWriter();
     final InputStreamReader reader = new InputStreamReader(in, UTF_8);
@@ -73,7 +73,7 @@ final class TestUtil {
   }
 
   static void stringToFile(final String msg, final File out) {
-    try (OutputStream fos = new FileOutputStream(out);
+    try (OutputStream fos = Files.newOutputStream(out.toPath());
          Writer writer = new OutputStreamWriter(fos, UTF_8)) {
       writer.append(msg);
     } catch (final IOException ex) {

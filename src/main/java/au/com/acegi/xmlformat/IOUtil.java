@@ -21,9 +21,9 @@
 package au.com.acegi.xmlformat;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.Checksum;
@@ -43,6 +43,7 @@ final class IOUtil {
    * @return the CRC32 value
    * @throws IOException if unable to read the input stream
    */
+  @SuppressWarnings("PMD.EmptyWhileStmt")
   static long hash(final InputStream in) throws IOException {
     final Checksum cksum = new CRC32();
     final CheckedInputStream is = new CheckedInputStream(in, cksum);
@@ -61,7 +62,7 @@ final class IOUtil {
    * @throws IOException if unable to read the file
    */
   static long hash(final File file) throws IOException {
-    try (FileInputStream fis = new FileInputStream(file);) {
+    try (InputStream fis = Files.newInputStream(file.toPath())) {
       return hash(fis);
     }
   }

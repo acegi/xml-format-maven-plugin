@@ -42,7 +42,6 @@ import static org.dom4j.io.OutputFormat.createPrettyPrint;
  * Finds the XML files in a project and automatically reformats them.
  */
 @Mojo(name = "xml-format", defaultPhase = PREPARE_PACKAGE)
-@SuppressWarnings("PMD.TooManyFields")
 public final class XmlFormatPlugin extends AbstractMojo {
 
   /**
@@ -182,6 +181,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
   private boolean xhtml;
 
   @Override
+  @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
   public void execute() throws MojoExecutionException, MojoFailureException {
     assert baseDirectory != null;
     assert targetDirectory != null;
@@ -198,7 +198,7 @@ public final class XmlFormatPlugin extends AbstractMojo {
 
     boolean success = true;
     for (final String inputName : find()) {
-      final File input = new File(baseDirectory, inputName); // NOPMD
+      final File input = new File(baseDirectory, inputName);
       final boolean changed;
       try {
         changed = formatInPlace(input, fmt);

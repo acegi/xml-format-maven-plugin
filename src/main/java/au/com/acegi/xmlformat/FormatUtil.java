@@ -23,12 +23,11 @@ package au.com.acegi.xmlformat;
 import static au.com.acegi.xmlformat.IOUtil.hash;
 import java.io.File;
 import static java.io.File.createTempFile;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.nio.file.Files;
 import static java.nio.file.Files.copy;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -102,9 +101,9 @@ final class FormatUtil {
     final File tmpFile = createTempFile(TMP_FILE_PREFIX, ".xml");
     tmpFile.deleteOnExit();
 
-    try (FileInputStream inputFis = new FileInputStream(file);
-         FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {
-      format(inputFis, tmpOut, fmt);
+    try (InputStream in = Files.newInputStream(file.toPath());
+         OutputStream out = Files.newOutputStream(tmpFile.toPath())) {
+      format(in, out, fmt);
     }
 
     final long hashFile = hash(file);
