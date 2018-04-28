@@ -238,18 +238,6 @@ public final class XmlFormatPlugin extends AbstractMojo {
   void setTargetDirectory(final File targetDirectory) {
     this.targetDirectory = targetDirectory;
   }
-  
-  private void initializeIncludes() {
-    if (includes == null || includes.length == 0) {
-      includes = new String[]{"**/*.xml"};
-    }
-  }
-  
-  private void initializeExcludes() {
-    if (excludes == null || excludes.length == 0) {
-      excludes = new String[0];
-    }
-  }
 
   private OutputFormat buildFormatter() {
     final OutputFormat fmt = createPrettyPrint();
@@ -287,5 +275,17 @@ public final class XmlFormatPlugin extends AbstractMojo {
 
     dirScanner.scan();
     return dirScanner.getIncludedFiles();
+  }
+
+  private void initializeExcludes() {
+    if (excludes == null || excludes.length == 0) {
+      excludes = new String[0];
+    }
+  }
+
+  private void initializeIncludes() {
+    if (includes == null || includes.length == 0) {
+      includes = new String[]{"**/*.xml"};
+    }
   }
 }
