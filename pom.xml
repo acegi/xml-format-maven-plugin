@@ -63,7 +63,7 @@
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
     </dependency>
-    <!-- Note Dom4J 2.1.0 requires Java 8 -->
+    <!-- Requires https://github.com/acegi/xml-format-maven-plugin/issues/20 -->
     <dependency>
       <groupId>org.dom4j</groupId>
       <artifactId>dom4j</artifactId>
