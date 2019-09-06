@@ -27,3 +27,35 @@ during any `verify` phase. You can select a different phase by adding a
 
 Please see the [xml-format:xml-format](xml-format-mojo.html) page for the
 available configuration options.
+
+You can also configure the plugin to just check formatting, without applying
+any changes. It will just fail the build if any file doesn't respect the
+conventions. This is mainly useful for CI, to make sure everyone has checked in
+formatted files.
+
+```
+<plugin>
+  <groupId>${project.groupId}</groupId>
+  <artifactId>${project.artifactId}</artifactId>
+  <version>${project.version}</version>
+  <executions>
+    <execution>
+      <id>xml-format</id>
+      <goals>
+        <goal>xml-check</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <!-- configure your formatting preferences here (see link above) -->
+    <indentSize>2</indentSize>
+  </configuration>
+</plugin>
+```
+
+Note that we defined the configuration globally for the plugin, outside of the
+execution. This allows you to format the files manually from the command line:
+
+```
+mvn xml-format:xml-format
+```
