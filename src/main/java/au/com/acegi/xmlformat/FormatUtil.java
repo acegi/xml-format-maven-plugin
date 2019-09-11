@@ -118,4 +118,33 @@ final class FormatUtil {
     return true;
   }
 
+  /**
+   * Only checks if the input file would be modified by the formatter, without
+   * overwriting it.
+   *
+   * @param file to read
+   * @param fmt  format configuration to apply
+   * @return true if the file would be modified by the formatter
+   * @throws DocumentException if input XML could not be parsed
+   * @throws IOException       if output XML stream could not be written
+   */
+  @SuppressWarnings("checkstyle:returncount")
+  static boolean needsFormatting(final File file, final OutputFormat fmt)
+      throws DocumentException, IOException {
+    if (file.length() == 0) {
+      return false;
+    }
+
+    final File tmpFile = createTempFile(TMP_FILE_PREFIX, ".xml");
+    tmpFile.deleteOnExit();
+
+    try (InputStream in = Files.newInputStream(file.toPath());
+        OutputStream out = Files.newOutputStream(tmpFile.toPath())) {
+      format(in, out, fmt);
+    }
+
+    final long hashFile = hash(file);
+    final long hashTmp = hash(tmpFile);
+    return hashFile != hashTmp;
+  }
 }
