@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20191022" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>XML Format Maven Plugin &#x2013; xml-format:xml-format</title>
+    <title>XML Format Maven Plugin &#x2013; xml-format:xml-check</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.6.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -119,15 +119,17 @@
 
   
     <section>
-<h2><a name="xml-format:xml-format"></a>xml-format:xml-format</h2>
+<h2><a name="xml-format:xml-check"></a>xml-format:xml-check</h2>
       
 <p><b>Full name</b>:</p>
       
-<p>au.com.acegi:xml-format-maven-plugin:3.1.2-SNAPSHOT:xml-format</p>
+<p>au.com.acegi:xml-format-maven-plugin:3.1.2-SNAPSHOT:xml-check</p>
       
 <p><b>Description</b>:</p>
       
-<div>Finds the XML files in a project and automatically reformats them.</div>
+<div>Finds the XML files in a project and only check them: no files are
+changed, but the build will fail if any file does not follow the
+formatting conventions.</div>
       
 <p><b>Attributes</b>:</p>
       
@@ -135,7 +137,7 @@
         
 <li>Requires a Maven project to be executed.</li>
         
-<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: prepare-package.</li>
+<li>Binds by default to the <a class="externalLink" href="http://maven.apache.org/ref/current/maven-core/lifecycles.html">lifecycle phase</a>: process-sources.</li>
       </ul>
       <section>
 <h3><a name="Optional_Parameters"></a>Optional Parameters</h3>

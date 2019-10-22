@@ -2,7 +2,7 @@
  * #%L
  * XML Format Maven Plugin
  * %%
- * Copyright (C) 2011 - 2018 Acegi Technology Pty Limited
+ * Copyright (C) 2011 - 2019 Acegi Technology Pty Limited
  * %%
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,11 @@ package au.com.acegi.xmlformat;
 import static au.com.acegi.xmlformat.IOUtil.hash;
 import java.io.File;
 import static java.io.File.createTempFile;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.nio.file.Files;
 import static java.nio.file.Files.copy;
 import java.nio.file.Path;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -46,10 +45,10 @@ import org.xml.sax.SAXException;
  */
 final class FormatUtil {
 
-<span class="fc" id="L49">  private static final String TMP_FILE_PREFIX = FormatUtil.class.getSimpleName();</span>
+<span class="fc" id="L48">  private static final String TMP_FILE_PREFIX = FormatUtil.class.getSimpleName();</span>
 
-<span class="nc" id="L51">  private FormatUtil() {</span>
-<span class="nc" id="L52">  }</span>
+  private FormatUtil() {
+  }
 
   /**
    * Ingest an input stream, writing formatted XML to the output stream. The
@@ -66,21 +65,21 @@ final class FormatUtil {
   static void format(final InputStream in, final OutputStream out,
                      final OutputFormat fmt) throws DocumentException,
                                                     IOException {
-<span class="fc" id="L69">    final SAXReader reader = new SAXReader();</span>
-<span class="fc" id="L70">    reader.setEntityResolver(new EntityResolver() {</span>
+<span class="fc" id="L68">    final SAXReader reader = new SAXReader();</span>
+<span class="fc" id="L69">    reader.setEntityResolver(new EntityResolver() {</span>
       @Override
       public InputSource resolveEntity(final String publicId,
                                        final String systemId)
           throws SAXException, IOException {
-<span class="fc" id="L75">        return new InputSource(new StringReader(&quot;&quot;));</span>
+<span class="fc" id="L74">        return new InputSource(new StringReader(&quot;&quot;));</span>
       }
     });
-<span class="fc" id="L78">    final Document xmlDoc = reader.read(in);</span>
+<span class="fc" id="L77">    final Document xmlDoc = reader.read(in);</span>
 
-<span class="fc" id="L80">    final XMLWriter xmlWriter = new XMLWriter(out, fmt);</span>
-<span class="fc" id="L81">    xmlWriter.write(xmlDoc);</span>
-<span class="fc" id="L82">    xmlWriter.flush();</span>
-<span class="fc" id="L83">  }</span>
+<span class="fc" id="L79">    final XMLWriter xmlWriter = new XMLWriter(out, fmt);</span>
+<span class="fc" id="L80">    xmlWriter.write(xmlDoc);</span>
+<span class="fc" id="L81">    xmlWriter.flush();</span>
+<span class="fc" id="L82">  }</span>
 
   /**
    * Formats the input file, overwriting the input file with the new content if
@@ -95,29 +94,58 @@ final class FormatUtil {
   @SuppressWarnings(&quot;checkstyle:returncount&quot;)
   static boolean formatInPlace(final File file, final OutputFormat fmt)
       throws DocumentException, IOException {
-<span class="fc bfc" id="L98" title="All 2 branches covered.">    if (file.length() == 0) {</span>
-<span class="fc" id="L99">      return false;</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">    if (file.length() == 0) {</span>
+<span class="fc" id="L98">      return false;</span>
     }
 
-<span class="fc" id="L102">    final File tmpFile = createTempFile(TMP_FILE_PREFIX, &quot;.xml&quot;);</span>
-<span class="fc" id="L103">    tmpFile.deleteOnExit();</span>
+<span class="fc" id="L101">    final File tmpFile = createTempFile(TMP_FILE_PREFIX, &quot;.xml&quot;);</span>
+<span class="fc" id="L102">    tmpFile.deleteOnExit();</span>
 
-<span class="fc" id="L105">    try (FileInputStream inputFis = new FileInputStream(file);</span>
-<span class="fc" id="L106">         FileOutputStream tmpOut = new FileOutputStream(tmpFile)) {</span>
-<span class="fc" id="L107">      format(inputFis, tmpOut, fmt);</span>
-<span class="pc bpc" id="L108" title="8 of 16 branches missed.">    }</span>
-
-<span class="fc" id="L110">    final long hashFile = hash(file);</span>
-<span class="fc" id="L111">    final long hashTmp = hash(tmpFile);</span>
-<span class="fc bfc" id="L112" title="All 2 branches covered.">    if (hashFile == hashTmp) {</span>
-<span class="fc" id="L113">      return false;</span>
+<span class="fc" id="L104">    try (InputStream in = Files.newInputStream(file.toPath());</span>
+<span class="fc" id="L105">         OutputStream out = Files.newOutputStream(tmpFile.toPath())) {</span>
+<span class="fc" id="L106">      format(in, out, fmt);</span>
     }
 
-<span class="fc" id="L116">    final Path source = tmpFile.toPath();</span>
-<span class="fc" id="L117">    final Path target = file.toPath();</span>
-<span class="fc" id="L118">    copy(source, target, REPLACE_EXISTING);</span>
-<span class="fc" id="L119">    return true;</span>
+<span class="fc" id="L109">    final long hashFile = hash(file);</span>
+<span class="fc" id="L110">    final long hashTmp = hash(tmpFile);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">    if (hashFile == hashTmp) {</span>
+<span class="fc" id="L112">      return false;</span>
+    }
+
+<span class="fc" id="L115">    final Path source = tmpFile.toPath();</span>
+<span class="fc" id="L116">    final Path target = file.toPath();</span>
+<span class="fc" id="L117">    copy(source, target, REPLACE_EXISTING);</span>
+<span class="fc" id="L118">    return true;</span>
   }
 
+  /**
+   * Only checks if the input file would be modified by the formatter, without
+   * overwriting it.
+   *
+   * @param file to read
+   * @param fmt  format configuration to apply
+   * @return true if the file would be modified by the formatter
+   * @throws DocumentException if input XML could not be parsed
+   * @throws IOException       if output XML stream could not be written
+   */
+  @SuppressWarnings(&quot;checkstyle:returncount&quot;)
+  static boolean needsFormatting(final File file, final OutputFormat fmt)
+      throws DocumentException, IOException {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">    if (file.length() == 0) {</span>
+<span class="fc" id="L135">      return false;</span>
+    }
+
+<span class="fc" id="L138">    final File tmpFile = createTempFile(TMP_FILE_PREFIX, &quot;.xml&quot;);</span>
+<span class="fc" id="L139">    tmpFile.deleteOnExit();</span>
+
+<span class="fc" id="L141">    try (InputStream in = Files.newInputStream(file.toPath());</span>
+<span class="fc" id="L142">        OutputStream out = Files.newOutputStream(tmpFile.toPath())) {</span>
+<span class="fc" id="L143">      format(in, out, fmt);</span>
+    }
+
+<span class="fc" id="L146">    final long hashFile = hash(file);</span>
+<span class="fc" id="L147">    final long hashTmp = hash(tmpFile);</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">    return hashFile != hashTmp;</span>
+  }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

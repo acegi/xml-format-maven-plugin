@@ -2,7 +2,7 @@
  * #%L
  * XML Format Maven Plugin
  * %%
- * Copyright (C) 2011 - 2018 Acegi Technology Pty Limited
+ * Copyright (C) 2011 - 2019 Acegi Technology Pty Limited
  * %%
  * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@
 package au.com.acegi.xmlformat;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.Checksum;
@@ -33,8 +33,8 @@ import java.util.zip.Checksum;
  */
 final class IOUtil {
 
-<span class="nc" id="L36">  private IOUtil() {</span>
-<span class="nc" id="L37">  }</span>
+  private IOUtil() {
+  }
 
   /**
    * Returns a CRC32 of the provided input stream.
@@ -43,14 +43,15 @@ final class IOUtil {
    * @return the CRC32 value
    * @throws IOException if unable to read the input stream
    */
+  @SuppressWarnings(&quot;PMD.EmptyWhileStmt&quot;)
   static long hash(final InputStream in) throws IOException {
-<span class="fc" id="L47">    final Checksum cksum = new CRC32();</span>
-<span class="fc" id="L48">    final CheckedInputStream is = new CheckedInputStream(in, cksum);</span>
-<span class="fc" id="L49">    final byte[] buff = new byte[4_096];</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">    while (is.read(buff) &gt;= 0) {</span>
+<span class="fc" id="L48">    final Checksum cksum = new CRC32();</span>
+<span class="fc" id="L49">    final CheckedInputStream is = new CheckedInputStream(in, cksum);</span>
+<span class="fc" id="L50">    final byte[] buff = new byte[4_096];</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">    while (is.read(buff) &gt;= 0) {</span>
       // CheckInputStream will update its internal checksum
     }
-<span class="fc" id="L53">    return is.getChecksum().getValue();</span>
+<span class="fc" id="L54">    return is.getChecksum().getValue();</span>
   }
 
   /**
@@ -61,10 +62,10 @@ final class IOUtil {
    * @throws IOException if unable to read the file
    */
   static long hash(final File file) throws IOException {
-<span class="pc" id="L64">    try (FileInputStream fis = new FileInputStream(file);) {</span>
-<span class="fc" id="L65">      return hash(fis);</span>
-<span class="pc bpc" id="L66" title="6 of 8 branches missed.">    }</span>
+<span class="fc" id="L65">    try (InputStream fis = Files.newInputStream(file.toPath())) {</span>
+<span class="fc" id="L66">      return hash(fis);</span>
+    }
   }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
