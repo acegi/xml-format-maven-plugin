@@ -85,8 +85,12 @@ public final class FormatUtilTest {
   @Test(expected = DocumentException.class)
   public void testInvalid() throws DocumentException, IOException {
     final InputStream in = getResource("/invalid.xml");
-    final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    format(in, out, createPrettyPrint());
+    try {
+      final ByteArrayOutputStream out = new ByteArrayOutputStream();
+      format(in, out, createPrettyPrint());
+    } finally {
+      in.close();
+    }
   }
 
   @Test
@@ -111,13 +115,17 @@ public final class FormatUtilTest {
   private void testInOut(final int id, final OutputFormat fmt) throws
       DocumentException, IOException {
     final InputStream in = getResource("/test" + id + "-in.xml");
-    final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    format(in, out, fmt);
+    try {
+      final ByteArrayOutputStream out = new ByteArrayOutputStream();
+      format(in, out, fmt);
 
-    final String received = new String(out.toByteArray(), UTF_8);
-    final String expected = streamToString(
-        getResource("/test" + id + "-out.xml"));
-    assertThat(received, is(expected));
+      final String received = new String(out.toByteArray(), UTF_8);
+      final String expected = streamToString(
+          getResource("/test" + id + "-out.xml"));
+      assertThat(received, is(expected));
+    } finally {
+      in.close();
+    }
   }
 
 }
