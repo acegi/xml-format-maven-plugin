@@ -32,6 +32,7 @@
     <github.repo>xml-format-maven-plugin</github.repo>
     <license.licenseName>apache_v2</license.licenseName>
     <license.excludes>**/test*.xml,**/invalid.xml</license.excludes>
+    <spotbugs.skip>true</spotbugs.skip>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <maven.enforcer.java>1.7</maven.enforcer.java>
