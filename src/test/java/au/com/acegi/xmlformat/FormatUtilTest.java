@@ -2,7 +2,7 @@
  * #%L
  * XML Format Maven Plugin
  * %%
- * Copyright (C) 2011 - 2019 Acegi Technology Pty Limited
+ * Copyright (C) 2011 - 2020 Acegi Technology Pty Limited
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,7 +86,6 @@ public final class FormatUtilTest {
   public void test4() throws DocumentException, IOException {
     final OutputFormat fmt = createPrettyPrint();
     fmt.setIndent("\t");
-    fmt.setIndentSize(1);
     fmt.setNewLineAfterDeclaration(false);
     fmt.setPadText(false);
     testInOut(4, fmt);
