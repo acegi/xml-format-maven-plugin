@@ -2,7 +2,7 @@
  * #%L
  * XML Format Maven Plugin
  * %%
- * Copyright (C) 2011 - 2019 Acegi Technology Pty Limited
+ * Copyright (C) 2011 - 2020 Acegi Technology Pty Limited
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,10 +83,17 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private String[] includes;
 
   /**
-   * Indicates the number of spaces to apply when indenting.
+   * Indicates the number of spaces to apply when indenting. 
    */
   @Parameter(property = "indentSize", defaultValue = "2")
   private int indentSize;
+
+  /**
+   * Use tabs instead of spaces for indents.
+   * If set to <code>true</code>, <code>indentSize</code> will be ignored.
+   */
+  @Parameter(property = "tabIndent", defaultValue = "false")
+  private boolean tabIndent;
 
   /**
    * Sets the line-ending of files after formatting. Valid values are:
@@ -259,7 +266,11 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     fmt.setAttributeQuoteCharacter(attributeQuoteChar);
     fmt.setEncoding(encoding);
     fmt.setExpandEmptyElements(expandEmptyElements);
-    fmt.setIndentSize(indentSize);
+    if (tabIndent) {
+      fmt.setIndent("\t");
+    } else {
+      fmt.setIndentSize(indentSize);
+    }
     fmt.setLineSeparator(determineLineSeparator());
     fmt.setNewLineAfterDeclaration(newLineAfterDeclaration);
     fmt.setNewLineAfterNTags(newLineAfterNTags);
