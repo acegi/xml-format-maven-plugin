@@ -89,6 +89,12 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private int indentSize;
 
   /**
+   * Use tabs instead of spaces for indents.
+   */
+  @Parameter(property = "tabIndent", defaultValue = "false")
+  private boolean tabIndent;
+
+  /**
    * Sets the line-ending of files after formatting. Valid values are:
    * <ul>
    * <li><b>"SYSTEM"</b> - Use line endings of current system</li>
@@ -259,6 +265,9 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     fmt.setAttributeQuoteCharacter(attributeQuoteChar);
     fmt.setEncoding(encoding);
     fmt.setExpandEmptyElements(expandEmptyElements);
+    if (tabIndent) {
+      fmt.setIndent("\t");
+    }
     fmt.setIndentSize(indentSize);
     fmt.setLineSeparator(determineLineSeparator());
     fmt.setNewLineAfterDeclaration(newLineAfterDeclaration);
