@@ -33,7 +33,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
-
 import static org.dom4j.io.OutputFormat.createPrettyPrint;
 
 /**
