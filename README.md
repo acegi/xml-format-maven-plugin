@@ -1,4 +1,4 @@
-![Maven Build and Deployment](https://github.com/acegi/xml-format-maven-plugin/workflows/Maven%20Build%20and%20Deployment/badge.svg)
+[![Maven Build and Deployment](https://github.com/acegi/xml-format-maven-plugin/workflows/Maven%20Build%20and%20Deployment/badge.svg)](https://github.com/acegi/xml-format-maven-plugin/actions)
 [![Coverage Status](https://codecov.io/gh/acegi/xml-format-maven-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/acegi/xml-format-maven-plugin)
 [![Javadocs](http://www.javadoc.io/badge/au.com.acegi/xml-format-maven-plugin.svg)](http://www.javadoc.io/doc/au.com.acegi/xml-format-maven-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/au.com.acegi/xml-format-maven-plugin.svg?maxAge=3600)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22au.com.acegi%22%20AND%20a%3A%22xml-format-maven-plugin%22)
