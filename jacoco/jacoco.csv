@@ -1,9 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-XML Format Maven Plugin,au.com.acegi.xmlformat,HelpMojo,893,0,110,0,159,0,71,0,16,0
-XML Format Maven Plugin,au.com.acegi.xmlformat,AbstractXmlPlugin,24,280,12,20,1,68,12,17,0,13
-XML Format Maven Plugin,au.com.acegi.xmlformat,XmlCheckPlugin,0,49,2,6,0,11,2,5,0,3
-XML Format Maven Plugin,au.com.acegi.xmlformat,XmlFormatPlugin,0,35,0,4,0,7,0,5,0,3
-XML Format Maven Plugin,au.com.acegi.xmlformat,IOUtil,0,33,0,2,0,7,0,3,0,2
-XML Format Maven Plugin,au.com.acegi.xmlformat,FormatUtil,1,130,1,7,0,33,1,7,0,4
-XML Format Maven Plugin,au.com.acegi.xmlformat,LineEnding,0,66,0,0,0,12,0,4,0,4
-XML Format Maven Plugin,au.com.acegi.xmlformat,FormatUtil.new EntityResolver() {...},0,11,0,0,0,2,0,2,0,2
