@@ -19,8 +19,9 @@ from scratch. The plugin was rewritten to use the latest Dom4j support, newest
 Maven plugin dependencies (farewell doclets!), higher component cohesion to
 facilitate isolated tests, actual unit tests with mocks to ensure the plugin
 won't damage complex XML files, deeper customisation options, and integration
-with modern open source services such as GitHub, Maven Central and Travis. The
-major version number was bumped up to 3.0.0 to reflect this rewrite.
+with modern open source services such as GitHub (including GitHub Actions),
+Codecov and Maven Central. The major version number was bumped up to 3.0.0 to
+reflect this rewrite.
 
 Like to make an improvement? Feel free! Just click the "Fork me on GitHub"
 ribbon above and send us a pull request.
