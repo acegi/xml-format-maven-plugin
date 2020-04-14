@@ -32,8 +32,36 @@ jobs:
     - name: Upload code coverage to Codecov
       uses: codecov/codecov-action@v1
 
+  compatibility-checks:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java: [7, 8, 14]
+
+    name: Java ${{ matrix.java }} compatibility
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Test with Maven
+        run: mvn -B test
+
   deploy:
-    needs: build
+    needs: compatibility-checks
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
