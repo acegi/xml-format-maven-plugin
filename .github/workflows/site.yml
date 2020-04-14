@@ -2,7 +2,8 @@ name: Maven Site Generation and Publication to GitHub Pages
 
 on:
   push:
-    branches: [ master ]
+    tags:
+      - '**'
 
 jobs:
   build:
