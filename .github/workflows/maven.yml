@@ -56,7 +56,7 @@ jobs:
         with:
           path: ~/.m2
           key: ${{ runner.os }}-${{ matrix.java }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          restore-keys: ${{ runner.os }}-${{ matrix.java }}-m2
 
       - name: Test with Maven
         run: mvn -B test
