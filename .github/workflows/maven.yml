@@ -62,7 +62,7 @@ jobs:
         run: mvn -B test
 
   deploy:
-    name: Deploy to OSS Sonatype
+    name: Deploy to OSSRH
     needs: [build, compatibility-checks]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
