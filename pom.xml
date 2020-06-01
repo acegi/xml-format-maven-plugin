@@ -12,46 +12,20 @@
   <packaging>maven-plugin</packaging>
   <name>XML Format Maven Plugin</name>
   <description>Automatically formats XML files in a project.</description>
-  <inceptionYear>2011</inceptionYear>
-  <scm>
-    <connection>scm:git:git@github.com:${github.org}/${github.repo}.git</connection>
-    <developerConnection>scm:git:git@github.com:${github.org}/${github.repo}.git</developerConnection>
-    <url>git@github.com:${github.org}/${github.repo}.git</url>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>GitHub Issues</system>
-    <url>https://github.com/${github.org}/${github.repo}/issues</url>
-  </issueManagement>
-  <ciManagement>
-    <system>GitHub Actions</system>
-    <url>https://github.com/${github.org}/${github.repo}/actions</url>
-  </ciManagement>
   <properties>
     <github.org>acegi</github.org>
     <github.repo>xml-format-maven-plugin</github.repo>
-    <license.licenseName>apache_v2</license.licenseName>
     <license.excludes>**/test*.xml,**/invalid.xml</license.excludes>
-    <spotbugs.skip>true</spotbugs.skip>
+    <license.licenseName>apache_v2</license.licenseName>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <maven.enforcer.java>1.7</maven.enforcer.java>
+    <spotbugs.skip>true</spotbugs.skip>
   </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest</artifactId>
-    </dependency>
-    <!-- Mockito 3.0.0 and above requires Java 8 (XML formatter targets Java 7) -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>2.28.2</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -70,23 +44,47 @@
       <artifactId>dom4j</artifactId>
       <version>2.0.3</version>
     </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
+    </dependency>
+    <dependency>
+      <!-- Mockito 3.0.0 and above requires Java 8 (XML formatter targets Java 7) -->
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.28.2</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-enforcer-plugin</artifactId>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-pmd-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.basepom.maven</groupId>
@@ -94,24 +92,35 @@
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
         <artifactId>buildnumber-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
     </plugins>
   </build>
- </project>
+  <inceptionYear>2011</inceptionYear>
+  <scm>
+    <connection>scm:git:git@github.com:${github.org}/${github.repo}.git</connection>
+    <developerConnection>scm:git:git@github.com:${github.org}/${github.repo}.git</developerConnection>
+    <url>git@github.com:${github.org}/${github.repo}.git</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/${github.org}/${github.repo}/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/${github.org}/${github.repo}/actions</url>
+  </ciManagement>
+</project>
