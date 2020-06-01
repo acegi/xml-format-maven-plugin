@@ -21,9 +21,11 @@
 package au.com.acegi.xmlformat;
 
 import static au.com.acegi.xmlformat.FormatUtil.formatInPlace;
+import static org.apache.maven.plugins.annotations.LifecyclePhase.PREPARE_PACKAGE;
+
 import java.io.File;
 import java.io.IOException;
-import static org.apache.maven.plugins.annotations.LifecyclePhase.PREPARE_PACKAGE;
+
 import org.apache.maven.plugins.annotations.Mojo;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;

@@ -22,10 +22,12 @@ package au.com.acegi.xmlformat;
 
 import static au.com.acegi.xmlformat.IOUtil.hash;
 import static au.com.acegi.xmlformat.TestUtil.getResource;
-import java.io.IOException;
-import java.io.InputStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.junit.Test;
 
 /**

@@ -25,16 +25,18 @@ import static au.com.acegi.xmlformat.FormatUtil.formatInPlace;
 import static au.com.acegi.xmlformat.TestUtil.getResource;
 import static au.com.acegi.xmlformat.TestUtil.streamToString;
 import static au.com.acegi.xmlformat.TestUtil.stringToFile;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.dom4j.io.OutputFormat.createPrettyPrint;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import static java.nio.charset.StandardCharsets.UTF_8;
+
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
-import static org.dom4j.io.OutputFormat.createPrettyPrint;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;

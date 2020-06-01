@@ -21,16 +21,18 @@
 package au.com.acegi.xmlformat;
 
 import static au.com.acegi.xmlformat.IOUtil.hash;
-import java.io.File;
 import static java.io.File.createTempFile;
+import static java.nio.file.Files.copy;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
-import static java.nio.file.Files.copy;
 import java.nio.file.Path;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;

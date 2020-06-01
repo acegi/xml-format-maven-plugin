@@ -20,12 +20,15 @@
 
 package au.com.acegi.xmlformat;
 
+import static java.util.Arrays.asList;
+import static java.util.Arrays.copyOf;
+import static org.dom4j.io.OutputFormat.createPrettyPrint;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.copyOf;
 import java.util.List;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -33,7 +36,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
-import static org.dom4j.io.OutputFormat.createPrettyPrint;
 
 /**
  * Common infrastructure for the various plugin goals.
