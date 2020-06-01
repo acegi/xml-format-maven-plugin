@@ -185,7 +185,6 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private boolean xhtml;
 
   @Override
-  @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
   public void execute() throws MojoExecutionException, MojoFailureException {
     assert baseDirectory != null;
     assert targetDirectory != null;

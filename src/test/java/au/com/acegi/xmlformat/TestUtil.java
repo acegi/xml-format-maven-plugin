@@ -56,7 +56,6 @@ final class TestUtil {
     return in;
   }
 
-  @SuppressWarnings("PMD.AssignmentInOperand")
   static String streamToString(final InputStream in) {
     final StringWriter sw = new StringWriter();
     final InputStreamReader reader = new InputStreamReader(in, UTF_8);

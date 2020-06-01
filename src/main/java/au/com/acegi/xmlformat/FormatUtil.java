@@ -91,7 +91,6 @@ final class FormatUtil {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
-  @SuppressWarnings("checkstyle:returncount")
   static boolean formatInPlace(final File file, final OutputFormat fmt)
       throws DocumentException, IOException {
     if (file.length() == 0) {
@@ -128,7 +127,6 @@ final class FormatUtil {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
-  @SuppressWarnings("checkstyle:returncount")
   static boolean needsFormatting(final File file, final OutputFormat fmt)
       throws DocumentException, IOException {
     if (file.length() == 0) {
