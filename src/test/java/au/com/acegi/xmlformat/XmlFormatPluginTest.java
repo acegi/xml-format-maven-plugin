@@ -56,6 +56,7 @@ public final class XmlFormatPluginTest {
   private static final String ERR_TXT = "<xml> <hello> hello not closed! </xml>";
   private static final String NO_CHG_TXT = "<xml> <leave-me-alone/> </xml>";
   private static final String TO_CHG_TXT = "<xml> <hello/> </xml>";
+  private static final String INCLUDE_ALL_XML = "**/*.xml";
 
   @Rule
   public TemporaryFolder tmp = new TemporaryFolder();
@@ -103,7 +104,7 @@ public final class XmlFormatPluginTest {
 
     plugin.setBaseDirectory(proj);
     plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
-    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
     plugin.setTargetDirectory(target);
 
     plugin.execute();
@@ -127,7 +128,7 @@ public final class XmlFormatPluginTest {
 
     plugin.setBaseDirectory(proj);
     plugin.setExcludes(new String[]{""});
-    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
     plugin.setTargetDirectory(target);
 
     try {
@@ -146,6 +147,28 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
+  @SuppressWarnings("PMD.JUnitUseExpected")
+  public void pluginSkipTargetFolder() throws MojoExecutionException, MojoFailureException {
+    final XmlFormatPlugin plugin = new XmlFormatPlugin();
+    plugin.setLog(log);
+
+    plugin.setSkipTargetFolder(false);
+    when(log.isDebugEnabled()).thenReturn(true);
+    when(log.isErrorEnabled()).thenReturn(true);
+
+    plugin.setBaseDirectory(proj);
+    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
+    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
+    plugin.setTargetDirectory(target);
+
+    plugin.execute();
+
+    assertThat(fileToString(toChange), not(TO_CHG_TXT));
+    assertThat(fileToString(noChange), not(NO_CHG_TXT));
+    assertThat(fileToString(error), is(ERR_TXT));
+  }
+
+  @Test
   public void pluginSkip() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
@@ -156,7 +179,7 @@ public final class XmlFormatPluginTest {
 
     plugin.setBaseDirectory(proj);
     plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
-    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
     plugin.setTargetDirectory(target);
 
     plugin.execute();

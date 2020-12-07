@@ -66,7 +66,8 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   /**
    * A set of file patterns that allow you to exclude certain files/folders from
    * the formatting. In addition to these exclusions, the project build
-   * directory (typically <code>target</code>) is always excluded.
+   * directory (typically <code>target</code>) is always excluded if skipTargetFolder
+   * is true.
    */
   @Parameter(property = "excludes")
   private String[] excludes;
@@ -160,6 +161,13 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
    */
   @Parameter(property = "xml-format.skip", defaultValue = "false")
   private boolean skip;
+
+  /**
+   * In addition to the exclusions, the project build
+   * directory (typically <code>target</code>) is always excluded if true.
+   */
+  @Parameter(property = "skipTargetFolder", defaultValue = "true")
+  private boolean skipTargetFolder = true;
 
   /**
    * Whether or not to suppress the XML declaration.
@@ -257,6 +265,10 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     this.skip = skip;
   }
 
+  void setSkipTargetFolder(final boolean skipTargetFolder) {
+    this.skipTargetFolder = skipTargetFolder;
+  }
+
   void setTargetDirectory(final File targetDirectory) {
     this.targetDirectory = targetDirectory;
   }
@@ -293,7 +305,8 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     dirScanner.setIncludes(includes);
 
     final List<String> exclude = new ArrayList<>(asList(excludes));
-    if (baseDirectory.equals(targetDirectory.getParentFile())) {
+    if (skipTargetFolder
+        && baseDirectory.equals(targetDirectory.getParentFile())) {
       exclude.add(targetDirectory.getName() + "/**");
     }
     final String[] excluded = new String[exclude.size()];
