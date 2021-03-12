@@ -93,6 +93,16 @@ public final class FormatUtilTest {
     testInOut(4, fmt);
   }
 
+  @Test
+  public void test5() throws DocumentException, IOException {
+    final OutputFormat fmt = createPrettyPrint();
+    fmt.setIndent("    ");
+    fmt.setNewLineAfterDeclaration(false);
+    fmt.setPadText(false);
+    fmt.setTrimText(true);
+    testInOut(5, fmt);
+  }
+
   @Test(expected = DocumentException.class)
   public void testInvalid() throws DocumentException, IOException {
     final InputStream in = getResource("/invalid.xml");
