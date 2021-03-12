@@ -6,11 +6,12 @@
 <data>
 	<field-a>blah</field-a>
 	<field-b>blah</field-b>
-	<chars>
+	<chars><![CDATA[
             a
             b
             c
-            d</chars>
+            d]]>
+   </chars>
 </data>
 
 
