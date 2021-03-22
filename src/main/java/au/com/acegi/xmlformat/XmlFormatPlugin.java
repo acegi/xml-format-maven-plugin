@@ -28,7 +28,6 @@ import java.io.IOException;
 
 import org.apache.maven.plugins.annotations.Mojo;
 import org.dom4j.DocumentException;
-import org.dom4j.io.OutputFormat;
 
 /**
  * Finds the XML files in a project and automatically reformats them.
@@ -37,7 +36,7 @@ import org.dom4j.io.OutputFormat;
 public final class XmlFormatPlugin extends AbstractXmlPlugin {
 
   @Override
-  protected boolean processFile(final File input, final OutputFormat fmt)
+  protected boolean processFile(final File input, final XmlOutputFormat fmt)
       throws DocumentException, IOException {
     final boolean changed = formatInPlace(input, fmt);
     if (getLog().isDebugEnabled()) {

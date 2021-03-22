@@ -30,12 +30,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.xml.sax.EntityResolver;
@@ -65,7 +65,7 @@ final class FormatUtil {
    * @throws IOException       if output XML stream could not be written
    */
   static void format(final InputStream in, final OutputStream out,
-                     final OutputFormat fmt) throws DocumentException,
+                     final XmlOutputFormat fmt) throws DocumentException,
                                                     IOException {
     final SAXReader reader = new SAXReader();
     reader.setEntityResolver(new EntityResolver() {
@@ -78,9 +78,20 @@ final class FormatUtil {
     });
     final Document xmlDoc = reader.read(in);
 
-    final XMLWriter xmlWriter = new XMLWriter(out, fmt);
+    final XMLWriter xmlWriter = getXmlWriter(out, fmt);
     xmlWriter.write(xmlDoc);
     xmlWriter.flush();
+  }
+
+  private static XMLWriter getXmlWriter(final OutputStream out, final XmlOutputFormat fmt) 
+          throws UnsupportedEncodingException {
+    final XMLWriter xmlWriter;
+    if (fmt.isKeepBlankLines()) {
+      xmlWriter = new BlankLinesWriter(out, fmt);
+    } else {
+      xmlWriter = new XMLWriter(out, fmt);
+    }
+    return xmlWriter;
   }
 
   /**
@@ -93,7 +104,7 @@ final class FormatUtil {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
-  static boolean formatInPlace(final File file, final OutputFormat fmt)
+  static boolean formatInPlace(final File file, final XmlOutputFormat fmt)
       throws DocumentException, IOException {
     if (file.length() == 0) {
       return false;
@@ -129,7 +140,7 @@ final class FormatUtil {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
-  static boolean needsFormatting(final File file, final OutputFormat fmt)
+  static boolean needsFormatting(final File file, final XmlOutputFormat fmt)
       throws DocumentException, IOException {
     if (file.length() == 0) {
       return false;
@@ -147,4 +158,5 @@ final class FormatUtil {
     final long hashTmp = hash(tmpFile);
     return hashFile != hashTmp;
   }
+
 }
