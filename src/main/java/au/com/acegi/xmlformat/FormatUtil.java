@@ -32,9 +32,12 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
@@ -78,7 +81,52 @@ final class FormatUtil {
     });
     final Document xmlDoc = reader.read(in);
 
-    final XMLWriter xmlWriter = new XMLWriter(out, fmt);
+    final XMLWriter xmlWriter = new XMLWriter(out, fmt) {
+      @Override
+      protected void writeString(String text) throws IOException {
+        if ((text != null) && (text.length() > 0)) {
+          if (isEscapeText()) {
+            text = escapeElementEntities(text);
+          }
+
+          if (getOutputFormat().isTrimText()) {
+            boolean first = true;
+            StringTokenizer tokenizer = new StringTokenizer(text, " \t\r\f");
+
+            int newLinesCount = 0;
+            while (tokenizer.hasMoreTokens()) {
+              String token = tokenizer.nextToken();
+
+              int newLines = StringUtils.countMatches(token, '\n');
+              if (newLines > 0) {
+                newLinesCount += newLines;
+                continue;
+              } else if (newLinesCount > 1) {
+                writer.write("\n");
+                newLinesCount = 0;
+              }
+
+              if (first) {
+                first = false;
+
+                if (lastOutputNodeType == Node.TEXT_NODE) {
+                  writer.write(" ");
+                }
+              } else {
+                writer.write(" ");
+              }
+
+              writer.write(token);
+              lastOutputNodeType = Node.TEXT_NODE;
+            }
+            if (newLinesCount > 1) writer.write("\n");
+          } else {
+            lastOutputNodeType = Node.TEXT_NODE;
+            writer.write(text);
+          }
+        }
+      }
+    };
     xmlWriter.write(xmlDoc);
     xmlWriter.flush();
   }
