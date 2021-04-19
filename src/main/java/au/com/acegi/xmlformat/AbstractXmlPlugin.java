@@ -22,7 +22,6 @@ package au.com.acegi.xmlformat;
 
 import static java.util.Arrays.asList;
 import static java.util.Arrays.copyOf;
-import static org.dom4j.io.OutputFormat.createPrettyPrint;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +34,6 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.dom4j.DocumentException;
-import org.dom4j.io.OutputFormat;
 
 /**
  * Common infrastructure for the various plugin goals.
@@ -194,6 +192,12 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   @Parameter(property = "xhtml", defaultValue = "false")
   private boolean xhtml;
 
+  /**
+   * Whether to keep blank lines. A maximum of one line is preserved between each tag.
+   */
+  @Parameter(property = "keepBlankLines", defaultValue = "false")
+  private boolean keepBlankLines;
+
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     assert baseDirectory != null;
@@ -207,7 +211,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     initializeIncludes();
     initializeExcludes();
 
-    final OutputFormat fmt = buildFormatter();
+    final XmlOutputFormat fmt = buildFormatter();
 
     boolean success = true;
     boolean neededFormatting = false;
@@ -236,7 +240,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
-  protected abstract boolean processFile(File input, OutputFormat fmt)
+  protected abstract boolean processFile(File input, XmlOutputFormat fmt)
       throws DocumentException, IOException;
 
   /**
@@ -273,8 +277,8 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     this.targetDirectory = targetDirectory;
   }
 
-  private OutputFormat buildFormatter() {
-    final OutputFormat fmt = createPrettyPrint();
+  private XmlOutputFormat buildFormatter() {
+    final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setAttributeQuoteCharacter(attributeQuoteChar);
     fmt.setEncoding(encoding);
     fmt.setExpandEmptyElements(expandEmptyElements);
@@ -292,6 +296,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     fmt.setSuppressDeclaration(suppressDeclaration);
     fmt.setTrimText(trimText);
     fmt.setXHTML(xhtml);
+    fmt.setKeepBlankLines(keepBlankLines);
     return fmt;
   }
 

@@ -30,7 +30,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.dom4j.DocumentException;
-import org.dom4j.io.OutputFormat;
 
 /**
  * Finds the XML files in a project and only check them: no files are changed,
@@ -41,7 +40,7 @@ import org.dom4j.io.OutputFormat;
 public final class XmlCheckPlugin extends AbstractXmlPlugin {
 
   @Override
-  protected boolean processFile(final File input, final OutputFormat fmt)
+  protected boolean processFile(final File input, final XmlOutputFormat fmt)
       throws DocumentException, IOException {
     final boolean needsFormatting = needsFormatting(input, fmt);
     final Log log = getLog();

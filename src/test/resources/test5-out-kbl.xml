@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<data>
+    <field-a>blah</field-a>
+    <field-b>blah</field-b>
+    <chars><![CDATA[
+            a
+            b
+            c
+            d]]></chars>
+</data>
