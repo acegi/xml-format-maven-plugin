@@ -21,6 +21,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <maven.enforcer.java>1.7</maven.enforcer.java>
     <spotbugs.skip>true</spotbugs.skip>
+    <xml-format.skip>true</xml-format.skip>
   </properties>
   <dependencies>
     <dependency>
