@@ -43,7 +43,7 @@ class BlankLinesWriter extends XMLWriter {
 
   @Override
   protected void writeString(final String text) throws IOException {
-    if ((text != null) && (text.length() > 0)) {
+    if (text != null && text.length() > 0) {
       String input = text;
       if (isEscapeText()) {
         input = escapeElementEntities(text);
