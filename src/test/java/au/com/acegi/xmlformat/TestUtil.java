@@ -61,7 +61,7 @@ final class TestUtil {
     final StringWriter sw = new StringWriter();
     final InputStreamReader reader = new InputStreamReader(in, UTF_8);
     final char[] buffer = new char[4_096];
-    int n = 0;
+    int n;
     try {
       while (-1 != (n = reader.read(buffer))) {
         sw.write(buffer, 0, n);
