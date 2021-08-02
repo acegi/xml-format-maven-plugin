@@ -52,12 +52,9 @@ public final class IOTest {
 
   private void testHash(final String resource, final long expected) throws
       IOException {
-    final InputStream in = getResource(resource);
-    try {
+    try (InputStream in = getResource(resource)) {
       final long hash = hash(in);
       assertThat(hash, is(expected));
-    } finally {
-      in.close();
     }
   }
 
