@@ -78,10 +78,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
       </plugin>
       <plugin>
@@ -127,7 +123,7 @@
   </ciManagement>
   <profiles>
     <profile>
-      <id>sort-pom-on-java-11-and-above</id>
+      <id>additional-plugins-on-java-11-and-above</id>
       <activation>
         <jdk>[1.11</jdk>
       </activation>
@@ -136,6 +132,10 @@
           <plugin>
             <groupId>com.github.ekryd.sortpom</groupId>
             <artifactId>sortpom-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
