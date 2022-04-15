@@ -8,17 +8,17 @@ on:
 
 jobs:
   build:
-    name: Java 11 Build and Verify
+    name: Java Latest LTS Build and Verify
     runs-on: ubuntu-latest
 
     steps:
     - name: Check out Git repository
       uses: actions/checkout@v2
-      
+
     - name: Set up Java and Maven
       uses: actions/setup-java@v1
       with:
-        java-version: 11
+        java-version: 17
 
     - name: Cache Maven packages
       uses: actions/cache@v1
@@ -38,7 +38,7 @@ jobs:
 
     strategy:
       matrix:
-        java: [7, 8, 14]
+        java: [7, 8, 11, 18]
 
     name: Java ${{ matrix.java }} Compatibility
 
