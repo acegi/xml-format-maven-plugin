@@ -32,7 +32,7 @@ import org.dom4j.DocumentException;
 /**
  * Finds the XML files in a project and automatically reformats them.
  */
-@Mojo(name = "xml-format", defaultPhase = PREPARE_PACKAGE)
+@Mojo(name = "xml-format", defaultPhase = PREPARE_PACKAGE, threadSafe = true)
 public final class XmlFormatPlugin extends AbstractXmlPlugin {
 
   @Override

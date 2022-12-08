@@ -36,7 +36,7 @@ import org.dom4j.DocumentException;
  * but the build will fail if any file does not follow the formatting
  * conventions.
  */
-@Mojo(name = "xml-check", defaultPhase = PROCESS_SOURCES)
+@Mojo(name = "xml-check", defaultPhase = PROCESS_SOURCES, threadSafe = true)
 public final class XmlCheckPlugin extends AbstractXmlPlugin {
 
   @Override
