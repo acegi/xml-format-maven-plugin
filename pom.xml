@@ -66,11 +66,10 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- 3.3.0 is the last version supporting Java 7 -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.3.0</version>
+      <version>3.5.1</version>
     </dependency>
     <dependency>
       <groupId>org.dom4j</groupId>
