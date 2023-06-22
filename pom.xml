@@ -154,7 +154,7 @@
     <profile>
       <id>additional-plugins-on-java-11-and-above</id>
       <activation>
-        <jdk>[1.11</jdk>
+        <jdk>[11,)</jdk>
       </activation>
       <build>
         <plugins>
