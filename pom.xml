@@ -5,7 +5,7 @@
     <groupId>au.com.acegi</groupId>
     <artifactId>acegi-standard-project</artifactId>
     <version>0.6.5</version>
-    <relativePath />
+    <relativePath/>
   </parent>
   <groupId>au.com.acegi</groupId>
   <artifactId>xml-format-maven-plugin</artifactId>
