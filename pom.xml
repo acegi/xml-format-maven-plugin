@@ -81,10 +81,9 @@
       <artifactId>hamcrest</artifactId>
     </dependency>
     <dependency>
-      <!-- Mockito 3.0.0 and above requires Java 8 (XML formatter targets Java 7) -->
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>2.28.2</version>
+      <version>4.11.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
