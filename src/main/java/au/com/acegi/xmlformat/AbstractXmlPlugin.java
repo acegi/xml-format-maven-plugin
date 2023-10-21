@@ -61,6 +61,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   @Parameter(property = "encoding", defaultValue = "UTF-8")
   @SuppressWarnings("PMD.ImmutableField")
   private String encoding = "UTF-8";
+
   /**
    * A set of file patterns that allow you to exclude certain files/folders from
    * the formatting. In addition to these exclusions, the project build
@@ -75,6 +76,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
    */
   @Parameter(property = "expandEmptyElements", defaultValue = "false")
   private boolean expandEmptyElements;
+
   /**
    * A set of file patterns that dictate which files should be included in the
    * formatting with each file pattern being relative to the base directory.
@@ -111,6 +113,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   @Parameter(property = "lineEnding", defaultValue = "LF")
   @SuppressWarnings("PMD.ImmutableField")
   private LineEnding lineEnding = LineEnding.LF;
+
   /**
    * New line separator.
    *
