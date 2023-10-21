@@ -74,7 +74,7 @@ final class TestUtil {
 
   static void stringToFile(final String msg, final File out) {
     try (OutputStream fos = Files.newOutputStream(out.toPath());
-         Writer writer = new OutputStreamWriter(fos, UTF_8)) {
+        Writer writer = new OutputStreamWriter(fos, UTF_8)) {
       writer.append(msg);
     } catch (final IOException ex) {
       throw new IllegalStateException(ex);

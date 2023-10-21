@@ -100,7 +100,7 @@ public class XmlCheckPluginTest {
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setIncludes("**/*.xml");
     plugin.setTargetDirectory(target);
 
     try {
@@ -123,8 +123,8 @@ public class XmlCheckPluginTest {
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
-    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setExcludes("**/" + ERR_FILE_NAME);
+    plugin.setIncludes("**/*.xml");
     plugin.setTargetDirectory(target);
 
     try {
@@ -146,8 +146,8 @@ public class XmlCheckPluginTest {
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME, "**/" + TO_CHG_FILE_NAME});
-    plugin.setIncludes(new String[]{"**/*.xml"});
+    plugin.setExcludes("**/" + ERR_FILE_NAME, "**/" + TO_CHG_FILE_NAME);
+    plugin.setIncludes("**/*.xml");
     plugin.setTargetDirectory(target);
 
     plugin.execute();
