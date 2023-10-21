@@ -12,3 +12,6 @@ gpg-sign.json
 mvn-sync.json
 .mvn/wrapper/maven-wrapper.jar
 release.properties
+.checkstyle
+.factorypath
+.fbExcludeFilterFile
