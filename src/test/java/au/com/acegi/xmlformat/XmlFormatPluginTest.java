@@ -95,16 +95,15 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
-  public void pluginExcludesError() throws MojoExecutionException,
-                                           MojoFailureException {
+  public void pluginExcludesError() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
-    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
+    plugin.setExcludes("**/" + ERR_FILE_NAME);
+    plugin.setIncludes(INCLUDE_ALL_XML);
     plugin.setTargetDirectory(target);
 
     plugin.execute();
@@ -127,8 +126,8 @@ public final class XmlFormatPluginTest {
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setExcludes(new String[]{""});
-    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
+    plugin.setExcludes("");
+    plugin.setIncludes(INCLUDE_ALL_XML);
     plugin.setTargetDirectory(target);
 
     try {
@@ -157,8 +156,8 @@ public final class XmlFormatPluginTest {
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
-    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
+    plugin.setExcludes("**/" + ERR_FILE_NAME);
+    plugin.setIncludes(INCLUDE_ALL_XML);
     plugin.setTargetDirectory(target);
 
     plugin.execute();
@@ -178,8 +177,8 @@ public final class XmlFormatPluginTest {
     when(log.isErrorEnabled()).thenReturn(true);
 
     plugin.setBaseDirectory(proj);
-    plugin.setExcludes(new String[]{"**/" + ERR_FILE_NAME});
-    plugin.setIncludes(new String[]{INCLUDE_ALL_XML});
+    plugin.setExcludes("**/" + ERR_FILE_NAME);
+    plugin.setIncludes(INCLUDE_ALL_XML);
     plugin.setTargetDirectory(target);
 
     plugin.execute();

@@ -50,8 +50,7 @@ public final class IOTest {
     testHash("/invalid.xml", 2_678_376_893L);
   }
 
-  private void testHash(final String resource, final long expected) throws
-      IOException {
+  private void testHash(final String resource, final long expected) throws IOException {
     try (InputStream in = getResource(resource)) {
       final long hash = hash(in);
       assertThat(hash, is(expected));
