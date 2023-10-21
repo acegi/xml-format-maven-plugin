@@ -141,6 +141,29 @@
         <jdk>[11,)</jdk>
       </activation>
       <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <version>3.4.1</version>
+              <configuration>
+                <rules combine.children="append">
+                  <enforceBytecodeVersion>
+                    <maxJdkVersion>${maven.enforcer.java}</maxJdkVersion>
+                  </enforceBytecodeVersion>
+                </rules>
+              </configuration>
+              <dependencies>
+                <dependency>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>extra-enforcer-rules</artifactId>
+                  <version>1.7.0</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
         <plugins>
           <plugin>
             <groupId>com.github.ekryd.sortpom</groupId>
