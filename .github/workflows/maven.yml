@@ -19,7 +19,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B verify
+      run: ./mvnw -B verify
 
     - name: Upload code coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -45,7 +45,7 @@ jobs:
           cache: maven
 
       - name: Test with Maven
-        run: mvn -B test
+        run: ./mvnw -B test
 
   deploy:
     name: Deploy to OSSRH
@@ -77,7 +77,7 @@ jobs:
         gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
     - name: Publish Maven package
-      run: mvn -Possrh-deploy deploy
+      run: ./mvnw -Possrh-deploy deploy
       env:
         MAVEN_GPG_PASSPHRASE: ${{ secrets.gpg_passphrase }}
         MAVEN_USERNAME: ${{ secrets.nexus_username }}
