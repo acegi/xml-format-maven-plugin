@@ -54,9 +54,9 @@ final class FormatUtil {
 
   /**
    * Ingest an input stream, writing formatted XML to the output stream. The
-   * caller is responsible for closing the input and output streams. Any errors
-   * in the input stream will cause an exception and the output stream should
-   * not be relied upon.
+   * caller is responsible for closing the input and output streams. Any errors in
+   * the input stream will cause an exception and the output stream should not be
+   * relied upon.
    *
    * @param in  input XML stream
    * @param out output XML stream
@@ -64,14 +64,12 @@ final class FormatUtil {
    * @throws DocumentException if input XML could not be parsed
    * @throws IOException       if output XML stream could not be written
    */
-  static void format(final InputStream in, final OutputStream out,
-                     final XmlOutputFormat fmt) throws DocumentException,
-                                                    IOException {
+  static void format(final InputStream in, final OutputStream out, final XmlOutputFormat fmt)
+      throws DocumentException, IOException {
     final SAXReader reader = new SAXReader();
     reader.setEntityResolver(new EntityResolver() {
       @Override
-      public InputSource resolveEntity(final String publicId,
-                                       final String systemId)
+      public InputSource resolveEntity(final String publicId, final String systemId)
           throws SAXException, IOException {
         return new InputSource(new StringReader(""));
       }
@@ -83,8 +81,8 @@ final class FormatUtil {
     xmlWriter.flush();
   }
 
-  private static XMLWriter getXmlWriter(final OutputStream out, final XmlOutputFormat fmt) 
-          throws UnsupportedEncodingException {
+  private static XMLWriter getXmlWriter(final OutputStream out, final XmlOutputFormat fmt)
+      throws UnsupportedEncodingException {
     final XMLWriter xmlWriter;
     if (fmt.isKeepBlankLines()) {
       xmlWriter = new BlankLinesWriter(out, fmt);
@@ -114,7 +112,7 @@ final class FormatUtil {
     tmpFile.deleteOnExit();
 
     try (InputStream in = Files.newInputStream(file.toPath());
-         OutputStream out = Files.newOutputStream(tmpFile.toPath())) {
+        OutputStream out = Files.newOutputStream(tmpFile.toPath())) {
       format(in, out, fmt);
     }
 

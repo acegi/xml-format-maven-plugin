@@ -29,10 +29,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Node;
 import org.dom4j.io.XMLWriter;
 
-
 /**
- * Subclass of {@link XMLWriter} that preserves blank lines in outupt (at most one of them, among
- * two subsequent tags).
+ * Subclass of {@link XMLWriter} that preserves blank lines in outupt (at most
+ * one of them, among two subsequent tags).
  */
 class BlankLinesWriter extends XMLWriter {
 
@@ -87,18 +86,21 @@ class BlankLinesWriter extends XMLWriter {
     private int newLinesCount;
 
     /**
-     * Processes the token, counting the newlines and producing at most one in output.
+     * Processes the token, counting the newlines and producing at most one in
+     * output.
      *
      * @param token The token to be written
-     * @return True if the token needs to be skipped (it's a newline or a set of newlines)
-     * @throws IOException If an I/O error occurs. 
+     * @return True if the token needs to be skipped (it's a newline or a set of
+     *         newlines)
+     * @throws IOException If an I/O error occurs.
      */
     private boolean processToken(final String token) throws IOException {
       final int tokenNewLines = StringUtils.countMatches(token, '\n');
       if (tokenNewLines > 0) {
         newLinesCount += tokenNewLines;
         return true;
-      } else if (newLinesCount > 1) {
+      }
+      if (newLinesCount > 1) {
         writer.write("\n");
         newLinesCount = 0;
       }
@@ -106,8 +108,8 @@ class BlankLinesWriter extends XMLWriter {
     }
 
     /**
-     * Marks the end of token streams, allows to emit a last newlines if the last tokens were all
-     * newlines.
+     * Marks the end of token streams, allows to emit a last newlines if the last
+     * tokens were all newlines.
      *
      * @throws IOException If an I/O error occurs.
      */
