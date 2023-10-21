@@ -43,41 +43,43 @@ class BlankLinesWriter extends XMLWriter {
 
   @Override
   protected void writeString(final String text) throws IOException {
-    if (text != null && text.length() > 0) {
-      String input = text;
-      if (isEscapeText()) {
-        input = escapeElementEntities(text);
-      }
+    if (text == null || text.length() == 0) {
+      return;
+    }
 
-      if (getOutputFormat().isTrimText()) {
-        boolean first = true;
-        final StringTokenizer tokenizer = new StringTokenizer(input, " \t\r\f");
+    String input = text;
+    if (isEscapeText()) {
+      input = escapeElementEntities(text);
+    }
 
-        final NewLinesHandler newLinesHandler = new NewLinesHandler();
-        while (tokenizer.hasMoreTokens()) {
-          final String token = tokenizer.nextToken();
+    if (getOutputFormat().isTrimText()) {
+      boolean first = true;
+      final StringTokenizer tokenizer = new StringTokenizer(input, " \t\r\f");
 
-          if (newLinesHandler.processToken(token)) {
-            continue;
-          }
+      final NewLinesHandler newLinesHandler = new NewLinesHandler();
+      while (tokenizer.hasMoreTokens()) {
+        final String token = tokenizer.nextToken();
 
-          if (first) {
-            first = false;
-            if (lastOutputNodeType == Node.TEXT_NODE) {
-              writer.write(" ");
-            }
-          } else {
+        if (newLinesHandler.processToken(token)) {
+          continue;
+        }
+
+        if (first) {
+          first = false;
+          if (lastOutputNodeType == Node.TEXT_NODE) {
             writer.write(" ");
           }
-
-          writer.write(token);
-          lastOutputNodeType = Node.TEXT_NODE;
+        } else {
+          writer.write(" ");
         }
-        newLinesHandler.finished();
-      } else {
+
+        writer.write(token);
         lastOutputNodeType = Node.TEXT_NODE;
-        writer.write(input);
       }
+      newLinesHandler.finished();
+    } else {
+      lastOutputNodeType = Node.TEXT_NODE;
+      writer.write(input);
     }
   }
 
