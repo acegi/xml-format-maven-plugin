@@ -43,8 +43,9 @@ public class XmlOutputFormat extends OutputFormat {
   }
 
   /**
-   * When set to true, preserves at most one blank line between tags, if it was alredy present in
-   * the input file. Defaults to <code>false</code>.
+   * When set to true, preserves at most one blank line between tags, if it was
+   * alredy present in the input file. Defaults to <code>false</code>.
+   * 
    * @return Whether blank lines are preserved, or not.
    */
   public boolean isKeepBlankLines() {
@@ -52,10 +53,11 @@ public class XmlOutputFormat extends OutputFormat {
   }
 
   /**
-   * When set to true, preserves at most one blank line between tags, if it was alredy present in
-   * the input file.
+   * When set to true, preserves at most one blank line between tags, if it was
+   * alredy present in the input file.
    *
-   * @param keepBlankLines true to preserve at most one blank line, false to remove all blank lines.
+   * @param keepBlankLines true to preserve at most one blank line, false to
+   *                       remove all blank lines.
    */
   public void setKeepBlankLines(final boolean keepBlankLines) {
     this.keepBlankLines = keepBlankLines;

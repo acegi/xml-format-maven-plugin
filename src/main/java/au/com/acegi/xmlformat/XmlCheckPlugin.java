@@ -53,8 +53,7 @@ public final class XmlCheckPlugin extends AbstractXmlPlugin {
   }
 
   @Override
-  protected void afterAllProcessed(final boolean neededFormatting)
-      throws MojoExecutionException {
+  protected void afterAllProcessed(final boolean neededFormatting) throws MojoExecutionException {
     if (neededFormatting) {
       throw new MojoExecutionException(
           "[xml-check] At least one XML file needs formatting, see the error logs above)");

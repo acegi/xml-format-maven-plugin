@@ -51,8 +51,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   /**
    * The base directory of the project.
    */
-  @Parameter(defaultValue = ".", readonly = true, required = true, property
-             = "project.basedir")
+  @Parameter(defaultValue = ".", readonly = true, required = true, property = "project.basedir")
   private File baseDirectory;
 
   /**
@@ -64,9 +63,9 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
 
   /**
    * A set of file patterns that allow you to exclude certain files/folders from
-   * the formatting. In addition to these exclusions, the project build
-   * directory (typically <code>target</code>) is always excluded if skipTargetFolder
-   * is true.
+   * the formatting. In addition to these exclusions, the project build directory
+   * (typically <code>target</code>) is always excluded if skipTargetFolder is
+   * true.
    */
   @Parameter(property = "excludes")
   private String[] excludes;
@@ -85,14 +84,14 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private String[] includes;
 
   /**
-   * Indicates the number of spaces to apply when indenting. 
+   * Indicates the number of spaces to apply when indenting.
    */
   @Parameter(property = "indentSize", defaultValue = "2")
   private int indentSize;
 
   /**
-   * Use tabs instead of spaces for indents.
-   * If set to <code>true</code>, <code>indentSize</code> will be ignored.
+   * Use tabs instead of spaces for indents. If set to <code>true</code>,
+   * <code>indentSize</code> will be ignored.
    */
   @Parameter(property = "tabIndent", defaultValue = "false")
   private boolean tabIndent;
@@ -107,8 +106,8 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
    * </ul>
    *
    * <p>
-   * This property is only used if {@link #lineSeparator} has its default
-   * value. Do not set any value for {@link #lineSeparator}.
+   * This property is only used if {@link #lineSeparator} has its default value.
+   * Do not set any value for {@link #lineSeparator}.
    */
   @Parameter(property = "lineEnding", defaultValue = "LF")
   @SuppressWarnings("PMD.ImmutableField")
@@ -118,6 +117,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
    * New line separator.
    *
    * <p>
+   * 
    * @deprecated Please do not set this value; use {@link #lineEnding} instead
    */
   @Parameter(property = "lineSeparator", defaultValue = "\n")
@@ -139,8 +139,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private int newLineAfterNTags;
 
   /**
-   * The default new line flag, set to do new lines only as in original
-   * document.
+   * The default new line flag, set to do new lines only as in original document.
    */
   @Parameter(property = "newlines", defaultValue = "true")
   private boolean newlines;
@@ -164,8 +163,8 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private boolean skip;
 
   /**
-   * In addition to the exclusions, the project build
-   * directory (typically <code>target</code>) is always excluded if true.
+   * In addition to the exclusions, the project build directory (typically
+   * <code>target</code>) is always excluded if true.
    */
   @Parameter(property = "skipTargetFolder", defaultValue = "true")
   private boolean skipTargetFolder = true;
@@ -179,8 +178,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   /**
    * The project target directory. This is always excluded from formatting.
    */
-  @Parameter(defaultValue = "${project.build.directory}", readonly = true,
-             required = true)
+  @Parameter(defaultValue = "${project.build.directory}", readonly = true, required = true)
   private File targetDirectory;
 
   /**
@@ -196,7 +194,8 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   private boolean xhtml;
 
   /**
-   * Whether to keep blank lines. A maximum of one line is preserved between each tag.
+   * Whether to keep blank lines. A maximum of one line is preserved between each
+   * tag.
    */
   @Parameter(property = "keepBlankLines", defaultValue = "false")
   private boolean keepBlankLines;
@@ -249,12 +248,11 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
   /**
    * Invoked after all files in the project have been processed.
    *
-   * @param neededFormatting whether any processed file required changes to match the
-   *                         formatting style
+   * @param neededFormatting whether any processed file required changes to match
+   *                         the formatting style
    * @throws MojoExecutionException if the build must be failed
    */
-  protected abstract void afterAllProcessed(boolean neededFormatting)
-      throws MojoExecutionException;
+  protected abstract void afterAllProcessed(boolean neededFormatting) throws MojoExecutionException;
 
   void setBaseDirectory(final File baseDirectory) {
     this.baseDirectory = baseDirectory;
@@ -313,8 +311,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     dirScanner.setIncludes(includes);
 
     final List<String> exclude = new ArrayList<>(asList(excludes));
-    if (skipTargetFolder
-        && baseDirectory.equals(targetDirectory.getParentFile())) {
+    if (skipTargetFolder && baseDirectory.equals(targetDirectory.getParentFile())) {
       exclude.add(targetDirectory.getName() + "/**");
     }
     final String[] excluded = new String[exclude.size()];
@@ -332,7 +329,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
 
   private void initializeIncludes() {
     if (includes == null || includes.length == 0) {
-      includes = new String[]{"**/*.xml"};
+      includes = new String[] {"**/*.xml"};
     }
   }
 }
