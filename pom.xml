@@ -156,7 +156,7 @@
     <profile>
       <id>additional-plugins-on-java-11-and-above</id>
       <activation>
-        <jdk>[1.11</jdk>
+        <jdk>[11,)</jdk>
       </activation>
       <build>
         <plugins>
@@ -177,6 +177,17 @@
             <artifactId>buildnumber-maven-plugin</artifactId>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>additional-plugins-on-java-21-and-above</id>
+      <activation>
+        <jdk>[21,)</jdk>
+      </activation>
+      <build>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.enforcer.java>8</maven.enforcer.java>
       </build>
     </profile>
   </profiles>
