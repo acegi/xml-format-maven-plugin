@@ -76,10 +76,12 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.7.3.6</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.3.0</version>
       </plugin>
       <!-- 3.8.1 required to support Java 7 -->
       <plugin>
@@ -94,6 +96,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.21.0</version>
       </plugin>
       <!-- 3.2.0 required to support Java 7 -->
       <plugin>
@@ -105,17 +108,22 @@
         <groupId>org.basepom.maven</groupId>
         <artifactId>duplicate-finder-maven-plugin</artifactId>
       </plugin>
+      <!-- 2.0.1 required to support Java 7 -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
+        <version>2.0.1</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
+        <version>2.16.1</version>
       </plugin>
+      <!-- 0.8.10 required to support Java 7 -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.10</version>
       </plugin>
     </plugins>
   </build>
@@ -168,10 +176,12 @@
           <plugin>
             <groupId>com.github.ekryd.sortpom</groupId>
             <artifactId>sortpom-maven-plugin</artifactId>
+            <version>3.3.0</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.6.0</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -180,6 +190,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>buildnumber-maven-plugin</artifactId>
+            <version>3.2.0</version>
           </plugin>
         </plugins>
       </build>
