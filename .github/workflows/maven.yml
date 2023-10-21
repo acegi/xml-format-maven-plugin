@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: zulu
-        java-version: 18
+        java-version: 21
         cache: maven
 
     - name: Build with Maven
@@ -33,7 +33,7 @@ jobs:
 
     strategy:
       matrix:
-        java: [7, 8, 11, 18]
+        java: [7, 8, 11, 17, 21]
 
     name: Java ${{ matrix.java }} Compatibility
 
@@ -54,7 +54,7 @@ jobs:
   deploy:
     name: Deploy to OSSRH
     needs: [build, compatibility-checks]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.repository_owner == 'acegi' && ! contains(toJSON(github.event.head_commit.message), '[maven-release-plugin]')
     runs-on: ubuntu-latest
 
     steps:
