@@ -47,11 +47,11 @@
       <version>3.6.4</version>
       <scope>provided</scope>
     </dependency>
-    <!-- 3.3.0 is the last version supporting Java 7 -->
+    <!-- 3.3.1 is the last version supporting Java 7 -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.3.0</version>
+      <version>3.3.1</version>
     </dependency>
     <dependency>
       <groupId>org.dom4j</groupId>
