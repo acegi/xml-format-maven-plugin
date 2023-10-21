@@ -23,7 +23,7 @@ package au.com.acegi.xmlformat;
 import static au.com.acegi.xmlformat.IOUtil.hash;
 import static au.com.acegi.xmlformat.TestUtil.getResource;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
