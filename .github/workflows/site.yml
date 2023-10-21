@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     name: Generate Site
+    if: github.repository_owner == 'acegi'
     runs-on: ubuntu-latest
 
     steps:
