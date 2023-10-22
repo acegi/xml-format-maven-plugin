@@ -35,7 +35,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.dom4j.DocumentException;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -133,22 +132,27 @@ public final class FormatUtilTest {
    * New lines between the XML declaration and the root elements are ignored at the parse level it
    * seems, they don't reach the XMLWriter. Not ideal, but believe we can leave with this exception
    */
-  @Ignore
   @Test
   public void test5KeepBlankLines() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
-    fmt.setNewLineAfterDeclaration(false);
+    // Set to true to keep the new line given keep blank lines will not
+    fmt.setNewLineAfterDeclaration(true);
     fmt.setPadText(false);
     fmt.setTrimText(true);
     fmt.setKeepBlankLines(true);
     testInOut(5, fmt);
   }
 
+  /**
+   * New lines between the XML declaration and the root elements are ignored at the parse level it
+   * seems, they don't reach the XMLWriter. Not ideal, but believe we can leave with this exception
+   */
   @Test
   public void test6() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
+    // Set to true to keep the new line given keep blank lines will not
     fmt.setNewLineAfterDeclaration(true);
     fmt.setPadText(false);
     fmt.setTrimText(true);
