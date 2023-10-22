@@ -149,7 +149,7 @@ public final class FormatUtilTest {
   public void test6() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
-    fmt.setNewLineAfterDeclaration(false);
+    fmt.setNewLineAfterDeclaration(true);
     fmt.setPadText(false);
     fmt.setTrimText(true);
     fmt.setKeepBlankLines(true);
