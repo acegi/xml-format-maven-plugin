@@ -59,11 +59,9 @@ class BlankLinesWriter extends XMLWriter {
       while (tokenizer.hasMoreTokens()) {
         final String token = tokenizer.nextToken();
 
-        if (newLinesHandler.processToken(token)) {
-          // Only if more tokens exist, continue
-          if (tokenizer.hasMoreTokens()) {
-              continue;
-          }
+        // Only if more tokens exist, continue
+        if (newLinesHandler.processToken(token) && tokenizer.hasMoreTokens()) {
+          continue;
         }
 
         if (first) {
@@ -75,7 +73,11 @@ class BlankLinesWriter extends XMLWriter {
           writer.write(" ");
         }
 
-        writer.write(token.trim());
+        if (token == "\n") {
+            writer.write(token);
+        } else {
+            writer.write(token.trim());
+        }
         lastOutputNodeType = Node.TEXT_NODE;
       }
       newLinesHandler.finished();
