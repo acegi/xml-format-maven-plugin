@@ -75,7 +75,7 @@ class BlankLinesWriter extends XMLWriter {
           writer.write(" ");
         }
 
-        writer.write(token);
+        writer.write(token.trim());
         lastOutputNodeType = Node.TEXT_NODE;
       }
       newLinesHandler.finished();
