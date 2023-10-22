@@ -60,7 +60,10 @@ class BlankLinesWriter extends XMLWriter {
         final String token = tokenizer.nextToken();
 
         if (newLinesHandler.processToken(token)) {
-          continue;
+          // Only if more tokens exist, continue
+          if (tokenizer.hasMoreTokens()) {
+              continue;
+          }
         }
 
         if (first) {
