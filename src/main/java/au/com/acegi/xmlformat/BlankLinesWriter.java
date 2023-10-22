@@ -96,7 +96,8 @@ class BlankLinesWriter extends XMLWriter {
      *         newlines)
      * @throws IOException If an I/O error occurs.
      */
-    private boolean processToken(final String token, final boolean hasMoreTokens) throws IOException {
+    private boolean processToken(final String token, final boolean hasMoreTokens)
+        throws IOException {
       final int tokenNewLines = StringUtils.countMatches(token, '\n');
       if (tokenNewLines > 0) {
         newLinesCount += tokenNewLines;
