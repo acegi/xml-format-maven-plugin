@@ -133,8 +133,8 @@ public final class FormatUtilTest {
    * New lines between the XML declaration and the root elements are ignored at the parse level it
    * seems, they don't reach the XMLWriter. Not ideal, but believe we can leave with this exception
    */
-  @Test
   @Ignore
+  @Test
   public void test5KeepBlankLines() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
