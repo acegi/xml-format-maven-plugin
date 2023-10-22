@@ -60,7 +60,7 @@ class BlankLinesWriter extends XMLWriter {
         final String token = tokenizer.nextToken();
 
         // Only if more tokens exist, continue
-        if (newLinesHandler.processToken(token) && tokenizer.hasMoreTokens()) {
+        if (newLinesHandler.processToken(token, tokenizer.hasMoreTokens())) {
           continue;
         }
 
@@ -91,15 +91,16 @@ class BlankLinesWriter extends XMLWriter {
      * output.
      *
      * @param token The token to be written
+     * @param hasMoreTokens Does more tokens exist
      * @return True if the token needs to be skipped (it's a newline or a set of
      *         newlines)
      * @throws IOException If an I/O error occurs.
      */
-    private boolean processToken(final String token) throws IOException {
+    private boolean processToken(final String token, final boolean hasMoreTokens) throws IOException {
       final int tokenNewLines = StringUtils.countMatches(token, '\n');
       if (tokenNewLines > 0) {
         newLinesCount += tokenNewLines;
-        return true;
+        return hasMoreTokens;
       }
       if (newLinesCount > 1) {
         writer.write("\n");
