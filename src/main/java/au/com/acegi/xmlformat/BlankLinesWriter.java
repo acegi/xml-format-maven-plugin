@@ -73,7 +73,7 @@ class BlankLinesWriter extends XMLWriter {
           writer.write(" ");
         }
 
-        if (token == "\n") {
+        if (token.equals("\n")) {
             writer.write(token);
         } else {
             writer.write(token.trim());
