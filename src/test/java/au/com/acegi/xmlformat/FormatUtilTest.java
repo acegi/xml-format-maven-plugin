@@ -145,6 +145,17 @@ public final class FormatUtilTest {
     testInOut(5, fmt);
   }
 
+  @Test
+  public void test6() throws DocumentException, IOException {
+    final XmlOutputFormat fmt = new XmlOutputFormat();
+    fmt.setIndent("    ");
+    fmt.setNewLineAfterDeclaration(false);
+    fmt.setPadText(false);
+    fmt.setTrimText(true);
+    fmt.setKeepBlankLines(true);
+    testInOut(6, fmt);
+  }
+
   @Test(expected = DocumentException.class)
   public void testInvalid() throws DocumentException, IOException {
     try (InputStream in = getResource("/invalid.xml")) {
