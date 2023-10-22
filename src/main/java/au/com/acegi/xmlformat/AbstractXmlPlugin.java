@@ -98,13 +98,14 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
 
   /**
    * Sets the line-ending of files after formatting. Valid values are:
+   * <p>
    * <ul>
-   * <li><b>"SYSTEM"</b> - Use line endings of current system</li>
-   * <li><b>"LF"</b> - Use Unix and Mac style line endings</li>
-   * <li><b>"CRLF"</b> - Use DOS and Windows style line endings</li>
-   * <li><b>"CR"</b> - Use early Mac style line endings</li>
+   *   <li><b>"SYSTEM"</b> - Use line endings of current system</li>
+   *   <li><b>"LF"</b> - Use Unix and Mac style line endings</li>
+   *   <li><b>"CRLF"</b> - Use DOS and Windows style line endings</li>
+   *   <li><b>"CR"</b> - Use early Mac style line endings</li>
    * </ul>
-   *
+   * <p>
    * This property is only used if {@link #lineSeparator} has its default value.
    * Do not set any value for {@link #lineSeparator}.
    */
