@@ -23,7 +23,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn -B site
+      run: ./mvnw -B -V site --no-transfer-progress
 
     - name: Publish site to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
