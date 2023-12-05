@@ -5,11 +5,11 @@
     <groupId>au.com.acegi</groupId>
     <artifactId>acegi-standard-project</artifactId>
     <version>0.6.5</version>
-    <relativePath/>
+    <relativePath />
   </parent>
   <groupId>au.com.acegi</groupId>
   <artifactId>xml-format-maven-plugin</artifactId>
-  <version>3.2.3-SNAPSHOT</version>
+  <version>3.3.0</version>
   <packaging>maven-plugin</packaging>
   <name>XML Format Maven Plugin</name>
   <description>Automatically formats XML files in a project.</description>
@@ -132,7 +132,7 @@
     <connection>scm:git:git@github.com:${github.org}/${github.repo}.git</connection>
     <developerConnection>scm:git:git@github.com:${github.org}/${github.repo}.git</developerConnection>
     <url>git@github.com:${github.org}/${github.repo}.git</url>
-    <tag>HEAD</tag>
+    <tag>xml-format-maven-plugin-3.3.0</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
