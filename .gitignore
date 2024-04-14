@@ -15,3 +15,5 @@ release.properties
 .checkstyle
 .factorypath
 .fbExcludeFilterFile
+.pmd
+.pmdruleset.xml
