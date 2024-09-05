@@ -90,6 +90,12 @@
   </dependencies>
   <build>
     <plugins>
+      <!-- Maven 4 seems to want maven wrapper defined for some reason. -->
+      <plugin>
+        <groupId>org.apache.maven.wrapper</groupId>
+        <artifactId>maven-wrapper</artifactId>
+        <version>3.3.2</version>
+      </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
