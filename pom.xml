@@ -18,9 +18,9 @@
     <github.repo>xml-format-maven-plugin</github.repo>
     <license.excludes>**/test*.xml,**/invalid.xml</license.excludes>
     <license.licenseName>apache_v2</license.licenseName>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.enforcer.java>1.8</maven.enforcer.java>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <maven.enforcer.java>8</maven.enforcer.java>
     <spotbugs.skip>true</spotbugs.skip>
     <xml-format.skip>true</xml-format.skip>
   </properties>
@@ -160,6 +160,9 @@
       <activation>
         <jdk>[11,)</jdk>
       </activation>
+      <properties>
+          <maven.compiler.release>8</maven.compiler.release>
+      </properties>
       <build>
         <pluginManagement>
           <plugins>
