@@ -139,6 +139,20 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <ignoredUnusedDeclaredDependencies>
+            <!-- ignore transitive dependency of maven to ensure provided scope -->
+            <ignore>org.apache.maven:maven-artifact</ignore>
+            <!-- ignore transitive dependency of maven to ensure provided scope -->
+            <ignore>org.apache.maven:maven-core</ignore>
+            <!-- ignore alignment with plexus-xml as required to ensure plexus-utils uses maven 3 -->
+            <ignore>org.codehaus.plexus:plexus-xml</ignore>
+          </ignoredUnusedDeclaredDependencies>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <inceptionYear>2011</inceptionYear>
