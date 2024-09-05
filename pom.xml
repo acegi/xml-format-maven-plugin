@@ -176,6 +176,7 @@
                 <rules combine.children="append">
                   <enforceBytecodeVersion>
                     <maxJdkVersion>${maven.enforcer.java}</maxJdkVersion>
+                    <ignoredScopes>test</ignoredScopes>
                   </enforceBytecodeVersion>
                 </rules>
               </configuration>
