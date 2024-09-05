@@ -29,7 +29,7 @@ jobs:
 
     strategy:
       matrix:
-        java: [8, 11, 17, 21, 22-ea]
+        java: [8, 11, 17, 21, 22, 23-ea, 24-ea]
 
     name: Java ${{ matrix.java }} Compatibility
 
@@ -47,14 +47,14 @@ jobs:
       - name: Test with Maven
         run: ./mvnw -B -V test
 
-  compatibility-checks-java7-maven354:
+  compatibility-checks-java8-maven363:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        java: [7]
+        java: [8]
 
-    name: Java ${{ matrix.java }} Compatibility with Maven 3.5.4
+    name: Java ${{ matrix.java }} Compatibility with Maven 3.6.3
 
     steps:
       - name: Check out Git repository
@@ -67,8 +67,8 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
 
-      - name: Load Maven 3.5.4
-        run: mvn -B -V io.takari:maven:0.5.0:wrapper -Dmaven=3.5.4 --no-transfer-progress
+      - name: Load Maven 3.6.3
+        run: mvn -B -V org.apache.maven.plugins::maven-wrapper-plugin:3.3.2:wrapper -Dmaven=3.6.3 --no-transfer-progress
 
       - name: Test with Maven
         run: ./mvnw -B -V test
@@ -87,14 +87,14 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: zulu
-        java-version: 17
+        java-version: 21
         cache: maven
 
     - name: Set up Java and Maven
       uses: actions/setup-java@v4
       with:
         distribution: zulu
-        java-version: 17
+        java-version: 21
         cache: maven
         server-id: ossrh
         server-username: MAVEN_USERNAME
