@@ -26,7 +26,7 @@ jobs:
       run: ./mvnw -B -V site --no-transfer-progress
 
     - name: Publish site to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./target/site
