@@ -5,7 +5,7 @@
     <groupId>au.com.acegi</groupId>
     <artifactId>acegi-standard-project</artifactId>
     <version>0.7.0</version>
-    <relativePath />
+    <relativePath/>
   </parent>
   <groupId>au.com.acegi</groupId>
   <artifactId>xml-format-maven-plugin</artifactId>
@@ -27,6 +27,11 @@
     <xml-format.skip>true</xml-format.skip>
   </properties>
   <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -72,11 +77,6 @@
       <version>2.1.4</version>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
       <scope>test</scope>
@@ -104,6 +104,20 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <ignoredUnusedDeclaredDependencies>
+            <!-- ignore transitive dependency of maven to ensure provided scope -->
+            <ignore>org.apache.maven:maven-artifact</ignore>
+            <!-- ignore transitive dependency of maven to ensure provided scope -->
+            <ignore>org.apache.maven:maven-core</ignore>
+            <!-- ignore alignment with plexus-xml as required to ensure plexus-utils uses maven 3 -->
+            <ignore>org.codehaus.plexus:plexus-xml</ignore>
+          </ignoredUnusedDeclaredDependencies>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -140,20 +154,6 @@
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.12</version>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <ignoredUnusedDeclaredDependencies>
-            <!-- ignore transitive dependency of maven to ensure provided scope -->
-            <ignore>org.apache.maven:maven-artifact</ignore>
-            <!-- ignore transitive dependency of maven to ensure provided scope -->
-            <ignore>org.apache.maven:maven-core</ignore>
-            <!-- ignore alignment with plexus-xml as required to ensure plexus-utils uses maven 3 -->
-            <ignore>org.codehaus.plexus:plexus-xml</ignore>
-          </ignoredUnusedDeclaredDependencies>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
   <inceptionYear>2011</inceptionYear>
@@ -178,8 +178,8 @@
         <jdk>[11,)</jdk>
       </activation>
       <properties>
-          <maven.compiler.release>8</maven.compiler.release>
-          <mockito.version>5.13.0</mockito.version>
+        <maven.compiler.release>8</maven.compiler.release>
+        <mockito.version>5.13.0</mockito.version>
       </properties>
       <build>
         <pluginManagement>
