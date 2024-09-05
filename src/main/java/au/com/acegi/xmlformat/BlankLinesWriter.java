@@ -83,7 +83,7 @@ class BlankLinesWriter extends XMLWriter {
     }
   }
 
-  private class NewLinesHandler {
+  private final class NewLinesHandler {
     private int newLinesCount;
 
     /**
