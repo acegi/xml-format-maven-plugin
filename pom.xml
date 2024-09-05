@@ -92,8 +92,8 @@
     <plugins>
       <!-- Maven 4 seems to want maven wrapper defined for some reason. -->
       <plugin>
-        <groupId>org.apache.maven.wrapper</groupId>
-        <artifactId>maven-wrapper</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-wrapper-plugin</artifactId>
         <version>3.3.2</version>
       </plugin>
       <plugin>
