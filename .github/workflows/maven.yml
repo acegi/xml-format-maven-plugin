@@ -73,6 +73,32 @@ jobs:
       - name: Test with Maven
         run: ./mvnw -B -V test
 
+  compatibility-checks-java8-maven400:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java: [8]
+
+    name: Java ${{ matrix.java }} Compatibility with Maven 4.0.0-beta-4
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Load Maven 4.0.0-beta-4
+        run: mvn -B -V org.apache.maven.plugins::maven-wrapper-plugin:3.3.2:wrapper -Dmaven=4.0.0-beta-4 --no-transfer-progress
+
+      - name: Test with Maven
+        run: ./mvnw -B -V test
+
   deploy:
     name: Deploy to OSSRH
     needs: [build, compatibility-checks]
