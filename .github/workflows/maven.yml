@@ -73,12 +73,12 @@ jobs:
       - name: Test with Maven
         run: ./mvnw -B -V test
 
-  compatibility-checks-java8-maven400:
+  compatibility-checks-java17-maven400:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        java: [8]
+        java: [17]
 
     name: Java ${{ matrix.java }} Compatibility with Maven 4.0.0-beta-4
 
