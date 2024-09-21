@@ -24,6 +24,7 @@
     <pluginExecution>
       <pluginExecutionFilter>
         <goals>
+          <goal>xml-check</goal>
           <goal>xml-format</goal>
         </goals>
       </pluginExecutionFilter>
