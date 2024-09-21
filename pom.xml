@@ -13,6 +13,9 @@
   <packaging>maven-plugin</packaging>
   <name>XML Format Maven Plugin</name>
   <description>Automatically formats XML files in a project.</description>
+  <prerequisites>
+    <maven>3.6.3</maven>
+  </prerequisites>
   <properties>
     <github.org>acegi</github.org>
     <github.repo>xml-format-maven-plugin</github.repo>
@@ -21,6 +24,7 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <maven.enforcer.java>8</maven.enforcer.java>
+    <maven.enforcer.mvn>3.6.3</maven.enforcer.mvn>
     <mockito.version>4.11.0</mockito.version>
     <pmd.version>6.55.0</pmd.version>
     <spotbugs.skip>true</spotbugs.skip>
