@@ -4,8 +4,8 @@
   <parent>
     <groupId>au.com.acegi</groupId>
     <artifactId>acegi-standard-project</artifactId>
-    <version>0.6.5</version>
-    <relativePath />
+    <version>0.7.0</version>
+    <relativePath/>
   </parent>
   <groupId>au.com.acegi</groupId>
   <artifactId>xml-format-maven-plugin</artifactId>
@@ -13,14 +13,20 @@
   <packaging>maven-plugin</packaging>
   <name>XML Format Maven Plugin</name>
   <description>Automatically formats XML files in a project.</description>
+  <prerequisites>
+    <maven>3.6.3</maven>
+  </prerequisites>
   <properties>
     <github.org>acegi</github.org>
     <github.repo>xml-format-maven-plugin</github.repo>
     <license.excludes>**/test*.xml,**/invalid.xml</license.excludes>
     <license.licenseName>apache_v2</license.licenseName>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-    <maven.enforcer.java>1.7</maven.enforcer.java>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+    <maven.enforcer.java>8</maven.enforcer.java>
+    <maven.enforcer.mvn>3.6.3</maven.enforcer.mvn>
+    <mockito.version>4.11.0</mockito.version>
+    <pmd.version>6.55.0</pmd.version>
     <spotbugs.skip>true</spotbugs.skip>
     <xml-format.skip>true</xml-format.skip>
   </properties>
@@ -28,35 +34,51 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <scope>test</scope>
     </dependency>
-    <!-- Commons Lang restricted to 3.8.1 to support Java 7 -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.8.1</version>
+      <version>3.17.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-artifact</artifactId>
+      <version>3.9.9</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-core</artifactId>
+      <version>3.9.9</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>3.8.8</version>
+      <version>3.9.9</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-      <version>3.6.4</version>
+      <version>3.15.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- 3.3.1 is the last version supporting Java 7 -->
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
       <artifactId>plexus-utils</artifactId>
-      <version>3.3.1</version>
+      <version>4.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-xml</artifactId>
+      <version>3.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.dom4j</groupId>
       <artifactId>dom4j</artifactId>
-      <version>2.0.3</version>
+      <version>2.1.4</version>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -64,66 +86,83 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <!-- Mockito 3.0.0 and above requires Java 8 (XML formatter targets Java 7) -->
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>2.28.2</version>
+      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <plugins>
+      <!-- Maven 4 seems to want maven wrapper defined for some reason. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-wrapper-plugin</artifactId>
+        <version>3.3.2</version>
+      </plugin>
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.8.1.0</version>
+        <version>4.8.6.4</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.3.1</version>
+        <version>3.5.0</version>
       </plugin>
-      <!-- 3.8.1 required to support Java 7 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <ignoredUnusedDeclaredDependencies>
+            <!-- ignore transitive dependency of maven to ensure provided scope -->
+            <ignore>org.apache.maven:maven-artifact</ignore>
+            <!-- ignore transitive dependency of maven to ensure provided scope -->
+            <ignore>org.apache.maven:maven-core</ignore>
+            <!-- ignore alignment with plexus-xml as required to ensure plexus-utils uses maven 3 -->
+            <ignore>org.codehaus.plexus:plexus-xml</ignore>
+          </ignoredUnusedDeclaredDependencies>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.15.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.21.2</version>
       </plugin>
-      <!-- 3.2.0 required to support Java 7 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.1</version>
       </plugin>
       <plugin>
         <groupId>org.basepom.maven</groupId>
         <artifactId>duplicate-finder-maven-plugin</artifactId>
-      </plugin>
-      <!-- 2.0.1 required to support Java 7 -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>license-maven-plugin</artifactId>
         <version>2.0.1</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-        <version>2.16.2</version>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.4.0</version>
       </plugin>
-      <!-- 0.8.10 required to support Java 7 -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.17.1</version>
+      </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.10</version>
+        <version>0.8.12</version>
       </plugin>
     </plugins>
   </build>
@@ -148,17 +187,22 @@
       <activation>
         <jdk>[11,)</jdk>
       </activation>
+      <properties>
+        <maven.compiler.release>8</maven.compiler.release>
+        <mockito.version>5.13.0</mockito.version>
+      </properties>
       <build>
         <pluginManagement>
           <plugins>
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-enforcer-plugin</artifactId>
-              <version>3.4.1</version>
+              <version>3.5.0</version>
               <configuration>
                 <rules combine.children="append">
                   <enforceBytecodeVersion>
                     <maxJdkVersion>${maven.enforcer.java}</maxJdkVersion>
+                    <ignoredScopes>test</ignoredScopes>
                   </enforceBytecodeVersion>
                 </rules>
               </configuration>
@@ -166,7 +210,7 @@
                 <dependency>
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>extra-enforcer-rules</artifactId>
-                  <version>1.7.0</version>
+                  <version>1.9.0</version>
                 </dependency>
               </dependencies>
             </plugin>
@@ -176,35 +220,25 @@
           <plugin>
             <groupId>com.github.ekryd.sortpom</groupId>
             <artifactId>sortpom-maven-plugin</artifactId>
-            <version>3.3.0</version>
+            <version>4.0.0</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.6.1</version>
+            <version>3.8.0</version>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-enforcer-plugin</artifactId>
+            <version>3.5.0</version>
           </plugin>
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>buildnumber-maven-plugin</artifactId>
-            <version>3.2.0</version>
+            <version>3.2.1</version>
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <id>additional-plugins-on-java-21-and-above</id>
-      <activation>
-        <jdk>[21,)</jdk>
-      </activation>
-      <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <maven.enforcer.java>8</maven.enforcer.java>
-      </properties>
     </profile>
   </profiles>
 </project>

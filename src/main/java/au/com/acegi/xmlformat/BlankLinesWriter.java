@@ -2,7 +2,7 @@
  * #%L
  * XML Format Maven Plugin
  * %%
- * Copyright (C) 2011 - 2023 Acegi Technology Pty Limited
+ * Copyright (C) 2011 - 2024 Acegi Technology Pty Limited
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ class BlankLinesWriter extends XMLWriter {
     }
   }
 
-  private class NewLinesHandler {
+  private final class NewLinesHandler {
     private int newLinesCount;
 
     /**
