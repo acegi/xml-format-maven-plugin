@@ -17,3 +17,6 @@ Snapshot releases are available in the
 ## Releasing
 
 Prepare release locally then push to the release branch which will finish the release.
+
+- mvn release:clean
+- mvn release:prepare
