@@ -25,7 +25,7 @@ import static au.com.acegi.xmlformat.TestUtil.stringToFile;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -40,10 +40,9 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests {@link XmlFormatPlugin}.
@@ -58,8 +57,8 @@ public final class XmlFormatPluginTest {
   private static final String TO_CHG_TXT = "<xml> <hello/> </xml>";
   private static final String INCLUDE_ALL_XML = "**/*.xml";
 
-  @Rule
-  public TemporaryFolder tmp = new TemporaryFolder();
+  @TempDir
+  public File tmp;
   private File error;
   @SuppressWarnings("PMD.ProperLogger")
   private Log log;
@@ -68,9 +67,9 @@ public final class XmlFormatPluginTest {
   private File target;
   private File toChange;
 
-  @Before
+  @BeforeEach
   public void before() throws IOException {
-    proj = tmp.newFolder();
+    proj = newFolder(tmp, "junit");
     target = new File(proj, "target");
     assertThat(target.mkdir(), is(true));
 
@@ -186,5 +185,14 @@ public final class XmlFormatPluginTest {
     verify(log, atLeastOnce()).info("[xml-format] Skipped");
 
     assertThat(fileToString(toChange), is(TO_CHG_TXT));
+  }
+
+  private static File newFolder(File root, String... subDirs) throws IOException {
+    String subFolder = String.join("/", subDirs);
+    File result = new File(root, subFolder);
+    if (!result.mkdirs()) {
+      throw new IOException("Couldn't create folders " + root);
+    }
+    return result;
   }
 }

@@ -28,6 +28,7 @@ import static au.com.acegi.xmlformat.TestUtil.stringToFile;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,9 +36,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.dom4j.DocumentException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /** Tests {@link FormatUtil}. */
 public final class FormatUtilTest {
@@ -45,7 +45,8 @@ public final class FormatUtilTest {
   private static final String FORMATTED_XML = "<xml><hello/></xml>";
   private static final String UNFORMATTED_XML = "<xml>   <hello/> </xml>";
 
-  @Rule public TemporaryFolder tmp = new TemporaryFolder();
+  @TempDir
+  public File tmp;
 
   @Test
   public void formattedWillNotChange() throws DocumentException, IOException {
@@ -160,12 +161,14 @@ public final class FormatUtilTest {
     testInOut(6, fmt);
   }
 
-  @Test(expected = DocumentException.class)
+  @Test
   public void testInvalid() throws DocumentException, IOException {
-    try (InputStream in = getResource("/invalid.xml")) {
-      final ByteArrayOutputStream out = new ByteArrayOutputStream();
-      format(in, out, new XmlOutputFormat());
-    }
+    assertThrows(DocumentException.class, () -> {
+      try (InputStream in = getResource("/invalid.xml")) {
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        format(in, out, new XmlOutputFormat());
+      }
+    });
   }
 
   @Test
@@ -175,7 +178,7 @@ public final class FormatUtilTest {
 
   private void inPlaceChange(final String txt, final boolean shouldChange)
       throws DocumentException, IOException {
-    final File file = tmp.newFile();
+    final File file = File.createTempFile("junit", null, tmp);
     stringToFile(txt, file);
 
     final XmlOutputFormat fmt = new XmlOutputFormat();
