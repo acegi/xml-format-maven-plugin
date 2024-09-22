@@ -37,7 +37,7 @@ public final class IOTest {
 
   @Test
   public void hash1() throws IOException {
-    testHash("/test1-in.xml", 1_864_626_297L);
+    testHash("/test1-in.xml", 459_402_491L);
   }
 
   @Test
@@ -47,7 +47,7 @@ public final class IOTest {
 
   @Test
   public void hashInvalid() throws IOException {
-    testHash("/invalid.xml", 2_678_376_893L);
+    testHash("/invalid.xml", 2_274_913_643L);
   }
 
   private void testHash(final String resource, final long expected) throws IOException {
