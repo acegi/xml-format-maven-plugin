@@ -150,6 +150,10 @@
             <ignore>org.apache.maven:maven-core</ignore>
             <!-- ignore alignment with plexus-xml as required to ensure plexus-utils uses maven 3 -->
             <ignore>org.codehaus.plexus:plexus-xml</ignore>
+            <!-- ignore junit 5 module -->
+            <ignore>org.junit.jupiter:junit-jupiter-api</ignore>
+            <!-- ignore junit 5 module -->
+            <ignore>org.junit.jupiter:junit-jupiter-engine</ignore>
           </ignoredUnusedDeclaredDependencies>
         </configuration>
       </plugin>
