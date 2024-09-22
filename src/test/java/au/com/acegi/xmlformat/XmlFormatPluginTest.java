@@ -25,7 +25,7 @@ import static au.com.acegi.xmlformat.TestUtil.stringToFile;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -40,15 +40,14 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests {@link XmlFormatPlugin}.
  */
-public final class XmlFormatPluginTest {
+class XmlFormatPluginTest {
 
   private static final String EMPTY_FILE_NAME = "empty.xml";
   private static final String EMPTY_TXT = "";
@@ -58,8 +57,8 @@ public final class XmlFormatPluginTest {
   private static final String TO_CHG_TXT = "<xml> <hello/> </xml>";
   private static final String INCLUDE_ALL_XML = "**/*.xml";
 
-  @Rule
-  public TemporaryFolder tmp = new TemporaryFolder();
+  @TempDir
+  private File tmp;
   private File error;
   @SuppressWarnings("PMD.ProperLogger")
   private Log log;
@@ -68,9 +67,9 @@ public final class XmlFormatPluginTest {
   private File target;
   private File toChange;
 
-  @Before
-  public void before() throws IOException {
-    proj = tmp.newFolder();
+  @BeforeEach
+  void before() throws IOException {
+    proj = newFolder(tmp, "junit");
     target = new File(proj, "target");
     assertThat(target.mkdir(), is(true));
 
@@ -95,7 +94,7 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
-  public void pluginExcludesError() throws MojoExecutionException, MojoFailureException {
+  void pluginExcludesError() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -119,7 +118,7 @@ public final class XmlFormatPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginReportsError() throws MojoExecutionException {
+  void pluginReportsError() throws MojoExecutionException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(false);
@@ -147,7 +146,7 @@ public final class XmlFormatPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginSkipTargetFolder() throws MojoExecutionException, MojoFailureException {
+  void pluginSkipTargetFolder() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
 
@@ -168,7 +167,7 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
-  public void pluginSkip() throws MojoExecutionException, MojoFailureException {
+  void pluginSkip() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     plugin.setSkip(true);
@@ -186,5 +185,14 @@ public final class XmlFormatPluginTest {
     verify(log, atLeastOnce()).info("[xml-format] Skipped");
 
     assertThat(fileToString(toChange), is(TO_CHG_TXT));
+  }
+
+  private static File newFolder(final File root, final String... subDirs) throws IOException {
+    final String subFolder = String.join("/", subDirs);
+    final File result = new File(root, subFolder);
+    if (!result.mkdirs()) {
+      throw new IOException("Couldn't create folders " + root);
+    }
+    return result;
   }
 }

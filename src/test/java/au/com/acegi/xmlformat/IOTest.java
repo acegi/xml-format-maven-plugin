@@ -28,25 +28,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests {@link IOUtil}.
  */
-public final class IOTest {
+class IOTest {
 
   @Test
-  public void hash1() throws IOException {
+  void hash1() throws IOException {
     testHash("/test1-in.xml", 459_402_491L);
   }
 
   @Test
-  public void hash2() throws IOException {
+  void hash2() throws IOException {
     testHash("/test2-in.xml", 1_687_393_391L);
   }
 
   @Test
-  public void hashInvalid() throws IOException {
+  void hashInvalid() throws IOException {
     testHash("/invalid.xml", 2_274_913_643L);
   }
 

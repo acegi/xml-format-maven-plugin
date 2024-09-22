@@ -24,7 +24,7 @@ import static au.com.acegi.xmlformat.TestUtil.fileToString;
 import static au.com.acegi.xmlformat.TestUtil.stringToFile;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
@@ -38,15 +38,14 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
  * Tests {@link XmlCheckPlugin}.
  */
-public class XmlCheckPluginTest {
+class XmlCheckPluginTest {
 
   private static final String EMPTY_FILE_NAME = "empty.xml";
   private static final String EMPTY_TXT = "";
@@ -56,8 +55,8 @@ public class XmlCheckPluginTest {
   private static final String TO_CHG_FILE_NAME = "my.xml";
   private static final String TO_CHG_TXT = "<xml> <hello/> </xml>";
 
-  @Rule
-  public TemporaryFolder tmp = new TemporaryFolder();
+  @TempDir
+  private File tmp;
 
   @SuppressWarnings("PMD.ProperLogger")
   private Log log;
@@ -65,9 +64,9 @@ public class XmlCheckPluginTest {
   private File proj;
   private File target;
 
-  @Before
-  public void before() throws IOException {
-    proj = tmp.newFolder();
+  @BeforeEach
+  void before() throws IOException {
+    proj = newFolder(tmp, "junit");
     target = new File(proj, "target");
     assertThat(target.mkdir(), is(true));
 
@@ -93,7 +92,7 @@ public class XmlCheckPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginReportsError() throws MojoExecutionException {
+  void pluginReportsError() throws MojoExecutionException {
     final XmlCheckPlugin plugin = new XmlCheckPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -116,7 +115,7 @@ public class XmlCheckPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginReportsFormattingNeeded() throws MojoFailureException {
+  void pluginReportsFormattingNeeded() throws MojoFailureException {
     final XmlCheckPlugin plugin = new XmlCheckPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -139,7 +138,7 @@ public class XmlCheckPluginTest {
   }
 
   @Test
-  public void pluginSucceedsWhenAllFormatted() throws MojoExecutionException, MojoFailureException {
+  void pluginSucceedsWhenAllFormatted() throws MojoExecutionException, MojoFailureException {
     final XmlCheckPlugin plugin = new XmlCheckPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -155,5 +154,14 @@ public class XmlCheckPluginTest {
     verify(log, never()).isErrorEnabled();
     verify(log, atLeastOnce()).isDebugEnabled();
     verify(log, atLeastOnce()).debug(anyString());
+  }
+
+  private static File newFolder(final File root, final String... subDirs) throws IOException {
+    final String subFolder = String.join("/", subDirs);
+    final File result = new File(root, subFolder);
+    if (!result.mkdirs()) {
+      throw new IOException("Couldn't create folders " + root);
+    }
+    return result;
   }
 }
