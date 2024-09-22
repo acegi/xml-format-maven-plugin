@@ -16,4 +16,4 @@ Snapshot releases are available in the
 
 ## Releasing
 
-Use jdk 17 or lower to perform release in order to keep java compatibility at java 7.  This is necessary as usage of java 21 to build requires we set to java 8.
+Prepare release locally then push to the release branch which will finish the release.
