@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 /** Tests {@link FormatUtil}. */
-public final class FormatUtilTest {
+class FormatUtilTest {
 
   private static final String FORMATTED_XML = "<xml><hello/></xml>";
   private static final String UNFORMATTED_XML = "<xml>   <hello/> </xml>";
@@ -49,12 +49,12 @@ public final class FormatUtilTest {
   private File tmp;
 
   @Test
-  public void formattedWillNotChange() throws DocumentException, IOException {
+  void formattedWillNotChange() throws DocumentException, IOException {
     inPlaceChange(FORMATTED_XML, false);
   }
 
   @Test
-  public void test1() throws DocumentException, IOException {
+  void test1() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndentSize(4);
     fmt.setNewLineAfterDeclaration(false);
@@ -63,7 +63,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test1KeepBlankLines() throws DocumentException, IOException {
+  void test1KeepBlankLines() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndentSize(4);
     fmt.setNewLineAfterDeclaration(false);
@@ -73,7 +73,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test2() throws DocumentException, IOException {
+  void test2() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndentSize(2);
     fmt.setNewLineAfterDeclaration(false);
@@ -82,7 +82,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test2KeepBlankLines() throws DocumentException, IOException {
+  void test2KeepBlankLines() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndentSize(2);
     fmt.setNewLineAfterDeclaration(false);
@@ -92,7 +92,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test3() throws DocumentException, IOException {
+  void test3() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndentSize(2);
     fmt.setNewLineAfterDeclaration(false);
@@ -101,7 +101,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test4() throws DocumentException, IOException {
+  void test4() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("\t");
     fmt.setNewLineAfterDeclaration(false);
@@ -110,7 +110,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test4KeepBlankLines() throws DocumentException, IOException {
+  void test4KeepBlankLines() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("\t");
     fmt.setNewLineAfterDeclaration(false);
@@ -120,7 +120,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void test5() throws DocumentException, IOException {
+  void test5() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
     fmt.setNewLineAfterDeclaration(false);
@@ -134,7 +134,7 @@ public final class FormatUtilTest {
    * seems, they don't reach the XMLWriter. Not ideal, but believe we can leave with this exception
    */
   @Test
-  public void test5KeepBlankLines() throws DocumentException, IOException {
+  void test5KeepBlankLines() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
     // Set to true to keep the new line given keep blank lines will not
@@ -150,7 +150,7 @@ public final class FormatUtilTest {
    * seems, they don't reach the XMLWriter. Not ideal, but believe we can leave with this exception
    */
   @Test
-  public void test6() throws DocumentException, IOException {
+  void test6() throws DocumentException, IOException {
     final XmlOutputFormat fmt = new XmlOutputFormat();
     fmt.setIndent("    ");
     // Set to true to keep the new line given keep blank lines will not
@@ -162,7 +162,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void testInvalid() throws DocumentException, IOException {
+  void testInvalid() throws DocumentException, IOException {
     assertThrows(DocumentException.class, () -> {
       try (InputStream in = getResource("/invalid.xml")) {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -172,7 +172,7 @@ public final class FormatUtilTest {
   }
 
   @Test
-  public void unformattedWillChange() throws DocumentException, IOException {
+  void unformattedWillChange() throws DocumentException, IOException {
     inPlaceChange(UNFORMATTED_XML, true);
   }
 

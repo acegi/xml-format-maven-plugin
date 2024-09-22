@@ -45,7 +45,7 @@ import org.junit.jupiter.api.io.TempDir;
 /**
  * Tests {@link XmlCheckPlugin}.
  */
-public class XmlCheckPluginTest {
+class XmlCheckPluginTest {
 
   private static final String EMPTY_FILE_NAME = "empty.xml";
   private static final String EMPTY_TXT = "";
@@ -65,7 +65,7 @@ public class XmlCheckPluginTest {
   private File target;
 
   @BeforeEach
-  public void before() throws IOException {
+  void before() throws IOException {
     proj = newFolder(tmp, "junit");
     target = new File(proj, "target");
     assertThat(target.mkdir(), is(true));
@@ -92,7 +92,7 @@ public class XmlCheckPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginReportsError() throws MojoExecutionException {
+  void pluginReportsError() throws MojoExecutionException {
     final XmlCheckPlugin plugin = new XmlCheckPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -115,7 +115,7 @@ public class XmlCheckPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginReportsFormattingNeeded() throws MojoFailureException {
+  void pluginReportsFormattingNeeded() throws MojoFailureException {
     final XmlCheckPlugin plugin = new XmlCheckPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -138,7 +138,7 @@ public class XmlCheckPluginTest {
   }
 
   @Test
-  public void pluginSucceedsWhenAllFormatted() throws MojoExecutionException, MojoFailureException {
+  void pluginSucceedsWhenAllFormatted() throws MojoExecutionException, MojoFailureException {
     final XmlCheckPlugin plugin = new XmlCheckPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);

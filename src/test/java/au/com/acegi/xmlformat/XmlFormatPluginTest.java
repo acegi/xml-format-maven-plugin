@@ -47,7 +47,7 @@ import org.junit.jupiter.api.io.TempDir;
 /**
  * Tests {@link XmlFormatPlugin}.
  */
-public final class XmlFormatPluginTest {
+class XmlFormatPluginTest {
 
   private static final String EMPTY_FILE_NAME = "empty.xml";
   private static final String EMPTY_TXT = "";
@@ -68,7 +68,7 @@ public final class XmlFormatPluginTest {
   private File toChange;
 
   @BeforeEach
-  public void before() throws IOException {
+  void before() throws IOException {
     proj = newFolder(tmp, "junit");
     target = new File(proj, "target");
     assertThat(target.mkdir(), is(true));
@@ -94,7 +94,7 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
-  public void pluginExcludesError() throws MojoExecutionException, MojoFailureException {
+  void pluginExcludesError() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(true);
@@ -118,7 +118,7 @@ public final class XmlFormatPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginReportsError() throws MojoExecutionException {
+  void pluginReportsError() throws MojoExecutionException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     when(log.isDebugEnabled()).thenReturn(false);
@@ -146,7 +146,7 @@ public final class XmlFormatPluginTest {
 
   @Test
   @SuppressWarnings("PMD.JUnitUseExpected")
-  public void pluginSkipTargetFolder() throws MojoExecutionException, MojoFailureException {
+  void pluginSkipTargetFolder() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
 
@@ -167,7 +167,7 @@ public final class XmlFormatPluginTest {
   }
 
   @Test
-  public void pluginSkip() throws MojoExecutionException, MojoFailureException {
+  void pluginSkip() throws MojoExecutionException, MojoFailureException {
     final XmlFormatPlugin plugin = new XmlFormatPlugin();
     plugin.setLog(log);
     plugin.setSkip(true);
