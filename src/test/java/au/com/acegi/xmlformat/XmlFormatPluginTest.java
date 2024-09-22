@@ -187,7 +187,7 @@ public final class XmlFormatPluginTest {
     assertThat(fileToString(toChange), is(TO_CHG_TXT));
   }
 
-  private static File newFolder(File root, String... subDirs) throws IOException {
+  private static File newFolder(final File root, final String... subDirs) throws IOException {
     final String subFolder = String.join("/", subDirs);
     final File result = new File(root, subFolder);
     if (!result.mkdirs()) {
