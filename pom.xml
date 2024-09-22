@@ -31,6 +31,8 @@
     <sortpom-plugin.version>4.0.0</sortpom-plugin.version>
     <spotbugs.skip>true</spotbugs.skip>
     <xml-format.skip>true</xml-format.skip>
+    <!-- TODO: Remove checkstyle property after parent update released -->
+    <checkstyle.excludeGeneratedSources>true</checkstyle.excludeGeneratedSources>
   </properties>
   <dependencies>
     <dependency>
