@@ -5,11 +5,11 @@
     <groupId>au.com.acegi</groupId>
     <artifactId>acegi-standard-project</artifactId>
     <version>0.7.0</version>
-    <relativePath/>
+    <relativePath />
   </parent>
   <groupId>au.com.acegi</groupId>
   <artifactId>xml-format-maven-plugin</artifactId>
-  <version>4.0.1-SNAPSHOT</version>
+  <version>4.0.2-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>XML Format Maven Plugin</name>
   <description>Automatically formats XML files in a project.</description>
