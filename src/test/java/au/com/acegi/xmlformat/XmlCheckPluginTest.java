@@ -157,8 +157,8 @@ public class XmlCheckPluginTest {
   }
 
   private static File newFolder(File root, String... subDirs) throws IOException {
-    String subFolder = String.join("/", subDirs);
-    File result = new File(root, subFolder);
+    final String subFolder = String.join("/", subDirs);
+    final File result = new File(root, subFolder);
     if (!result.mkdirs()) {
       throw new IOException("Couldn't create folders " + root);
     }

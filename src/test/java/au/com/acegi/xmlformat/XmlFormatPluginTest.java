@@ -58,7 +58,7 @@ public final class XmlFormatPluginTest {
   private static final String INCLUDE_ALL_XML = "**/*.xml";
 
   @TempDir
-  public File tmp;
+  private File tmp;
   private File error;
   @SuppressWarnings("PMD.ProperLogger")
   private Log log;
@@ -188,8 +188,8 @@ public final class XmlFormatPluginTest {
   }
 
   private static File newFolder(File root, String... subDirs) throws IOException {
-    String subFolder = String.join("/", subDirs);
-    File result = new File(root, subFolder);
+    final String subFolder = String.join("/", subDirs);
+    final File result = new File(root, subFolder);
     if (!result.mkdirs()) {
       throw new IOException("Couldn't create folders " + root);
     }
