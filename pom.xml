@@ -28,7 +28,7 @@
     <maven.enforcer.mvn>3.6.3</maven.enforcer.mvn>
     <maven.plugin.report.version>3.15.1</maven.plugin.report.version>
     <mockito.version>5.13.0</mockito.version>
-    <pmd.version>6.55.0</pmd.version>
+    <pmd.version>7.5.0</pmd.version>
     <sortpom-plugin.version>4.0.0</sortpom-plugin.version>
     <spotbugs.skip>true</spotbugs.skip>
     <xml-format.skip>true</xml-format.skip>
@@ -162,7 +162,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.21.2</version>
+        <version>3.25.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
