@@ -46,7 +46,7 @@ public final class FormatUtilTest {
   private static final String UNFORMATTED_XML = "<xml>   <hello/> </xml>";
 
   @TempDir
-  public File tmp;
+  private File tmp;
 
   @Test
   public void formattedWillNotChange() throws DocumentException, IOException {

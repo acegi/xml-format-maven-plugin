@@ -56,7 +56,7 @@ public class XmlCheckPluginTest {
   private static final String TO_CHG_TXT = "<xml> <hello/> </xml>";
 
   @TempDir
-  public File tmp;
+  private File tmp;
 
   @SuppressWarnings("PMD.ProperLogger")
   private Log log;
