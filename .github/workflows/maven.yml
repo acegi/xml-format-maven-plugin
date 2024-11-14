@@ -22,7 +22,7 @@ jobs:
       run: ./mvnw -B -V verify --no-transfer-progress
 
     - name: Upload code coverage to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
 
   compatibility-checks:
     runs-on: ubuntu-latest
