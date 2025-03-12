@@ -86,6 +86,7 @@
 
         <!-- Keep formatters generaly off, use only selectively to cleanup formatting of source files -->
         <formatter.skip>true</formatter.skip>
+        <rewrite.skip>true</rewrite.skip>
         <spotbugs.skip>true</spotbugs.skip>
         <spotless.skip>true</spotless.skip>
         <whitespace.skip>true</whitespace.skip>
