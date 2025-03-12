@@ -18,19 +18,7 @@
     limitations under the License.
 
 -->
-
-<lifecycleMappingMetadata>
-  <pluginExecutions>
-    <pluginExecution>
-      <pluginExecutionFilter>
-        <goals>
-          <goal>xml-check</goal>
-          <goal>xml-format</goal>
-        </goals>
-      </pluginExecutionFilter>
-      <action>
-        <ignore/>
-      </action>
-    </pluginExecution>
-  </pluginExecutions>
-</lifecycleMappingMetadata>
+<!DOCTYPE Format>
+<Format>
+ <!-- Dummy format file -->
+</Format>
