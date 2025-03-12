@@ -70,40 +70,57 @@
         <java.release.version>8</java.release.version>
         <javadoc.java.release.version>8</javadoc.java.release.version>
 
+        <!-- Plugins -->
         <maven-plugin.version>3.15.1</maven-plugin.version>
 
+        <!-- Libraries -->
+        <byte-buddy.version>1.17.2</byte-buddy.version>
+        <dom4j.version>2.1.4</dom4j.version>
+        <hamcrest.version>3.0</hamcrest.version>
+        <junit.version>5.12.0</junit.version>
+        <lang.version>3.17.0</lang.version>
+        <maven.version>3.9.9</maven.version>
         <mockito.version>5.16.0</mockito.version>
+        <plexus-utils.version>4.0.2</plexus-utils.version>
         <spotbugs.version note="maintain java 8 compatibiilty">4.8.6</spotbugs.version>
 
+        <!-- Keep formatters generaly off, use only selectively to cleanup formatting of source files -->
         <formatter.skip>true</formatter.skip>
         <spotbugs.skip>true</spotbugs.skip>
         <spotless.skip>true</spotless.skip>
         <whitespace.skip>true</whitespace.skip>
         <xml-format.skip>true</xml-format.skip>
+
+        <!-- Skip modernizer until we upgrade to supported jdk -->
+        <modernizer.skip>true</modernizer.skip>
+
+        <!-- Surefire Setup -->
+        <argLine>-javaagent:${settings.localRepository}/net/bytebuddy/byte-buddy-agent/${byte-buddy.version}/byte-buddy-agent-${byte-buddy.version}.jar</argLine>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.17.0</version>
+            <version>${lang.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-artifact</artifactId>
-            <version>3.9.9</version>
+            <version>${maven.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.9.9</version>
+            <version>${maven.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.9.9</version>
+            <version>${maven.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -115,34 +132,43 @@
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-xml</artifactId>
-            <version>3.0.1</version>
+            <version>${plexus-utils.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>2.1.4</version>
+            <version>${dom4j.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
-            <version>3.0</version>
+            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.12.0</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${byte-buddy.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${byte-buddy.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -177,6 +203,7 @@
                         <licenseSet>
                             <header>LICENSE_HEADER</header>
                             <excludes combine.children="append">
+                                <exclude>.fbExcludeFilterFile</exclude>
                                 <exclude>**/test*.xml</exclude>
                                 <exclude>**/invalid.xml</exclude>
                             </excludes>
