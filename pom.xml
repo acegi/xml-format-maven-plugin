@@ -176,7 +176,6 @@
                             <excludes combine.children="append">
                                 <exclude>**/test*.xml</exclude>
                                 <exclude>**/invalid.xml</exclude>
-                                <exclude>apache_v2</exclude>
                             </excludes>
                         </licenseSet>
                     </licenseSets>
