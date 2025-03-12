@@ -78,6 +78,7 @@
         <formatter.skip>true</formatter.skip>
         <spotbugs.skip>true</spotbugs.skip>
         <spotless.skip>true</spotless.skip>
+        <whitespace.skip>true</whitespace.skip>
         <xml-format.skip>true</xml-format.skip>
     </properties>
 
