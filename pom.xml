@@ -75,6 +75,7 @@
         <mockito.version>5.16.0</mockito.version>
         <spotbugs.version note="maintain java 8 compatibiilty">4.8.6</spotbugs.version>
 
+        <formatter.skip>true</formatter.skip>
         <spotbugs.skip>true</spotbugs.skip>
         <spotless.skip>true</spotless.skip>
         <xml-format.skip>true</xml-format.skip>
