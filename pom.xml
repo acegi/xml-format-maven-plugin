@@ -49,6 +49,7 @@
         <!-- Java Runtime Requirements -->
         <java.version>8</java.version>
         <java.release.version>8</java.release.version>
+        <javadoc.java.release.version>8</javadoc.java.release.version>
 
         <maven-plugin.version>3.15.1</maven-plugin.version>
 
