@@ -26,6 +26,7 @@
     <maven.compiler.release>8</maven.compiler.release>
     <maven.enforcer.java>8</maven.enforcer.java>
     <maven.enforcer.mvn>3.6.3</maven.enforcer.mvn>
+    <maven.plugin.report.version>3.15.1</maven.plugin.report.version>
     <mockito.version>5.13.0</mockito.version>
     <pmd.version>6.55.0</pmd.version>
     <sortpom-plugin.version>4.0.0</sortpom-plugin.version>
@@ -211,6 +212,16 @@
     <system>GitHub Actions</system>
     <url>https://github.com/${github.org}/${github.repo}/actions</url>
   </ciManagement>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-report-plugin</artifactId>
+        <version>${maven.plugin.report.version}</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
   <profiles>
     <profile>
       <id>jdk-before-11</id>
