@@ -71,7 +71,7 @@ jobs:
         run: mvn -B -V org.apache.maven.plugins::maven-wrapper-plugin:3.3.2:wrapper -Dmaven=3.6.3 --no-transfer-progress
 
       - name: Test with Maven
-        run: ./mvnw -B -V test
+        run: ./mvnw -B -V test -Dmaven.min-version=3.6.3
 
   compatibility-checks-java21-maven400:
     runs-on: ubuntu-latest
