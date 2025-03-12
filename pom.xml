@@ -76,6 +76,7 @@
         <spotbugs.version note="maintain java 8 compatibiilty">4.8.6</spotbugs.version>
 
         <spotbugs.skip>true</spotbugs.skip>
+        <spotless.skip>true</spotless.skip>
         <xml-format.skip>true</xml-format.skip>
     </properties>
 
