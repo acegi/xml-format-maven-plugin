@@ -17,12 +17,10 @@
  */
 package au.com.acegi.xmlformat;
 
-import static java.util.Arrays.asList;
-import static java.util.Arrays.copyOf;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -255,11 +253,11 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
     }
 
     void setExcludes(final String... excludes) {
-        this.excludes = excludes == null ? null : copyOf(excludes, excludes.length);
+        this.excludes = excludes == null ? null : Arrays.copyOf(excludes, excludes.length);
     }
 
     void setIncludes(final String... includes) {
-        this.includes = includes == null ? null : copyOf(includes, includes.length);
+        this.includes = includes == null ? null : Arrays.copyOf(includes, includes.length);
     }
 
     void setSkip(final boolean skip) {
@@ -306,7 +304,7 @@ public abstract class AbstractXmlPlugin extends AbstractMojo {
         dirScanner.setBasedir(baseDirectory);
         dirScanner.setIncludes(includes);
 
-        final List<String> exclude = new ArrayList<>(asList(excludes));
+        final List<String> exclude = new ArrayList<>(Arrays.asList(excludes));
         if (skipTargetFolder && baseDirectory.equals(targetDirectory.getParentFile())) {
             exclude.add(targetDirectory.getName() + "/**");
         }
