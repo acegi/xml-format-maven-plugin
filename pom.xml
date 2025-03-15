@@ -31,7 +31,7 @@
 
     <groupId>au.com.acegi</groupId>
     <artifactId>xml-format-maven-plugin</artifactId>
-    <version>4.0.2-SNAPSHOT</version>
+    <version>4.1.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>XML Format Maven Plugin</name>
@@ -45,7 +45,7 @@
     <scm>
         <connection>scm:git:ssh://github.com/acegi/xml-format-maven-plugin.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/acegi/xml-format-maven-plugin.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>xml-format-maven-plugin-4.1.0</tag>
         <url>https://github.com/acegi/xml-format-maven-plugin</url>
     </scm>
     <issueManagement>
