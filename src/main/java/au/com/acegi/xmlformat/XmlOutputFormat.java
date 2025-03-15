@@ -30,6 +30,9 @@ public class XmlOutputFormat extends OutputFormat {
 
     private boolean keepBlankLines;
 
+    /**
+     * Instantiates a new xml output format.
+     */
     public XmlOutputFormat() {
         // same as pretty print
         setIndentSize(2);

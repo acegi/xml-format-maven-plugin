@@ -26,14 +26,17 @@ public enum LineEnding {
      * Use the system default line ending.
      */
     SYSTEM(),
+
     /**
      * Use the newline character. Typical on Unix and Unix-like systems.
      */
     LF("\n"),
+
     /**
      * Use the carriage return and new line characters. Typical on Windows.
      */
     CRLF("\r\n"),
+
     /**
      * Use the carriage return character.
      */
@@ -49,6 +52,11 @@ public enum LineEnding {
         this.chars = value;
     }
 
+    /**
+     * Gets the chars.
+     *
+     * @return the chars
+     */
     public String getChars() {
         return this.chars;
     }
