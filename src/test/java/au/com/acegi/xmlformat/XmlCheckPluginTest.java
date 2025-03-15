@@ -35,6 +35,7 @@ import java.io.IOException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -99,11 +100,10 @@ public class XmlCheckPluginTest {
         plugin.setIncludes("**/*.xml");
         plugin.setTargetDirectory(target);
 
-        try {
+        Assertions.assertThrows(MojoFailureException.class, () -> { 
             plugin.execute();
             fail("Should have raised exception when handling error");
-        } catch (final MojoFailureException ignored) {
-        }
+        });
 
         verify(log, atLeastOnce()).isErrorEnabled();
         verify(log, atLeastOnce()).isDebugEnabled();
@@ -123,11 +123,10 @@ public class XmlCheckPluginTest {
         plugin.setIncludes("**/*.xml");
         plugin.setTargetDirectory(target);
 
-        try {
+        Assertions.assertThrows(MojoExecutionException.class, () -> { 
             plugin.execute();
             fail("Should have raised exception when encountering non-formatted file");
-        } catch (final MojoExecutionException ignored) {
-        }
+        });
 
         verify(log, atLeastOnce()).isErrorEnabled();
         verify(log, atLeastOnce()).isDebugEnabled();
