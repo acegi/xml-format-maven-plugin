@@ -2,6 +2,8 @@ name: Maven Build and Deployment
 
 on: [push, pull_request]
 
+permissions: read-all
+
 jobs:
   build:
     name: Java Latest LTS Build and Verify
@@ -29,7 +31,7 @@ jobs:
 
     strategy:
       matrix:
-        java: [17, 21, 23]
+        java: [17, 21, 24, 25-ea]
 
     name: Java ${{ matrix.java }} Compatibility
 
