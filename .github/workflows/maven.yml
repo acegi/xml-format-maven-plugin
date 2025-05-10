@@ -2,6 +2,8 @@ name: Maven Build and Deployment
 
 on: [push, pull_request]
 
+permissions: read-all
+
 jobs:
   build:
     name: Java Latest LTS Build and Verify
