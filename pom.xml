@@ -77,7 +77,7 @@
         <byte-buddy.version>1.17.5</byte-buddy.version>
         <dom4j.version>2.1.4</dom4j.version>
         <hamcrest.version>3.0</hamcrest.version>
-        <junit.version>5.12.2</junit.version>
+        <junit.version>5.13.1</junit.version>
         <lang.version>3.17.0</lang.version>
         <maven.version>3.9.9</maven.version>
         <mockito.version>5.17.0</mockito.version>
