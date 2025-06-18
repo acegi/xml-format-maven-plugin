@@ -25,7 +25,7 @@
     <parent>
         <groupId>com.github.hazendaz</groupId>
         <artifactId>base-parent</artifactId>
-        <version>51</version>
+        <version>53</version>
         <relativePath />
     </parent>
 
@@ -74,13 +74,13 @@
         <maven-plugin.version>3.15.1</maven-plugin.version>
 
         <!-- Libraries -->
-        <byte-buddy.version>1.17.5</byte-buddy.version>
+        <byte-buddy.version>1.17.6</byte-buddy.version>
         <dom4j.version>2.1.4</dom4j.version>
         <hamcrest.version>3.0</hamcrest.version>
-        <junit.version>5.12.2</junit.version>
+        <junit.version>5.13.1</junit.version>
         <lang.version>3.17.0</lang.version>
-        <maven.version>3.9.9</maven.version>
-        <mockito.version>5.17.0</mockito.version>
+        <maven.version>3.9.10</maven.version>
+        <mockito.version>5.18.0</mockito.version>
         <plexus-utils.version>4.0.2</plexus-utils.version>
         <spotbugs.version note="maintain java 8 compatibiilty">4.8.6</spotbugs.version>
 
